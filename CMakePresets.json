@@ -19,23 +19,14 @@
       }
     },
     {
-      "name": "x64-debug",
-      "displayName": "x64 Debug",
+      "name": "x64-release",
+      "displayName": "x64 Release",
       "description": "TemplateDescription_Localize_x64Debug",
       "inherits": "windows-base",
       "architecture": {
         "value": "x64",
         "strategy": "external"
       },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "x64-release",
-      "displayName": "x64 Release",
-      "description": "TemplateDescription_Localize_x64Release",
-      "inherits": "x64-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
@@ -45,12 +36,51 @@
         },
         "VCPKG_TARGET_TRIPLET": "x64-windows-static"
       }
+    },
+    {
+      "name": "x64-release-pivot-smb",
+      "displayName": "x64 Release",
+      "description": "TemplateDescription_Localize_x64Release",
+      "inherits": "x64-release",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-DPIVOT -DSMB /EHsc"
+      }
+    },
+    {
+      "name": "x64-release-pivot-tcp",
+      "displayName": "x64 Release",
+      "description": "TemplateDescription_Localize_x64Release",
+      "inherits": "x64-release",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-DPIVOT -DTCP /EHsc"
+      }
+    },
+    {
+      "name": "x64-release-http",
+      "displayName": "x64 Release",
+      "description": "TemplateDescription_Localize_x64Release",
+      "inherits": "x64-release",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-DHTTP /EHsc"
+      }
     }
   ],
   "buildPresets": [
     {
-      "name": "x64-windows-release",
-      "configurePreset": "x64-release",
+      "name": "x64-windows-release-pivot-smb",
+      "configurePreset": "x64-release-pivot-smb",
+      "displayName": "aaa",
+      "description": "descsr"
+    },
+    {
+      "name": "x64-windows-release-pivot-tcp",
+      "configurePreset": "x64-release-pivot-tcp",
+      "displayName": "aaa",
+      "description": "descsr"
+    },
+    {
+      "name": "x64-windows-release-http",
+      "configurePreset": "x64-release-http",
       "displayName": "aaa",
       "description": "descsr"
     }

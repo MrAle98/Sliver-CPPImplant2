@@ -1,3 +1,5 @@
+#ifdef HTTP
+
 #include "Client.h"
 #include "CryptoUtils.h"
 #include "base64_utils.h"
@@ -185,3 +187,5 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 }
 
 }
+
+#endif

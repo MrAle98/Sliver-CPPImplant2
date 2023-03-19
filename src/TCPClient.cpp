@@ -1,3 +1,4 @@
+#ifdef PIVOT && TCP
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
@@ -292,3 +293,6 @@ namespace transports {
 		return this->write(enc);
 	}
 }
+
+
+#endif

@@ -1,3 +1,4 @@
+#ifdef PIVOT && SMB
 #include "Client.h"
 #include "pivots.h"
 #include "CryptoUtils.h"
@@ -363,3 +364,5 @@ namespace transports {
 		return this->write(enc);
 	}
 }
+
+#endif

