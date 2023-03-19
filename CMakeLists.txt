@@ -33,7 +33,7 @@ add_executable (Sliver-CPPImplant2 "src/Sliver-CPPImplant.cpp" src/common.pb.cc 
 set_property(TARGET Sliver-CPPImplant2 PROPERTY
              MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
-target_link_libraries(Sliver-CPPImplant2 ${Protobuf_LIBRARIES} ${LIBSODIUM} ${BOTAN} cpr::cpr Ws2_32.lib Wldap32.lib Normaliz.lib Crypt32.lib Secur32.lib)
+target_link_libraries(Sliver-CPPImplant2 ${Protobuf_LIBRARIES} ${LIBSODIUM} ${BOTAN} cpr::cpr Ws2_32.lib Wldap32.lib Normaliz.lib Crypt32.lib Secur32.lib ${ZLIB})
 
 # Include sub-projects.
 
