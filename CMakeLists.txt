@@ -3,6 +3,13 @@
 #
 cmake_minimum_required (VERSION 3.15)
 
+#[[
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
+]]
 project ("Sliver-CPPImplant2")
 set(CMAKE_CXX_STANDARD 20)
 cmake_policy(SET CMP0091 NEW)
