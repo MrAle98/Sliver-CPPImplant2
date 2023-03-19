@@ -17,9 +17,32 @@
           "type": "STRING"
         },
         {
-          "name":"CMAKE_TOOLCHAIN_FILE",
-          "value":"C:\\vcpkg\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
-        }]
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "C:\\vcpkg\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+        }
+      ]
+    },
+    {
+      "name": "x64-Release",
+      "generator": "Ninja",
+      "configurationType": "Release",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "VCPKG_TARGET_TRIPLET",
+          "value": "x64-windows-static",
+          "type": "STRING"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "C:\\vcpkg\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+        }
+      ]
     }
   ]
 }

@@ -6,7 +6,7 @@ cmake_minimum_required (VERSION 3.15)
 project ("Sliver-CPPImplant2")
 set(CMAKE_CXX_STANDARD 20)
 cmake_policy(SET CMP0091 NEW)
-add_compile_definitions("SODIUM_STATIC" "_CRT_SECURE_NO_WARNINGS" "CURL_STATICLIB" "SECURITY_WIN32")
+add_compile_definitions("NOMINMAX" "SODIUM_STATIC" "_CRT_SECURE_NO_WARNINGS" "CURL_STATICLIB" "SECURITY_WIN32")
 
 include_directories(Include)
 
@@ -28,12 +28,12 @@ find_package(cpr REQUIRED)
 ### botan
 find_library(BOTAN botan.lib REQUIRED)
 
-add_executable (Sliver-CPPImplant2 "src/Sliver-CPPImplant2.cpp" src/common.pb.cc src/sliver.pb.cc       "src/CryptoUtils.cpp"    "src/constants.cpp")
+add_executable (Sliver-CPPImplant2 "src/Sliver-CPPImplant.cpp" src/common.pb.cc src/sliver.pb.cc  "src/CryptoUtils.cpp"    "src/constants.cpp" "src/Base64.cpp" "src/Encoders.cpp" "src/CipherContext.cpp"  "src/Beacon.cpp"  "src/HttpClient.cpp" "src/evasion.cpp" "src/execute.cpp" "src/ExecuteAssembly.cpp" "src/extensions.cpp" "src/globals.cpp" "src/Handlers_Utils.cpp" "src/MemoryModule.cpp" "src/NamedPipeClient.cpp" "src/NamedPipeConn.cpp" "src/NamedPipeListener.cpp" "src/Os.cpp" "src/systemHandlers.cpp" "src/TCPClient.cpp" "src/TCPConn.cpp" "src/TCPListener.cpp" "src/Token.cpp" "src/filesystem.cpp" "src/pivotHandlers.cpp" "src/Pivots.cpp" "src/Sliver-CPPImplant.cpp")
 
 set_property(TARGET Sliver-CPPImplant2 PROPERTY
-             MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
+             MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
-target_link_libraries(Sliver-CPPImplant2 ${Protobuf_LIBRARIES} ${LIBSODIUM} ${BOTAN} cpr::cpr)
+target_link_libraries(Sliver-CPPImplant2 ${Protobuf_LIBRARIES} ${LIBSODIUM} ${BOTAN} cpr::cpr Ws2_32.lib Wldap32.lib Normaliz.lib Crypt32.lib Secur32.lib)
 
 # Include sub-projects.
 
