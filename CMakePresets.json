@@ -117,7 +117,7 @@
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-DPIVOT -DSMBPIVOT -DEXE /EHsc"
       }
-    },,
+    },
     {
       "name": "x64-debug-pivot-smb",
       "displayName": "x64 Debug",
