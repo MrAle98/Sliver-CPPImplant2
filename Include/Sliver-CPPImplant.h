@@ -3,6 +3,10 @@
 
 #pragma once
 
-#include <iostream>
+#ifdef SHARED
+extern "C" {
+	__declspec(dllexport) int __cdecl Entry();
+}
+#endif
 
 // TODO: Reference additional headers your program requires here.

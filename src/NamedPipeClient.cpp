@@ -1,4 +1,4 @@
-#ifdef PIVOT && SMB
+#if defined(PIVOT) && defined(SMBPIVOT)
 #include "Client.h"
 #include "pivots.h"
 #include "CryptoUtils.h"

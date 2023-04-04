@@ -329,8 +329,12 @@ namespace taskrunner {
 				goto Cleanup;
 			}
 			//Execute the function.  Note that if you are executing a function with return data it will end up in vReturnVal
-			hr = pMethodInfo->lpVtbl->Invoke_3(pMethodInfo, obj, psaArguments, &retVal);
-
+			try {
+				hr = pMethodInfo->lpVtbl->Invoke_3(pMethodInfo, obj, psaArguments, &retVal);
+			}
+			catch (exception e) {
+				cout << "catched exceptions from assembly: " << e.what() << endl;
+			}
 			GetErrorInfo(0, &pErrorInfo);
 			if (pErrorInfo != NULL) {
 				pErrorInfo->GetDescription(&description);

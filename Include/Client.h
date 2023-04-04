@@ -51,7 +51,7 @@ namespace transports{
 	};
 
 #endif
-#ifdef PIVOT && SMB
+#if defined(PIVOT) && defined(SMBPIVOT)
 
 	class NamedPipeClient : public IClient {
 	public:
@@ -82,7 +82,7 @@ namespace transports{
 
 #endif
 
-#ifdef PIVOT && TCP
+#if defined(PIVOT) && defined(TCPPIVOT)
 	class TCPClient : public IClient {
 	public:
 		TCPClient(const string& pipe_name);

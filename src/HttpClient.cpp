@@ -1,4 +1,4 @@
-#ifdef HTTP
+
 
 #include "Client.h"
 #include "CryptoUtils.h"
@@ -18,7 +18,7 @@ namespace transports {
 	IClient::IClient() {
 
 	}
-	
+#ifdef HTTP
 	HttpClient::HttpClient( string base_URI, unsigned long long netTimeout,unsigned long long tlsTimeout,unsigned long long pollTimeout,string proxyHost, int proxyPort,string proxyUsername, string proxyPassword,string hostHeader) {
 		this->base_URI = base_URI;
 		session = make_unique<cpr::Session>();
@@ -185,7 +185,6 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 		return env;
 	}
 }
-
+#endif
 }
 
-#endif

