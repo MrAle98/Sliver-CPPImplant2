@@ -22,6 +22,7 @@
 #define MAX_CONNECTION_ERRORS 2
 #pragma warning(disable:4996)
 #include <winternl.h>
+#include "Sliver-CPPImplant.h"
 using namespace std;
 using namespace transports;
 using namespace uuids;
@@ -541,32 +542,29 @@ int main()
 #endif
 
 #ifdef SHARED
-extern "C" {
-
-    HINSTANCE hInst = nullptr;
-    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
-    {
-        Entry();
-        if (hInst == nullptr) { hInst = hinstDLL; }
-        switch (fdwReason)
-        {
-        case DLL_PROCESS_ATTACH:
-        {
-            break;
-        }
-        case DLL_PROCESS_DETACH:
-            break;
-
-        case DLL_THREAD_ATTACH:
-            break;
-
-        case DLL_THREAD_DETACH:
-            break;
-        }
-
-        return TRUE;
-    }
-}
+//extern "C" {
+//
+//    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+//    {
+//        switch (fdwReason)
+//        {
+//        case DLL_PROCESS_ATTACH:
+//        {
+//            break;
+//        }
+//        case DLL_PROCESS_DETACH:
+//            break;
+//
+//        case DLL_THREAD_ATTACH:
+//            break;
+//
+//        case DLL_THREAD_DETACH:
+//            break;
+//        }
+//
+//        return TRUE;
+//    }
+//}
 
 #endif
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

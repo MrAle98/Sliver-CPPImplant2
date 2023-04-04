@@ -79,6 +79,28 @@
       }
     },
     {
+      "name": "x64-debug-dll",
+      "displayName": "x64 Debug",
+      "description": "TemplateDescription_Localize_x64Debug",
+      "inherits": "windows-base",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+        "CMAKE_TOOLCHAIN_FILE": {
+          "type": "FILEPATH",
+          "value": "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        },
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+      },
+      "environment": {
+        "BUILD_DLL": "1"
+      }
+    },
+    {
       "name": "x64-release-pivot-smb",
       "displayName": "x64 Release",
       "description": "TemplateDescription_Localize_x64Release",
@@ -87,6 +109,15 @@
         "CMAKE_CXX_FLAGS": "-DPIVOT -DSMBPIVOT -DEXE /EHsc"
       }
     },
+    {
+      "name": "x64-release-pivot-smb-dll",
+      "displayName": "x64 Release",
+      "description": "TemplateDescription_Localize_x64Release",
+      "inherits": "x64-release-dll",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-DPIVOT -DSMBPIVOT -DEXE /EHsc"
+      }
+    },,
     {
       "name": "x64-debug-pivot-smb",
       "displayName": "x64 Debug",
@@ -101,6 +132,15 @@
       "displayName": "x64 Release",
       "description": "TemplateDescription_Localize_x64Release",
       "inherits": "x64-release",
+      "cacheVariables": {
+        "CMAKE_CXX_FLAGS": "-DPIVOT -DTCPPIVOT -DEXE /EHsc"
+      }
+    },
+    {
+      "name": "x64-release-pivot-tcp-dll",
+      "displayName": "x64 Release",
+      "description": "TemplateDescription_Localize_x64Release",
+      "inherits": "x64-release-dll",
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-DPIVOT -DTCPPIVOT -DEXE /EHsc"
       }
@@ -143,9 +183,9 @@
     },
     {
       "name": "x64-debug-http-dll",
-      "displayName": "x64 Release",
+      "displayName": "x64 Debug",
       "description": "TemplateDescription_Localize_x64Release",
-      "inherits": "x64-debug",
+      "inherits": "x64-debug-dll",
       "cacheVariables": {
         "CMAKE_CXX_FLAGS": "-DHTTP -DSHARED /EHsc"
       }
@@ -159,12 +199,29 @@
       "description": "descsr"
     },
     {
+      "name": "x64-windows-release-pivot-smb-dll",
+      "configurePreset": "x64-release-pivot-smb-dll",
+      "displayName": "aaa",
+      "description": "descsr"
+    },
+    {
       "name": "x64-windows-debug-pivot-smb",
       "configurePreset": "x64-debug-pivot-smb",
       "displayName": "aaa",
       "description": "descsr"
     },
-
+    {
+      "name": "x64-windows-release-pivot-tcp",
+      "configurePreset": "x64-release-pivot-tcp",
+      "displayName": "aaa",
+      "description": "descsr"
+    },
+    {
+      "name": "x64-windows-release-pivot-tcp-dll",
+      "configurePreset": "x64-release-pivot-tcp-dll",
+      "displayName": "aaa",
+      "description": "descsr"
+    },
     {
       "name": "x64-windows-debug-pivot-tcp",
       "configurePreset": "x64-debug-pivot-tcp",
@@ -180,6 +237,12 @@
     {
       "name": "x64-windows-debug-http",
       "configurePreset": "x64-debug-http",
+      "displayName": "aaa",
+      "description": "descsr"
+    },
+    {
+      "name": "x64-windows-debug-http-dll",
+      "configurePreset": "x64-debug-http-dll",
       "displayName": "aaa",
       "description": "descsr"
     },
