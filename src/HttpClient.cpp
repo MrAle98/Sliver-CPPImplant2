@@ -60,6 +60,7 @@ bool HttpClient::SessionInit() {
 		//TODO modify path generation with random mechanism
 		auto path = string("/authenticate/rpc.html") + string("?n=") + to_string(nonce) + string("&op=") + to_string(totp);
 		auto URI = this->base_URI + path;
+		session->SetVerifySsl(cpr::VerifySsl{ false });
 		session->SetUrl(cpr::Url{ this->base_URI + path });
 		session->SetBody(cpr::Body{ encoded });
 		cpr::Response resp = session->Post();
