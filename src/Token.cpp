@@ -14,6 +14,23 @@ namespace token {
         return current_token;
     }
 
+    bool Impersonate(const std::string& username) {
+        return true;
+    }
+
+    bool Impersonate(const int pid) {
+        HANDLE hToken = INVALID_HANDLE_VALUE;
+        HANDLE hProc = INVALID_HANDLE_VALUE;
+        hProc = OpenProcess(MAXIMUM_ALLOWED, FALSE, pid);
+        if (hProc == INVALID_HANDLE_VALUE)
+            return false;
+        OpenProcessToken(hProc, MAXIMUM_ALLOWED, &hToken);
+        if (hToken == INVALID_HANDLE_VALUE)
+            return false;
+        current_token = hToken;
+        return true;
+    }
+
     bool makeToken(const string& domain, const string& username, const string& password, uint32_t logonType) {
         if (logonType == 0) {
             logonType = LOGON32_LOGON_NEW_CREDENTIALS;
