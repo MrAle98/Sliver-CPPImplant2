@@ -18,16 +18,30 @@ namespace token {
         return true;
     }
 
+    bool ListTokens() {
+        return true;
+    }
+
     bool Impersonate(const int pid) {
-        HANDLE hToken = INVALID_HANDLE_VALUE;
+        /*HANDLE hToken = INVALID_HANDLE_VALUE, dupToken = INVALID_HANDLE_VALUE;
         HANDLE hProc = INVALID_HANDLE_VALUE;
-        hProc = OpenProcess(MAXIMUM_ALLOWED, FALSE, pid);
-        if (hProc == INVALID_HANDLE_VALUE)
+        hProc = OpenProcess(PROCESS_DUP_HANDLE, FALSE, pid);
+        if (hProc == INVALID_HANDLE_VALUE) {
+            CloseHandle(hProc);
             return false;
-        OpenProcessToken(hProc, MAXIMUM_ALLOWED, &hToken);
+        }
+        HANDLE dupHandle;
+        if (DuplicateHandle(hProc, (HANDLE)handleInfo.HandleValue, GetCurrentProcess(), &dupHandle, 0, FALSE, DUPLICATE_SAME_ACCESS) == 0) {
+            CloseHandle(process);
+            continue;
+        }
+        OpenProcessToken(hProc, TOKEN_QUERY , &hToken);
         if (hToken == INVALID_HANDLE_VALUE)
             return false;
-        current_token = hToken;
+        DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityDelegation, TokenImpersonation, &dupToken);
+        if (dupToken == INVALID_HANDLE_VALUE)
+            return false;
+        current_token = dupToken;*/
         return true;
     }
 
@@ -46,6 +60,7 @@ namespace token {
         current_token = INVALID_HANDLE_VALUE;
         return true;
     }
+
     string SidToString(PSID sid) {
         LPSTR sid_string;
         auto b = ConvertSidToStringSidA(sid, &sid_string);

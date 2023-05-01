@@ -44,6 +44,11 @@ namespace taskrunner {
 			UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &parentProcessHandle, sizeof(HANDLE), NULL, NULL);
 			si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
 		}
+		else {
+			si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+			InitializeProcThreadAttributeList(NULL, 1, 0, &attributeSize);
+			si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), 0, attributeSize);
+		}
 		if (capture) {
 			SECURITY_ATTRIBUTES saAttr;
 			// Set the bInheritHandle flag so pipe handles are inherited. 
@@ -73,7 +78,7 @@ namespace taskrunner {
 		wscmd.resize(std::mbstowcs(&wscmd[0], cmd.c_str(), cmd.size())); // Shrink to fit.
 		if (usetoken) {
 			HANDLE hPrimaryToken = INVALID_HANDLE_VALUE;
-			if(!DuplicateTokenEx(token::getToken(), MAXIMUM_ALLOWED, NULL, SecurityImpersonation, TokenPrimary, &hPrimaryToken))
+			if(!DuplicateTokenEx(token::getToken(), MAXIMUM_ALLOWED, NULL, SecurityDelegation, TokenPrimary, &hPrimaryToken))
 				throw exception(std::format("[-] DuplicateTokenEx failed with error: {}", GetLastError()).c_str());
 			res = CreateProcessWithTokenW(hPrimaryToken, 0, NULL, (LPWSTR)wscmd.c_str(), EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
 		}
@@ -83,10 +88,9 @@ namespace taskrunner {
 		if (!res) {
 			throw exception(std::format("[-] CreateProcessA failed with error: {}", GetLastError()).c_str());
 		}
-		if (ppid != 0) {
-			DeleteProcThreadAttributeList(si.lpAttributeList);
-			HeapFree(GetProcessHeap(), 0, si.lpAttributeList);
-		}
+		DeleteProcThreadAttributeList(si.lpAttributeList);
+		HeapFree(GetProcessHeap(), 0, si.lpAttributeList);
+		
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 		CloseHandle(g_hChildStd_OUT_Wr);
