@@ -29,6 +29,7 @@ namespace token {
     Token::Token(const Token& other) {
         this->TokenHandle = other.TokenHandle;
         this->TokenId = other.TokenId;
+        this->TokenType = other.TokenType;
         this->TokenImpLevel = other.TokenImpLevel;
         this->TokenIntegrity = other.TokenIntegrity;
         this->Username = other.Username;
@@ -55,60 +56,62 @@ namespace token {
         if (!GetTokenInformation(TokenHandle, TokenStatistics, NULL, 0, &returned_tokinfo_length)) {
             PTOKEN_STATISTICS TokenStatisticsInformation = (PTOKEN_STATISTICS)HeapAlloc(GetProcessHeap(),HEAP_ZERO_MEMORY, returned_tokinfo_length);
             if (GetTokenInformation(TokenHandle, TokenStatistics, TokenStatisticsInformation, returned_tokinfo_length, &returned_tokinfo_length)) {
-                TokenType = L"TokenPrimary";
-                //wcscpy_s(TOKEN_INFO->TokenType, TOKEN_TYPE_LENGTH, L"TokenPrimary");
-                DWORD cbSize;
-                if (!GetTokenInformation(TokenHandle, TokenIntegrityLevel, NULL, 0, &cbSize)) {
-                    PTOKEN_MANDATORY_LABEL TokenStatisticsInformation_integrity = (PTOKEN_MANDATORY_LABEL)HeapAlloc(GetProcessHeap(),HEAP_ZERO_MEMORY, cbSize);
-                    if (GetTokenInformation(TokenHandle, TokenIntegrityLevel, TokenStatisticsInformation_integrity, cbSize, &cbSize)) {
-                        DWORD dwIntegrityLevel = *GetSidSubAuthority(TokenStatisticsInformation_integrity->Label.Sid, (DWORD)(UCHAR)(*GetSidSubAuthorityCount(TokenStatisticsInformation_integrity->Label.Sid) - 1));
-                        if (dwIntegrityLevel == SECURITY_MANDATORY_LOW_RID) {
-                            TokenIntegrity = L"Low";
-                            //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"Low");
+                if (TokenStatisticsInformation->TokenType == TokenPrimary) {
+                    this->TokenType = L"TokenPrimary";
+                    //wcscpy_s(TOKEN_INFO->TokenType, TOKEN_TYPE_LENGTH, L"TokenPrimary");
+                    DWORD cbSize;
+                    if (!GetTokenInformation(TokenHandle, TokenIntegrityLevel, NULL, 0, &cbSize)) {
+                        PTOKEN_MANDATORY_LABEL TokenStatisticsInformation_integrity = (PTOKEN_MANDATORY_LABEL)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, cbSize);
+                        if (GetTokenInformation(TokenHandle, TokenIntegrityLevel, TokenStatisticsInformation_integrity, cbSize, &cbSize)) {
+                            DWORD dwIntegrityLevel = *GetSidSubAuthority(TokenStatisticsInformation_integrity->Label.Sid, (DWORD)(UCHAR)(*GetSidSubAuthorityCount(TokenStatisticsInformation_integrity->Label.Sid) - 1));
+                            if (dwIntegrityLevel == SECURITY_MANDATORY_LOW_RID) {
+                                this->TokenIntegrity = L"Low";
+                                //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"Low");
+                            }
+                            else if (dwIntegrityLevel >= SECURITY_MANDATORY_MEDIUM_RID && dwIntegrityLevel < SECURITY_MANDATORY_HIGH_RID) {
+                                this->TokenIntegrity = L"Medium";
+                                //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"Medium");
+                            }
+                            else if (dwIntegrityLevel >= SECURITY_MANDATORY_HIGH_RID) {
+                                this->TokenIntegrity = L"High";
+                                //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"High");
+                            }
+                            else if (dwIntegrityLevel >= SECURITY_MANDATORY_SYSTEM_RID) {
+                                this->TokenIntegrity = L"System";
+                                //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"System");
+                            }
                         }
-                        else if (dwIntegrityLevel >= SECURITY_MANDATORY_MEDIUM_RID && dwIntegrityLevel < SECURITY_MANDATORY_HIGH_RID) {
-                            TokenIntegrity = L"Medium";
-                            //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"Medium");
-                        }
-                        else if (dwIntegrityLevel >= SECURITY_MANDATORY_HIGH_RID) {
-                            TokenIntegrity = L"High";
-                            //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"High");
-                        }
-                        else if (dwIntegrityLevel >= SECURITY_MANDATORY_SYSTEM_RID) {
-                            TokenIntegrity = L"System";
-                            //wcscpy_s(TOKEN_INFO->TokenIntegrity, TOKEN_INTEGRITY_LENGTH, L"System");
-                        }
+                        auto res = HeapFree(GetProcessHeap(), 0, TokenStatisticsInformation_integrity);
                     }
-                    auto res = HeapFree(GetProcessHeap(), 0, TokenStatisticsInformation_integrity);
                 }
-            }
-            else if (TokenStatisticsInformation->TokenType == TokenImpersonation) {
-                TokenType = L"TokenImpersonation";
-                //deleted Token type cpy
-                TokenIntegrity = L" ";
-                //wcscpy_s(TOKEN_INFO->TokenIntegrity, 100, L" ");
-                DWORD returned_tokimp_length = 0;
-                if (!GetTokenInformation(TokenHandle, TokenImpersonationLevel, NULL, 0, &returned_tokimp_length)) {
-                    PSECURITY_IMPERSONATION_LEVEL TokenImpersonationInformation = (PSECURITY_IMPERSONATION_LEVEL)HeapAlloc(GetProcessHeap(),HEAP_ZERO_MEMORY, returned_tokimp_length);
-                    if (GetTokenInformation(TokenHandle, TokenImpersonationLevel, TokenImpersonationInformation, returned_tokimp_length, &returned_tokimp_length)) {
-                        if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityImpersonation) {
-                            TokenImpLevel = L"SecurityImpersonation";
-                            //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityImpersonation");
+                else if (TokenStatisticsInformation->TokenType == TokenImpersonation) {
+                    TokenType = L"TokenImpersonation";
+                    //deleted Token type cpy
+                    TokenIntegrity = L" ";
+                    //wcscpy_s(TOKEN_INFO->TokenIntegrity, 100, L" ");
+                    DWORD returned_tokimp_length = 0;
+                    if (!GetTokenInformation(TokenHandle, TokenImpersonationLevel, NULL, 0, &returned_tokimp_length)) {
+                        PSECURITY_IMPERSONATION_LEVEL TokenImpersonationInformation = (PSECURITY_IMPERSONATION_LEVEL)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, returned_tokimp_length);
+                        if (GetTokenInformation(TokenHandle, TokenImpersonationLevel, TokenImpersonationInformation, returned_tokimp_length, &returned_tokimp_length)) {
+                            if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityImpersonation) {
+                                TokenImpLevel = L"SecurityImpersonation";
+                                //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityImpersonation");
+                            }
+                            else if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityDelegation) {
+                                TokenImpLevel = L"SecurityDelegation";
+                                //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityDelegation");
+                            }
+                            else if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityAnonymous) {
+                                TokenImpLevel = L"SecurityAnonymous";
+                                //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityAnonymous");
+                            }
+                            else if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityIdentification) {
+                                TokenImpLevel = L"SecurityIdentification";
+                                //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityIdentification");
+                            }
                         }
-                        else if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityDelegation) {
-                            TokenImpLevel = L"SecurityDelegation";
-                            //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityDelegation");
-                        }
-                        else if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityAnonymous) {
-                            TokenImpLevel = L"SecurityAnonymous";
-                            //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityAnonymous");
-                        }
-                        else if (*((SECURITY_IMPERSONATION_LEVEL*)TokenImpersonationInformation) == SecurityIdentification) {
-                            TokenImpLevel = L"SecurityIdentification";
-                            //wcscpy_s(TOKEN_INFO->TokenImpersonationLevel, TOKEN_IMPERSONATION_LENGTH, L"SecurityIdentification");
-                        }
+                        HeapFree(GetProcessHeap(), 0, TokenImpersonationInformation);
                     }
-                    HeapFree(GetProcessHeap(),0,TokenImpersonationInformation);
                 }
             }
             HeapFree(GetProcessHeap(), 0, TokenStatisticsInformation);
