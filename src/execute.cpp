@@ -37,7 +37,7 @@ namespace taskrunner {
 		if (ppid != 0) {
 			parentProcessHandle = OpenProcess(MAXIMUM_ALLOWED, false, ppid);
 			if (parentProcessHandle == INVALID_HANDLE_VALUE)
-				throw exception("asd");
+				throw exception(std::format("OpenProcess failed with error: {}", GetLastError()).c_str());
 			InitializeProcThreadAttributeList(NULL, 1, 0, &attributeSize);
 			si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), 0, attributeSize);
 			InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attributeSize);
