@@ -325,7 +325,7 @@ namespace token {
         for (auto it = vec.begin();it != vec.end();++it) {
             if (it->Username.compare(wsusername) == 0 && it->LogonType != 0x3) {
                 HANDLE tmp = INVALID_HANDLE_VALUE;
-                if (DuplicateToken(it->TokenHandle, SecurityDelegation, &tmp)) {
+                if (DuplicateTokenEx(it->TokenHandle,TOKEN_ALL_ACCESS,NULL, SecurityDelegation, TokenImpersonation,&tmp)) {
                     CloseHandle(it->TokenHandle);
                     current_token = tmp;
                     return true;
