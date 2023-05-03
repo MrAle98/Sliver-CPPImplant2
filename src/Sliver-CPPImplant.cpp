@@ -164,6 +164,7 @@ void BeaconMain(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chrono::
                 auto htoken = token::getToken();
                 if (htoken != INVALID_HANDLE_VALUE) {
                     auto res = SetThreadToken(NULL,token::getToken());
+                    //auto res = ImpersonateLoggedOnUser(token::getToken());
                     if (res == FALSE)
                         std::cout << "ImpersonateLoggedOnUser failed with error: " << GetLastError() << std::endl;
                 }

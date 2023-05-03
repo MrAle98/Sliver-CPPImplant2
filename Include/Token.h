@@ -104,17 +104,19 @@ namespace token {
     public:
         Token(HANDLE);
         Token(const Token&);
-        bool operator ==(const Token&);
+        std::wstring toString();
+
         HANDLE TokenHandle;
-        int TokenId;
-        DWORD SessionId;
+        LUID TokenId;
+        LUID LogonSessionId;
+        ULONG LogonType;
         std::wstring Username;
-        std::wstring  TokenType;
-        std::wstring TokenImpLevel;
-        std::wstring TokenIntegrity;    
+        TOKEN_TYPE TokenType;
+        SECURITY_IMPERSONATION_LEVEL TokenImpLevel;
+        DWORD TokenIntegrity;    
+        DWORD PrivilegesCount;
     };
     
-
     string SidToString(PSID sid);
     string GetUserNameString();
     UserInfo GetCurrentUserInfo();
