@@ -127,7 +127,7 @@ namespace token {
             else if (this->TokenIntegrity >= SECURITY_MANDATORY_MEDIUM_RID && this->TokenIntegrity < SECURITY_MANDATORY_HIGH_RID) {
                 integrityStr = L"Medium";
             }
-            else if (this->TokenIntegrity >= SECURITY_MANDATORY_HIGH_RID && this->TokenIntegrity <= SECURITY_MANDATORY_SYSTEM_RID) {
+            else if (this->TokenIntegrity >= SECURITY_MANDATORY_HIGH_RID && this->TokenIntegrity < SECURITY_MANDATORY_SYSTEM_RID) {
                 integrityStr = L"High";
             }
             else if (this->TokenIntegrity >= SECURITY_MANDATORY_SYSTEM_RID) {
