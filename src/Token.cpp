@@ -299,8 +299,7 @@ namespace token {
             if (t1.Username.compare(t2.Username) != 0) {
                 return t1.Username > t2.Username;
             }
-            else {
-                return t1.PrivilegesCount > t2.PrivilegesCount;
+            else{
                 if (t1.TokenType != t2.TokenType) {
                     if (t1.TokenType == TokenPrimary) {
                         return true;
@@ -310,10 +309,7 @@ namespace token {
                     }
                 }
                 else {
-                    if (t1.TokenType == TokenPrimary)
-                        return t2.TokenIntegrity < t1.TokenIntegrity;
-                    if (t1.TokenType == TokenImpersonation)
-                        return t2.TokenImpLevel < t1.TokenImpLevel;
+                      return t1.PrivilegesCount > t2.PrivilegesCount;
                 }
             }
         });
@@ -323,12 +319,15 @@ namespace token {
             //printf("[ID: %2d][SESSION: %d][INTEGRITY: %-6ws][%-18ws][%-22ws] User: %ws\n", it->TokenId, it->SessionId, it->TokenIntegrity, it->TokenType, it->TokenImpLevel, it->Username);
         }
         for (auto it = vec.begin();it != vec.end();++it) {
-            if (it->Username.compare(wsusername) == 0 && it->LogonType != 0x3) {
+            if (it->Username.compare(wsusername) == 0 && it->LogonType != 0x3 && ((it->TokenType == TokenPrimary && it->TokenIntegrity >= SECURITY_MANDATORY_MEDIUM_RID) || (it->TokenImpLevel >= SecurityImpersonation))) {
                 HANDLE tmp = INVALID_HANDLE_VALUE;
                 if (DuplicateTokenEx(it->TokenHandle,TOKEN_ALL_ACCESS,NULL, SecurityDelegation, TokenImpersonation,&tmp)) {
                     CloseHandle(it->TokenHandle);
                     current_token = tmp;
                     return true;
+                }
+                else {
+                    throw exception("failed DuplicateTokenEx with error: %d\n", GetLastError());
                 }
             }
         }
