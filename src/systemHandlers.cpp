@@ -242,7 +242,7 @@ namespace handlers {
 				res = token::Impersonate(req.username());
 			if (res == false) {
 				sliverpb::Response* common_resp = new sliverpb::Response();
-				common_resp->set_err(string{ "[-] Failed to impersonate no suitable token found" });
+				common_resp->set_err(string{ "[-] Failed to impersonate. No suitable token found" });
 				resp.set_allocated_response(common_resp);
 			}
 		}
