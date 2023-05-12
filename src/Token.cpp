@@ -313,25 +313,26 @@ namespace token {
                 }
             }
         });
-        std::cout << string{ "\n[*] Listing available tokens\n" } << std::endl;
-        for (auto it = vec.begin();it != vec.end();++it) {
-            std::wcout << it->toString() << std::endl << std::endl;
-            //printf("[ID: %2d][SESSION: %d][INTEGRITY: %-6ws][%-18ws][%-22ws] User: %ws\n", it->TokenId, it->SessionId, it->TokenIntegrity, it->TokenType, it->TokenImpLevel, it->Username);
-        }
+#ifdef DEBUG
+        //std::cout << string{ "\n[*] Listing available tokens\n" } << std::endl;
+        //for (auto it = vec.begin();it != vec.end();++it) {
+        //    std::wcout << it->toString() << std::endl << std::endl;
+        //    //printf("[ID: %2d][SESSION: %d][INTEGRITY: %-6ws][%-18ws][%-22ws] User: %ws\n", it->TokenId, it->SessionId, it->TokenIntegrity, it->TokenType, it->TokenImpLevel, it->Username);
+        //}
+#endif
+        bool res = false;
+        string exception_string;
         for (auto it = vec.begin();it != vec.end();++it) {
             if (it->Username.compare(wsusername) == 0 && it->LogonType != 0x3 && ((it->TokenType == TokenPrimary && it->TokenIntegrity >= SECURITY_MANDATORY_MEDIUM_RID) || (it->TokenImpLevel >= SecurityImpersonation))) {
                 HANDLE tmp = INVALID_HANDLE_VALUE;
                 if (DuplicateTokenEx(it->TokenHandle,TOKEN_ALL_ACCESS,NULL, SecurityDelegation, TokenImpersonation,&tmp)) {
-                    CloseHandle(it->TokenHandle);
                     current_token = tmp;
-                    return true;
+                    res = true;
                 }
-                else {
-                    throw exception("failed DuplicateTokenEx with error: %d\n", GetLastError());
-                }
+                CloseHandle(it->TokenHandle);
             }
         }
-        return false;
+        return res;
     }
 
     bool ListTokens() {

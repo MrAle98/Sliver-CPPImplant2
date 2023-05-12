@@ -81,6 +81,7 @@ namespace taskrunner {
 			if(!DuplicateTokenEx(token::getToken(), TOKEN_ALL_ACCESS, NULL, SecurityDelegation, TokenPrimary, &hPrimaryToken))
 				throw exception(std::format("[-] DuplicateTokenEx failed with error: {}", GetLastError()).c_str());
 			res = CreateProcessWithTokenW(hPrimaryToken, 0, NULL, (LPWSTR)wscmd.c_str(), CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
+			CloseHandle(hPrimaryToken);
 		}
 		else {
 			res = CreateProcessW(NULL, (LPWSTR)wscmd.c_str(), NULL, NULL, TRUE, EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
@@ -100,6 +101,8 @@ namespace taskrunner {
 				throw exception(std::format("[-] Duplicate Handle failed with error: {}", GetLastError()).c_str());
 		}
 		auto out = readFromPipe(g_hChildStd_OUT_Rd);
+		CloseHandle(g_hChildStd_OUT_Rd);
+		CloseHandle(hPipeDup);
 		return out;
 	}
 }
