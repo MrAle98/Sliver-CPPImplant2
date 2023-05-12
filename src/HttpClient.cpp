@@ -69,7 +69,7 @@ namespace transports {
 
 	string HttpClient::PollURL() {
 		std::vector<string>segments = {
-			// {{range .HTTPC2ImplantConfig.PollPath}}
+			// {{range .HTTPC2ImplantConfig.PollPaths}}
 			"{{.}}",
 			// {{end}}
 		};
