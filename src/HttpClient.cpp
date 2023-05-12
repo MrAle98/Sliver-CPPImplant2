@@ -201,9 +201,9 @@ bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::En
 	auto nonce = std::get<0>(tp);
 
 	auto encoded = encoder->Encode(reqData);
-	string path{ "/db/admin.php" };
+	auto URI = this->SessionURL();
 	this->pollMutex.lock();
-	this->session->SetUrl(cpr::Url{ this->base_URI + path });
+	this->session->SetUrl(cpr::Url{ URI });
 	this->session->SetParameters(cpr::Parameters{ {"d",to_string(nonce)} });
 	this->session->SetBody(encoded);
 	auto resp = this->session->Post();
@@ -233,12 +233,9 @@ bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope) {
 	auto nonce = std::get<0>(tp);
 
 	auto encoded = encoder->Encode(reqData);
-#ifdef DEBUG
-	string path{ "/db/admin.php" };
-	auto URI = this->base_URI + path;
-#else
+
 	auto URI = this->SessionURL();
-#endif
+
 	this->pollMutex.lock();
 	this->session->SetUrl(cpr::Url{ URI });
 	this->session->SetParameters(cpr::Parameters{ {"d",to_string(nonce)} });
