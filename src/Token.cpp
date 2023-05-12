@@ -189,39 +189,32 @@ namespace token {
 
         TOKEN_PRIVILEGES tp;
         LUID luidSeAssignPrimaryTokenPrivilege;
-        printf("[?] Enabling SeAssignPrimaryToken\n");
+        //printf("[?] Enabling SeAssignPrimaryToken\n");
         if (LookupPrivilegeValue(NULL, SE_ASSIGNPRIMARYTOKEN_NAME, &luidSeAssignPrimaryTokenPrivilege) == 0) {
-            printf("\t[!] SeAssignPrimaryToken not owned!\n");
-        }
-        else {
-            printf("\t[*] SeAssignPrimaryToken owned!\n");
+            //printf("\t[!] SeAssignPrimaryToken not owned!\n");
+            throw exception("[-] SeAssignPrimaryToken not owned");
         }
         tp.PrivilegeCount = 1;
         tp.Privileges[0].Luid = luidSeAssignPrimaryTokenPrivilege;
         tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
         if (AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL) == 0) {
-            printf("\t[!] SeAssignPrimaryToken adjust token failed: %d\n", GetLastError());
-        }
-        else {
-            printf("\t[*] SeAssignPrimaryToken enabled!\n");
+            //printf("\t[!] SeAssignPrimaryToken adjust token failed: %d\n", GetLastError());
+            throw exception(std::format("SeAssignPrimaryToken adjust token failed : {}", GetLastError()).c_str());
         }
     
         LUID luidSeDebugPrivivilege;
-        printf("[?] Enabling SeDebugPrivilege\n");
+        //printf("[?] Enabling SeDebugPrivilege\n");
         if (LookupPrivilegeValue(NULL, SE_DEBUG_NAME, &luidSeDebugPrivivilege) == 0) {
-            printf("\t[!] SeDebugPrivilege not owned!\n");
+            //printf("\t[!] SeDebugPrivilege not owned!\n");
+            throw exception("[-] SeDebugPrivilege not owned");
         }
-        else {
-            printf("\t[*] SeDebugPrivilege owned!\n");
-        }
+
         tp.PrivilegeCount = 1;
         tp.Privileges[0].Luid = luidSeDebugPrivivilege;
         tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
         if (AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL) == 0) {
-            printf("\t[!] SeDebugPrivilege adjust token failed: %d\n", GetLastError());
-        }
-        else {
-            printf("\t[*] SeDebugPrivilege enabled!\n");
+            //printf("\t[!] SeDebugPrivilege adjust token failed: %d\n", GetLastError());
+            throw exception(std::format("SeDebugPrivilege adjust token failed : {}", GetLastError()).c_str());
         }
         CloseHandle(hProcess);
         CloseHandle(hToken);
@@ -336,29 +329,6 @@ namespace token {
     }
 
     bool ListTokens() {
-        return true;
-    }
-
-    bool Impersonate(const int pid) {
-        /*HANDLE hToken = INVALID_HANDLE_VALUE, dupToken = INVALID_HANDLE_VALUE;
-        HANDLE hProc = INVALID_HANDLE_VALUE;
-        hProc = OpenProcess(PROCESS_DUP_HANDLE, FALSE, pid);
-        if (hProc == INVALID_HANDLE_VALUE) {
-            CloseHandle(hProc);
-            return false;
-        }
-        HANDLE dupHandle;
-        if (DuplicateHandle(hProc, (HANDLE)handleInfo.HandleValue, GetCurrentProcess(), &dupHandle, 0, FALSE, DUPLICATE_SAME_ACCESS) == 0) {
-            CloseHandle(process);
-            continue;
-        }
-        OpenProcessToken(hProc, TOKEN_QUERY , &hToken);
-        if (hToken == INVALID_HANDLE_VALUE)
-            return false;
-        DuplicateTokenEx(hToken, TOKEN_ALL_ACCESS, NULL, SecurityDelegation, TokenImpersonation, &dupToken);
-        if (dupToken == INVALID_HANDLE_VALUE)
-            return false;
-        current_token = dupToken;*/
         return true;
     }
 

