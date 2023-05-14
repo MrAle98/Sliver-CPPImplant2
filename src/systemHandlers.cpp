@@ -32,7 +32,9 @@ namespace handlers {
 		{sliverpb::MsgRevToSelfReq,static_cast<handler>(revToSelfHandler)},
 		{sliverpb::MsgExecuteWindowsReq,static_cast<handler>(executeHandler)},
 		{sliverpb::MsgExecuteReq,static_cast<handler>(executeHandler)},
-		{sliverpb::MsgImpersonateReq,static_cast<handler>(impersonateHandler)}
+		{sliverpb::MsgImpersonateReq,static_cast<handler>(impersonateHandler)},
+		{sliverpb::MsgPsReq,static_cast<handler>(psHandler)}
+
 
 
 	};
@@ -40,6 +42,23 @@ namespace handlers {
 	map<int, handler>& getSystemHandlers() {
 		return systemHandlers;
 	}
+
+	sliverpb::Envelope psHandler(int64_t taskID, string data) {
+		sliverpb::PsReq req;
+		sliverpb::Ps resp;
+
+		req.ParseFromString(data);
+		try {
+			
+		}
+		catch (exception& e) {
+			auto common_resp = new sliverpb::Response();
+			common_resp->set_err(std::format("execute triggered exception: {}", e.what()));
+			resp.set_allocated_response(common_resp);
+		}
+		return wrapResponse(taskID, resp);
+	}
+
 	sliverpb::Envelope executeHandler(int64_t taskID, string data) {
 		sliverpb::ExecuteWindowsReq req;
 		sliverpb::Execute resp;
