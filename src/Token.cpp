@@ -313,21 +313,24 @@ namespace token {
         //    //printf("[ID: %2d][SESSION: %d][INTEGRITY: %-6ws][%-18ws][%-22ws] User: %ws\n", it->TokenId, it->SessionId, it->TokenIntegrity, it->TokenType, it->TokenImpLevel, it->Username);
         //}
 #endif
-        bool res = false;
+        res = false;
         string exception_string;
         for (auto it = vec.begin();it != vec.end();++it) {
-            if (it->Username.compare(wsusername) == 0 && it->LogonType != 0x3 && ((it->TokenType == TokenPrimary && it->TokenIntegrity >= SECURITY_MANDATORY_MEDIUM_RID) || (it->TokenImpLevel >= SecurityImpersonation))) {
+            if (res == false && it->Username.compare(wsusername) == 0 && it->LogonType != 0x3 && ((it->TokenType == TokenPrimary && it->TokenIntegrity >= SECURITY_MANDATORY_MEDIUM_RID) || (it->TokenImpLevel >= SecurityImpersonation))) {
                 HANDLE tmp = INVALID_HANDLE_VALUE;
                 if (DuplicateTokenEx(it->TokenHandle,TOKEN_ALL_ACCESS,NULL, SecurityDelegation, TokenImpersonation,&tmp)) {
                     current_token = tmp;
                     res = true;
                 }
-                CloseHandle(it->TokenHandle);
             }
+            CloseHandle(it->TokenHandle);
         }
         return res;
     }
 
+    bool Impersonate(const int tid) {
+        return true;
+    }
     bool ListTokens() {
         return true;
     }

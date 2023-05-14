@@ -124,5 +124,5 @@ namespace token {
     bool makeToken(const string&, const string&, const string&, uint32_t);
     bool revertToken();
     bool Impersonate(const std::string& username);
-    bool Impersonate(const int pid);
+    bool Impersonate(const int tid);
 }
