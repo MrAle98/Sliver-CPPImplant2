@@ -11,6 +11,7 @@
 #include <gzip/decompress.hpp>
 #include "Token.h"
 #include "Utils.h"
+#include "processes.h"
 
 using namespace std;
 using namespace taskrunner;
@@ -49,7 +50,16 @@ namespace handlers {
 
 		req.ParseFromString(data);
 		try {
-			
+			auto procs = processes::ps();
+			for (auto it = procs.begin();it != procs.end();++it) {
+				auto proc = resp.add_processes();
+				proc->set_architecture(it->arch);
+				proc->set_executable(it->exe);
+				proc->set_owner(it->owner);
+				proc->set_pid(it->pid);
+				proc->set_ppid(it->ppid);
+				proc->set_sessionid(it->sessionID);
+			}
 		}
 		catch (exception& e) {
 			auto common_resp = new sliverpb::Response();

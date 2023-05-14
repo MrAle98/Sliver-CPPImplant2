@@ -14,6 +14,8 @@ namespace processes {
 		std::string arch;
 		std::string cmdLine;
 		int sessionID;
+		WinProcess(WinProcess&);
+
 	};
 	
 	std::vector<WinProcess> ps();
