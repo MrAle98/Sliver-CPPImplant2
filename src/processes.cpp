@@ -63,7 +63,9 @@ namespace processes {
 		this->sessionID = getProcSessionID(pid);
 	}
 
-	WinProcess::WinProcess(WinProcess& other) : pid(other.pid), ppid(other.ppid), exe(other.exe), owner(other.owner), arch(other.arch), cmdLine(other.cmdLine), sessionID(other.sessionID){}
+	WinProcess::WinProcess(const WinProcess& other) : pid(other.pid), ppid(other.ppid), exe(other.exe), owner(other.owner), arch(other.arch), cmdLine(other.cmdLine), sessionID(other.sessionID){
+		return;
+	}
 	std::vector<WinProcess> ps() {
 		HANDLE snapshot = INVALID_HANDLE_VALUE;
 		snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -71,6 +73,7 @@ namespace processes {
 			throw std::exception(std::format("[-] CreateToolhelp32Snapshot failed with error: {}", GetLastError()).c_str());
 		
 		PROCESSENTRY32 entry = { 0 };
+		entry.dwSize = sizeof PROCESSENTRY32;
 		if (!Process32First(snapshot, &entry)) {
 			CloseHandle(snapshot);
 			throw std::exception(std::format("[-] Process32First failed with error: {}", GetLastError()).c_str());
@@ -78,6 +81,7 @@ namespace processes {
 		std::vector<WinProcess> results;
 		while (1) {
 			results.push_back(WinProcess{ entry });
+			entry.dwSize = sizeof PROCESSENTRY32;
 			if (!Process32Next(snapshot, &entry))
 				break;
 		}

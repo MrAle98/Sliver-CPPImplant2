@@ -1,5 +1,5 @@
 #include "Utils.h"
-#include <stringapiset.h>
+#include <Windows.h>
 namespace utils {
 	bool is_number(const std::string& s){
 		return !s.empty() && std::find_if(s.begin(),
