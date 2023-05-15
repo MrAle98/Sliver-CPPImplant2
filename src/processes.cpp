@@ -23,7 +23,7 @@ namespace processes {
 		if (isWow64)
 			return "x86";
 		else
-			return "x86_x64";
+			return "x86_64";
 	}
 	std::string getProcOwner(int pid) {
 		HANDLE hProc = INVALID_HANDLE_VALUE;
