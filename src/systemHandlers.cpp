@@ -56,8 +56,6 @@ namespace handlers {
 				proc->set_pid(it->pid);
 				proc->set_ppid(it->ppid);
 				proc->set_sessionid(it->sessionID);
-				auto s = proc->add_cmdline();
-				s->assign("");
 			}
 		}
 		catch (exception& e) {

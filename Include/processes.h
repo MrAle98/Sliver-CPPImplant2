@@ -16,7 +16,7 @@ namespace processes {
 		std::string owner;
 		std::string arch;
 		std::string cmdLine;
-		int sessionID;
+		int32_t sessionID;
 	};
 	
 	std::vector<WinProcess> ps();

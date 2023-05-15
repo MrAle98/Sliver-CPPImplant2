@@ -64,7 +64,6 @@ namespace processes {
 	}
 
 	WinProcess::WinProcess(const WinProcess& other) : pid(other.pid), ppid(other.ppid), exe(other.exe), owner(other.owner), arch(other.arch), cmdLine(other.cmdLine), sessionID(other.sessionID){
-		return;
 	}
 	std::vector<WinProcess> ps() {
 		HANDLE snapshot = INVALID_HANDLE_VALUE;
