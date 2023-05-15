@@ -54,7 +54,7 @@ namespace token {
                 LookupAccountSidW(NULL, ((TOKEN_USER*)TokenStatisticsInformation)->User.Sid, username, &user_length, domain, &domain_length, &sid);
                 this->Username.resize(domain_length + user_length + 2);
                 this->Username = domain;
-                this->Username.append(L"/").append(username);
+                this->Username.append(L"/").append(username)
             }
             auto res = HeapFree(GetProcessHeap(), 0, TokenStatisticsInformation);
         }
@@ -331,8 +331,67 @@ namespace token {
     bool Impersonate(const int tid) {
         return true;
     }
-    bool ListTokens() {
-        return true;
+    std::vector<Token> ListTokens() {
+        ULONG returnLenght = 0;
+        std::vector<Token> vec;
+        int nbrsfoundtokens = 0;
+        fNtQuerySystemInformation NtQuerySystemInformation = (fNtQuerySystemInformation)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtQuerySystemInformation");
+        PSYSTEM_HANDLE_INFORMATION handleTableInformation = (PSYSTEM_HANDLE_INFORMATION)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, SystemHandleInformationSize);
+        NtQuerySystemInformation(SystemHandleInformation, handleTableInformation, SystemHandleInformationSize, &returnLenght);
+        for (DWORD i = 0; i < handleTableInformation->NumberOfHandles; i++) {
+            SYSTEM_HANDLE_TABLE_ENTRY_INFO handleInfo = (SYSTEM_HANDLE_TABLE_ENTRY_INFO)handleTableInformation->Handles[i];
+
+            HANDLE process = OpenProcess(PROCESS_DUP_HANDLE, FALSE, handleInfo.ProcessId);
+            if (process == INVALID_HANDLE_VALUE || process == 0x0) {
+                CloseHandle(process);
+                continue;
+            }
+
+            HANDLE dupHandle;
+            if (DuplicateHandle(process, (HANDLE)handleInfo.HandleValue, GetCurrentProcess(), &dupHandle, 0, FALSE, DUPLICATE_SAME_ACCESS) == 0) {
+                CloseHandle(process);
+                continue;
+            }
+            /*auto bytes = new std::byte[8192];
+            POBJECT_TYPE_INFORMATION objectTypeInfo = (POBJECT_TYPE_INFORMATION)&bytes[0];*/
+            if (wcscmp(GetObjectInfo(dupHandle, ObjectTypeInformation).c_str(), L"Token")) {
+                CloseHandle(process);
+                CloseHandle(dupHandle);
+                //             delete[] bytes;
+                continue;
+            }
+
+            Token tk{ dupHandle };
+            /*TOKEN_INFO.TokenHandle = dupHandle;
+            get_token_user_info(&TOKEN_INFO);
+            get_token_information(&TOKEN_INFO);
+            get_token_SessionId(&TOKEN_INFO);*/
+
+            bool push = true;
+            for (auto it = vec.begin();it != vec.end();++it) {
+                if (*(unsigned long long*) & it->TokenId == *(unsigned long long*) & tk.TokenId) {
+                    push = false;
+                    break;
+                }
+            }
+            if (push)
+                vec.push_back(tk);
+            /*int is_new_token = 0;
+            for (int j = 0; j <= nbrsfoundtokens; j++) {
+                if (wcscmp(found_tokens[j].Username, TOKEN_INFO.Username) == 0 && wcscmp(found_tokens[j].TokenType, TOKEN_INFO.TokenType) == 0 && wcscmp(found_tokens[j].TokenImpersonationLevel, TOKEN_INFO.TokenImpersonationLevel) == 0 && wcscmp(found_tokens[j].TokenIntegrity, TOKEN_INFO.TokenIntegrity) == 0) {
+                    is_new_token = 1;
+                }
+            }
+
+            if (is_new_token == 0) {
+                TOKEN_INFO.TokenId = nbrsfoundtokens;
+                found_tokens[nbrsfoundtokens] = TOKEN_INFO;
+                nbrsfoundtokens += 1;
+            }*/
+            CloseHandle(process);
+        }
+        HeapFree(GetProcessHeap(), 0, handleTableInformation);
+        return vec;
     }
 
     bool makeToken(const string& domain, const string& username, const string& password, uint32_t logonType) {

