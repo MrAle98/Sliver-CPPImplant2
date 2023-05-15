@@ -44,7 +44,6 @@ namespace handlers {
 	sliverpb::Envelope psHandler(int64_t taskID, string data) {
 		sliverpb::PsReq req;
 		sliverpb::Ps resp;
-
 		req.ParseFromString(data);
 		try {
 			auto procs = processes::ps();
