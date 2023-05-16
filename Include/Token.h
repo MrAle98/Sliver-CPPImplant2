@@ -1,10 +1,11 @@
 #pragma once
-#include <string>
-#include <atomic>
 #include <stdio.h>
 #include <windows.h>
 #include <winternl.h>
 #include <lm.h>
+#include <string>
+#include <atomic>
+#include <vector>
 
 #define MAX_USERNAME_LENGTH 256
 #define MAX_DOMAINNAME_LENGTH 256
@@ -125,5 +126,5 @@ namespace token {
     bool revertToken();
     bool Impersonate(const std::string& username);
     bool Impersonate(const int tid);
-    std::vector<Token> ListTokens();
+    vector<Token> ListTokens();
 }

@@ -54,7 +54,7 @@ namespace token {
                 LookupAccountSidW(NULL, ((TOKEN_USER*)TokenStatisticsInformation)->User.Sid, username, &user_length, domain, &domain_length, &sid);
                 this->Username.resize(domain_length + user_length + 2);
                 this->Username = domain;
-                this->Username.append(L"/").append(username)
+                this->Username.append(L"/").append(username);
             }
             auto res = HeapFree(GetProcessHeap(), 0, TokenStatisticsInformation);
         }

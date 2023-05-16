@@ -260,7 +260,11 @@ namespace sliverpb {
 
 		MsgRPortfwdReq,
 
-		MsgPivotPeerEnvelopeNoResponse
+		MsgPivotPeerEnvelopeNoResponse,
+
+		MsgListTokensReq,
+
+		MsgListTokens
 	};
 
 	MsgType MsgNumber(google::protobuf::Message& msg);
