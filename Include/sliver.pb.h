@@ -167,6 +167,12 @@ extern ListExtensionsDefaultTypeInternal _ListExtensions_default_instance_;
 class ListExtensionsReq;
 struct ListExtensionsReqDefaultTypeInternal;
 extern ListExtensionsReqDefaultTypeInternal _ListExtensionsReq_default_instance_;
+class ListTokens;
+struct ListTokensDefaultTypeInternal;
+extern ListTokensDefaultTypeInternal _ListTokens_default_instance_;
+class ListTokensReq;
+struct ListTokensReqDefaultTypeInternal;
+extern ListTokensReqDefaultTypeInternal _ListTokensReq_default_instance_;
 class Ls;
 struct LsDefaultTypeInternal;
 extern LsDefaultTypeInternal _Ls_default_instance_;
@@ -443,6 +449,9 @@ extern TerminateDefaultTypeInternal _Terminate_default_instance_;
 class TerminateReq;
 struct TerminateReqDefaultTypeInternal;
 extern TerminateReqDefaultTypeInternal _TerminateReq_default_instance_;
+class Token;
+struct TokenDefaultTypeInternal;
+extern TokenDefaultTypeInternal _Token_default_instance_;
 class Tunnel;
 struct TunnelDefaultTypeInternal;
 extern TunnelDefaultTypeInternal _Tunnel_default_instance_;
@@ -542,6 +551,8 @@ template<> ::sliverpb::InvokeSpawnDllReq* Arena::CreateMaybeMessage<::sliverpb::
 template<> ::sliverpb::KillReq* Arena::CreateMaybeMessage<::sliverpb::KillReq>(Arena*);
 template<> ::sliverpb::ListExtensions* Arena::CreateMaybeMessage<::sliverpb::ListExtensions>(Arena*);
 template<> ::sliverpb::ListExtensionsReq* Arena::CreateMaybeMessage<::sliverpb::ListExtensionsReq>(Arena*);
+template<> ::sliverpb::ListTokens* Arena::CreateMaybeMessage<::sliverpb::ListTokens>(Arena*);
+template<> ::sliverpb::ListTokensReq* Arena::CreateMaybeMessage<::sliverpb::ListTokensReq>(Arena*);
 template<> ::sliverpb::Ls* Arena::CreateMaybeMessage<::sliverpb::Ls>(Arena*);
 template<> ::sliverpb::LsReq* Arena::CreateMaybeMessage<::sliverpb::LsReq>(Arena*);
 template<> ::sliverpb::MakeToken* Arena::CreateMaybeMessage<::sliverpb::MakeToken>(Arena*);
@@ -634,6 +645,7 @@ template<> ::sliverpb::Task* Arena::CreateMaybeMessage<::sliverpb::Task>(Arena*)
 template<> ::sliverpb::TaskReq* Arena::CreateMaybeMessage<::sliverpb::TaskReq>(Arena*);
 template<> ::sliverpb::Terminate* Arena::CreateMaybeMessage<::sliverpb::Terminate>(Arena*);
 template<> ::sliverpb::TerminateReq* Arena::CreateMaybeMessage<::sliverpb::TerminateReq>(Arena*);
+template<> ::sliverpb::Token* Arena::CreateMaybeMessage<::sliverpb::Token>(Arena*);
 template<> ::sliverpb::Tunnel* Arena::CreateMaybeMessage<::sliverpb::Tunnel>(Arena*);
 template<> ::sliverpb::TunnelData* Arena::CreateMaybeMessage<::sliverpb::TunnelData>(Arena*);
 template<> ::sliverpb::UnsetEnv* Arena::CreateMaybeMessage<::sliverpb::UnsetEnv>(Arena*);
@@ -9408,6 +9420,570 @@ class MakeToken final :
 };
 // -------------------------------------------------------------------
 
+class Token final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:sliverpb.Token) */ {
+ public:
+  inline Token() : Token(nullptr) {}
+  ~Token() override;
+  explicit PROTOBUF_CONSTEXPR Token(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Token(const Token& from);
+  Token(Token&& from) noexcept
+    : Token() {
+    *this = ::std::move(from);
+  }
+
+  inline Token& operator=(const Token& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Token& operator=(Token&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Token& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Token* internal_default_instance() {
+    return reinterpret_cast<const Token*>(
+               &_Token_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    46;
+
+  friend void swap(Token& a, Token& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Token* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Token* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Token* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Token>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Token& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Token& from) {
+    Token::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Token* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "sliverpb.Token";
+  }
+  protected:
+  explicit Token(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUsernameFieldNumber = 4,
+    kTokenIdFieldNumber = 1,
+    kLogonSessionIdFieldNumber = 2,
+    kLogonTypeFieldNumber = 3,
+    kTokenTypeFieldNumber = 5,
+    kTokenImpLevelFieldNumber = 6,
+    kPrivilegesCountFieldNumber = 7,
+    kTokenIntegrityFieldNumber = 8,
+  };
+  // string Username = 4;
+  void clear_username();
+  const std::string& username() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_username(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_username();
+  PROTOBUF_NODISCARD std::string* release_username();
+  void set_allocated_username(std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // int64 TokenId = 1;
+  void clear_tokenid();
+  int64_t tokenid() const;
+  void set_tokenid(int64_t value);
+  private:
+  int64_t _internal_tokenid() const;
+  void _internal_set_tokenid(int64_t value);
+  public:
+
+  // int64 LogonSessionId = 2;
+  void clear_logonsessionid();
+  int64_t logonsessionid() const;
+  void set_logonsessionid(int64_t value);
+  private:
+  int64_t _internal_logonsessionid() const;
+  void _internal_set_logonsessionid(int64_t value);
+  public:
+
+  // int32 LogonType = 3;
+  void clear_logontype();
+  int32_t logontype() const;
+  void set_logontype(int32_t value);
+  private:
+  int32_t _internal_logontype() const;
+  void _internal_set_logontype(int32_t value);
+  public:
+
+  // int32 TokenType = 5;
+  void clear_tokentype();
+  int32_t tokentype() const;
+  void set_tokentype(int32_t value);
+  private:
+  int32_t _internal_tokentype() const;
+  void _internal_set_tokentype(int32_t value);
+  public:
+
+  // int32 TokenImpLevel = 6;
+  void clear_tokenimplevel();
+  int32_t tokenimplevel() const;
+  void set_tokenimplevel(int32_t value);
+  private:
+  int32_t _internal_tokenimplevel() const;
+  void _internal_set_tokenimplevel(int32_t value);
+  public:
+
+  // int32 PrivilegesCount = 7;
+  void clear_privilegescount();
+  int32_t privilegescount() const;
+  void set_privilegescount(int32_t value);
+  private:
+  int32_t _internal_privilegescount() const;
+  void _internal_set_privilegescount(int32_t value);
+  public:
+
+  // int32 TokenIntegrity = 8;
+  void clear_tokenintegrity();
+  int32_t tokenintegrity() const;
+  void set_tokenintegrity(int32_t value);
+  private:
+  int32_t _internal_tokenintegrity() const;
+  void _internal_set_tokenintegrity(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:sliverpb.Token)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+    int64_t tokenid_;
+    int64_t logonsessionid_;
+    int32_t logontype_;
+    int32_t tokentype_;
+    int32_t tokenimplevel_;
+    int32_t privilegescount_;
+    int32_t tokenintegrity_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_sliver_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListTokensReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:sliverpb.ListTokensReq) */ {
+ public:
+  inline ListTokensReq() : ListTokensReq(nullptr) {}
+  ~ListTokensReq() override;
+  explicit PROTOBUF_CONSTEXPR ListTokensReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ListTokensReq(const ListTokensReq& from);
+  ListTokensReq(ListTokensReq&& from) noexcept
+    : ListTokensReq() {
+    *this = ::std::move(from);
+  }
+
+  inline ListTokensReq& operator=(const ListTokensReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListTokensReq& operator=(ListTokensReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListTokensReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListTokensReq* internal_default_instance() {
+    return reinterpret_cast<const ListTokensReq*>(
+               &_ListTokensReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    47;
+
+  friend void swap(ListTokensReq& a, ListTokensReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ListTokensReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListTokensReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListTokensReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ListTokensReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ListTokensReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ListTokensReq& from) {
+    ListTokensReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ListTokensReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "sliverpb.ListTokensReq";
+  }
+  protected:
+  explicit ListTokensReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRequestFieldNumber = 9,
+  };
+  // .sliverpb.Request Request = 9;
+  bool has_request() const;
+  private:
+  bool _internal_has_request() const;
+  public:
+  void clear_request();
+  const ::sliverpb::Request& request() const;
+  PROTOBUF_NODISCARD ::sliverpb::Request* release_request();
+  ::sliverpb::Request* mutable_request();
+  void set_allocated_request(::sliverpb::Request* request);
+  private:
+  const ::sliverpb::Request& _internal_request() const;
+  ::sliverpb::Request* _internal_mutable_request();
+  public:
+  void unsafe_arena_set_allocated_request(
+      ::sliverpb::Request* request);
+  ::sliverpb::Request* unsafe_arena_release_request();
+
+  // @@protoc_insertion_point(class_scope:sliverpb.ListTokensReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::sliverpb::Request* request_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_sliver_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListTokens final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:sliverpb.ListTokens) */ {
+ public:
+  inline ListTokens() : ListTokens(nullptr) {}
+  ~ListTokens() override;
+  explicit PROTOBUF_CONSTEXPR ListTokens(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ListTokens(const ListTokens& from);
+  ListTokens(ListTokens&& from) noexcept
+    : ListTokens() {
+    *this = ::std::move(from);
+  }
+
+  inline ListTokens& operator=(const ListTokens& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListTokens& operator=(ListTokens&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListTokens& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListTokens* internal_default_instance() {
+    return reinterpret_cast<const ListTokens*>(
+               &_ListTokens_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    48;
+
+  friend void swap(ListTokens& a, ListTokens& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ListTokens* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListTokens* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListTokens* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ListTokens>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ListTokens& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ListTokens& from) {
+    ListTokens::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ListTokens* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "sliverpb.ListTokens";
+  }
+  protected:
+  explicit ListTokens(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTokensFieldNumber = 1,
+    kResponseFieldNumber = 9,
+  };
+  // repeated .sliverpb.Token Tokens = 1;
+  int tokens_size() const;
+  private:
+  int _internal_tokens_size() const;
+  public:
+  void clear_tokens();
+  ::sliverpb::Token* mutable_tokens(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::sliverpb::Token >*
+      mutable_tokens();
+  private:
+  const ::sliverpb::Token& _internal_tokens(int index) const;
+  ::sliverpb::Token* _internal_add_tokens();
+  public:
+  const ::sliverpb::Token& tokens(int index) const;
+  ::sliverpb::Token* add_tokens();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::sliverpb::Token >&
+      tokens() const;
+
+  // .sliverpb.Response Response = 9;
+  bool has_response() const;
+  private:
+  bool _internal_has_response() const;
+  public:
+  void clear_response();
+  const ::sliverpb::Response& response() const;
+  PROTOBUF_NODISCARD ::sliverpb::Response* release_response();
+  ::sliverpb::Response* mutable_response();
+  void set_allocated_response(::sliverpb::Response* response);
+  private:
+  const ::sliverpb::Response& _internal_response() const;
+  ::sliverpb::Response* _internal_mutable_response();
+  public:
+  void unsafe_arena_set_allocated_response(
+      ::sliverpb::Response* response);
+  ::sliverpb::Response* unsafe_arena_release_response();
+
+  // @@protoc_insertion_point(class_scope:sliverpb.ListTokens)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::sliverpb::Token > tokens_;
+    ::sliverpb::Response* response_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_sliver_2eproto;
+};
+// -------------------------------------------------------------------
+
 class TaskReq final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:sliverpb.TaskReq) */ {
  public:
@@ -9456,7 +10032,7 @@ class TaskReq final :
                &_TaskReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    49;
 
   friend void swap(TaskReq& a, TaskReq& b) {
     a.Swap(&b);
@@ -9667,7 +10243,7 @@ class Task final :
                &_Task_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    50;
 
   friend void swap(Task& a, Task& b) {
     a.Swap(&b);
@@ -9824,7 +10400,7 @@ class ExecuteAssemblyReq final :
                &_ExecuteAssemblyReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    51;
 
   friend void swap(ExecuteAssemblyReq& a, ExecuteAssemblyReq& b) {
     a.Swap(&b);
@@ -10190,7 +10766,7 @@ class InvokeExecuteAssemblyReq final :
                &_InvokeExecuteAssemblyReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    52;
 
   friend void swap(InvokeExecuteAssemblyReq& a, InvokeExecuteAssemblyReq& b) {
     a.Swap(&b);
@@ -10416,7 +10992,7 @@ class InvokeInProcExecuteAssemblyReq final :
                &_InvokeInProcExecuteAssemblyReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    53;
 
   friend void swap(InvokeInProcExecuteAssemblyReq& a, InvokeInProcExecuteAssemblyReq& b) {
     a.Swap(&b);
@@ -10653,7 +11229,7 @@ class ExecuteAssembly final :
                &_ExecuteAssembly_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    54;
 
   friend void swap(ExecuteAssembly& a, ExecuteAssembly& b) {
     a.Swap(&b);
@@ -10826,7 +11402,7 @@ class InvokeMigrateReq final :
                &_InvokeMigrateReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    55;
 
   friend void swap(InvokeMigrateReq& a, InvokeMigrateReq& b) {
     a.Swap(&b);
@@ -11010,7 +11586,7 @@ class Migrate final :
                &_Migrate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    56;
 
   friend void swap(Migrate& a, Migrate& b) {
     a.Swap(&b);
@@ -11178,7 +11754,7 @@ class ExecuteReq final :
                &_ExecuteReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    57;
 
   friend void swap(ExecuteReq& a, ExecuteReq& b) {
     a.Swap(&b);
@@ -11431,7 +12007,7 @@ class ExecuteWindowsReq final :
                &_ExecuteWindowsReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    58;
 
   friend void swap(ExecuteWindowsReq& a, ExecuteWindowsReq& b) {
     a.Swap(&b);
@@ -11695,7 +12271,7 @@ class Execute final :
                &_Execute_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    59;
 
   friend void swap(Execute& a, Execute& b) {
     a.Swap(&b);
@@ -11906,7 +12482,7 @@ class SideloadReq final :
                &_SideloadReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    60;
 
   friend void swap(SideloadReq& a, SideloadReq& b) {
     a.Swap(&b);
@@ -12197,7 +12773,7 @@ class Sideload final :
                &_Sideload_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    61;
 
   friend void swap(Sideload& a, Sideload& b) {
     a.Swap(&b);
@@ -12370,7 +12946,7 @@ class InvokeSpawnDllReq final :
                &_InvokeSpawnDllReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    62;
 
   friend void swap(InvokeSpawnDllReq& a, InvokeSpawnDllReq& b) {
     a.Swap(&b);
@@ -12639,7 +13215,7 @@ class SpawnDllReq final :
                &_SpawnDllReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    63;
 
   friend void swap(SpawnDllReq& a, SpawnDllReq& b) {
     a.Swap(&b);
@@ -12903,7 +13479,7 @@ class SpawnDll final :
                &_SpawnDll_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    64;
 
   friend void swap(SpawnDll& a, SpawnDll& b) {
     a.Swap(&b);
@@ -13076,7 +13652,7 @@ class NetstatReq final :
                &_NetstatReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    65;
 
   friend void swap(NetstatReq& a, NetstatReq& b) {
     a.Swap(&b);
@@ -13288,7 +13864,7 @@ class SockTabEntry_SockAddr final :
                &_SockTabEntry_SockAddr_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    66;
 
   friend void swap(SockTabEntry_SockAddr& a, SockTabEntry_SockAddr& b) {
     a.Swap(&b);
@@ -13452,7 +14028,7 @@ class SockTabEntry final :
                &_SockTabEntry_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    67;
 
   friend void swap(SockTabEntry& a, SockTabEntry& b) {
     a.Swap(&b);
@@ -13694,7 +14270,7 @@ class Netstat final :
                &_Netstat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    68;
 
   friend void swap(Netstat& a, Netstat& b) {
     a.Swap(&b);
@@ -13871,7 +14447,7 @@ class EnvReq final :
                &_EnvReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    69;
 
   friend void swap(EnvReq& a, EnvReq& b) {
     a.Swap(&b);
@@ -14044,7 +14620,7 @@ class EnvInfo final :
                &_EnvInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    70;
 
   friend void swap(EnvInfo& a, EnvInfo& b) {
     a.Swap(&b);
@@ -14221,7 +14797,7 @@ class SetEnvReq final :
                &_SetEnvReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    71;
 
   friend void swap(SetEnvReq& a, SetEnvReq& b) {
     a.Swap(&b);
@@ -14398,7 +14974,7 @@ class SetEnv final :
                &_SetEnv_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    72;
 
   friend void swap(SetEnv& a, SetEnv& b) {
     a.Swap(&b);
@@ -14555,7 +15131,7 @@ class UnsetEnvReq final :
                &_UnsetEnvReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    73;
 
   friend void swap(UnsetEnvReq& a, UnsetEnvReq& b) {
     a.Swap(&b);
@@ -14728,7 +15304,7 @@ class UnsetEnv final :
                &_UnsetEnv_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    74;
 
   friend void swap(UnsetEnv& a, UnsetEnv& b) {
     a.Swap(&b);
@@ -14885,7 +15461,7 @@ class DNSSessionInit final :
                &_DNSSessionInit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    75;
 
   friend void swap(DNSSessionInit& a, DNSSessionInit& b) {
     a.Swap(&b);
@@ -15038,7 +15614,7 @@ class DNSPoll final :
                &_DNSPoll_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    76;
 
   friend void swap(DNSPoll& a, DNSPoll& b) {
     a.Swap(&b);
@@ -15195,7 +15771,7 @@ class DNSBlockHeader final :
                &_DNSBlockHeader_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    77;
 
   friend void swap(DNSBlockHeader& a, DNSBlockHeader& b) {
     a.Swap(&b);
@@ -15359,7 +15935,7 @@ class HTTPSessionInit final :
                &_HTTPSessionInit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    78;
 
   friend void swap(HTTPSessionInit& a, HTTPSessionInit& b) {
     a.Swap(&b);
@@ -15512,7 +16088,7 @@ class ScreenshotReq final :
                &_ScreenshotReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    79;
 
   friend void swap(ScreenshotReq& a, ScreenshotReq& b) {
     a.Swap(&b);
@@ -15669,7 +16245,7 @@ class Screenshot final :
                &_Screenshot_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    80;
 
   friend void swap(Screenshot& a, Screenshot& b) {
     a.Swap(&b);
@@ -15842,7 +16418,7 @@ class StartServiceReq final :
                &_StartServiceReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    81;
 
   friend void swap(StartServiceReq& a, StartServiceReq& b) {
     a.Swap(&b);
@@ -16079,7 +16655,7 @@ class ServiceInfo final :
                &_ServiceInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    82;
 
   friend void swap(ServiceInfo& a, ServiceInfo& b) {
     a.Swap(&b);
@@ -16236,7 +16812,7 @@ class ServiceInfoReq final :
                &_ServiceInfoReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    83;
 
   friend void swap(ServiceInfoReq& a, ServiceInfoReq& b) {
     a.Swap(&b);
@@ -16405,7 +16981,7 @@ class StopServiceReq final :
                &_StopServiceReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    84;
 
   friend void swap(StopServiceReq& a, StopServiceReq& b) {
     a.Swap(&b);
@@ -16582,7 +17158,7 @@ class RemoveServiceReq final :
                &_RemoveServiceReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    85;
 
   friend void swap(RemoveServiceReq& a, RemoveServiceReq& b) {
     a.Swap(&b);
@@ -16759,7 +17335,7 @@ class BackdoorReq final :
                &_BackdoorReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    86;
 
   friend void swap(BackdoorReq& a, BackdoorReq& b) {
     a.Swap(&b);
@@ -16948,7 +17524,7 @@ class Backdoor final :
                &_Backdoor_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    87;
 
   friend void swap(Backdoor& a, Backdoor& b) {
     a.Swap(&b);
@@ -17105,7 +17681,7 @@ class RegistryReadReq final :
                &_RegistryReadReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    88;
 
   friend void swap(RegistryReadReq& a, RegistryReadReq& b) {
     a.Swap(&b);
@@ -17326,7 +17902,7 @@ class RegistryRead final :
                &_RegistryRead_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    89;
 
   friend void swap(RegistryRead& a, RegistryRead& b) {
     a.Swap(&b);
@@ -17499,7 +18075,7 @@ class RegistryWriteReq final :
                &_RegistryWriteReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    90;
 
   friend void swap(RegistryWriteReq& a, RegistryWriteReq& b) {
     a.Swap(&b);
@@ -17785,7 +18361,7 @@ class RegistryWrite final :
                &_RegistryWrite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    91;
 
   friend void swap(RegistryWrite& a, RegistryWrite& b) {
     a.Swap(&b);
@@ -17942,7 +18518,7 @@ class RegistryCreateKeyReq final :
                &_RegistryCreateKeyReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    89;
+    92;
 
   friend void swap(RegistryCreateKeyReq& a, RegistryCreateKeyReq& b) {
     a.Swap(&b);
@@ -18163,7 +18739,7 @@ class RegistryCreateKey final :
                &_RegistryCreateKey_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    93;
 
   friend void swap(RegistryCreateKey& a, RegistryCreateKey& b) {
     a.Swap(&b);
@@ -18320,7 +18896,7 @@ class RegistryDeleteKeyReq final :
                &_RegistryDeleteKeyReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    91;
+    94;
 
   friend void swap(RegistryDeleteKeyReq& a, RegistryDeleteKeyReq& b) {
     a.Swap(&b);
@@ -18541,7 +19117,7 @@ class RegistryDeleteKey final :
                &_RegistryDeleteKey_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    95;
 
   friend void swap(RegistryDeleteKey& a, RegistryDeleteKey& b) {
     a.Swap(&b);
@@ -18698,7 +19274,7 @@ class RegistrySubKeyListReq final :
                &_RegistrySubKeyListReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    93;
+    96;
 
   friend void swap(RegistrySubKeyListReq& a, RegistrySubKeyListReq& b) {
     a.Swap(&b);
@@ -18903,7 +19479,7 @@ class RegistrySubKeyList final :
                &_RegistrySubKeyList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    94;
+    97;
 
   friend void swap(RegistrySubKeyList& a, RegistrySubKeyList& b) {
     a.Swap(&b);
@@ -19086,7 +19662,7 @@ class RegistryListValuesReq final :
                &_RegistryListValuesReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    95;
+    98;
 
   friend void swap(RegistryListValuesReq& a, RegistryListValuesReq& b) {
     a.Swap(&b);
@@ -19291,7 +19867,7 @@ class RegistryValuesList final :
                &_RegistryValuesList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    96;
+    99;
 
   friend void swap(RegistryValuesList& a, RegistryValuesList& b) {
     a.Swap(&b);
@@ -19474,7 +20050,7 @@ class Tunnel final :
                &_Tunnel_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    97;
+    100;
 
   friend void swap(Tunnel& a, Tunnel& b) {
     a.Swap(&b);
@@ -19638,7 +20214,7 @@ class TunnelData final :
                &_TunnelData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    98;
+    101;
 
   friend void swap(TunnelData& a, TunnelData& b) {
     a.Swap(&b);
@@ -19893,7 +20469,7 @@ class ShellReq final :
                &_ShellReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    99;
+    102;
 
   friend void swap(ShellReq& a, ShellReq& b) {
     a.Swap(&b);
@@ -20099,7 +20675,7 @@ class Shell final :
                &_Shell_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    100;
+    103;
 
   friend void swap(Shell& a, Shell& b) {
     a.Swap(&b);
@@ -20305,7 +20881,7 @@ class PortfwdReq final :
                &_PortfwdReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    101;
+    104;
 
   friend void swap(PortfwdReq& a, PortfwdReq& b) {
     a.Swap(&b);
@@ -20511,7 +21087,7 @@ class Portfwd final :
                &_Portfwd_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    102;
+    105;
 
   friend void swap(Portfwd& a, Portfwd& b) {
     a.Swap(&b);
@@ -20717,7 +21293,7 @@ class Socks final :
                &_Socks_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    103;
+    106;
 
   friend void swap(Socks& a, Socks& b) {
     a.Swap(&b);
@@ -20881,7 +21457,7 @@ class SocksData final :
                &_SocksData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    104;
+    107;
 
   friend void swap(SocksData& a, SocksData& b) {
     a.Swap(&b);
@@ -21119,7 +21695,7 @@ class PivotStartListenerReq final :
                &_PivotStartListenerReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    105;
+    108;
 
   friend void swap(PivotStartListenerReq& a, PivotStartListenerReq& b) {
     a.Swap(&b);
@@ -21327,7 +21903,7 @@ class PivotStopListenerReq final :
                &_PivotStopListenerReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    106;
+    109;
 
   friend void swap(PivotStopListenerReq& a, PivotStopListenerReq& b) {
     a.Swap(&b);
@@ -21495,7 +22071,7 @@ class PivotListener final :
                &_PivotListener_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    107;
+    110;
 
   friend void swap(PivotListener& a, PivotListener& b) {
     a.Swap(&b);
@@ -21710,7 +22286,7 @@ class PivotHello final :
                &_PivotHello_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    108;
+    111;
 
   friend void swap(PivotHello& a, PivotHello& b) {
     a.Swap(&b);
@@ -21906,7 +22482,7 @@ class PivotServerKeyExchange final :
                &_PivotServerKeyExchange_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    109;
+    112;
 
   friend void swap(PivotServerKeyExchange& a, PivotServerKeyExchange& b) {
     a.Swap(&b);
@@ -22070,7 +22646,7 @@ class PivotPeer final :
                &_PivotPeer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    110;
+    113;
 
   friend void swap(PivotPeer& a, PivotPeer& b) {
     a.Swap(&b);
@@ -22234,7 +22810,7 @@ class PivotPeerEnvelope final :
                &_PivotPeerEnvelope_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    111;
+    114;
 
   friend void swap(PivotPeerEnvelope& a, PivotPeerEnvelope& b) {
     a.Swap(&b);
@@ -22445,7 +23021,7 @@ class PivotPing final :
                &_PivotPing_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    112;
+    115;
 
   friend void swap(PivotPing& a, PivotPing& b) {
     a.Swap(&b);
@@ -22593,7 +23169,7 @@ class NetConnPivot final :
                &_NetConnPivot_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    113;
+    116;
 
   friend void swap(NetConnPivot& a, NetConnPivot& b) {
     a.Swap(&b);
@@ -22757,7 +23333,7 @@ class PivotPeerFailure final :
                &_PivotPeerFailure_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    114;
+    117;
 
   friend void swap(PivotPeerFailure& a, PivotPeerFailure& b) {
     a.Swap(&b);
@@ -22932,7 +23508,7 @@ class PivotListenersReq final :
                &_PivotListenersReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    115;
+    118;
 
   friend void swap(PivotListenersReq& a, PivotListenersReq& b) {
     a.Swap(&b);
@@ -23089,7 +23665,7 @@ class PivotListeners final :
                &_PivotListeners_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    116;
+    119;
 
   friend void swap(PivotListeners& a, PivotListeners& b) {
     a.Swap(&b);
@@ -23266,7 +23842,7 @@ class WGPortForwardStartReq final :
                &_WGPortForwardStartReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    117;
+    120;
 
   friend void swap(WGPortForwardStartReq& a, WGPortForwardStartReq& b) {
     a.Swap(&b);
@@ -23450,7 +24026,7 @@ class WGPortForward final :
                &_WGPortForward_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    118;
+    121;
 
   friend void swap(WGPortForward& a, WGPortForward& b) {
     a.Swap(&b);
@@ -23627,7 +24203,7 @@ class WGPortForwardStopReq final :
                &_WGPortForwardStopReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    119;
+    122;
 
   friend void swap(WGPortForwardStopReq& a, WGPortForwardStopReq& b) {
     a.Swap(&b);
@@ -23795,7 +24371,7 @@ class WGSocksStartReq final :
                &_WGSocksStartReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    120;
+    123;
 
   friend void swap(WGSocksStartReq& a, WGSocksStartReq& b) {
     a.Swap(&b);
@@ -23963,7 +24539,7 @@ class WGSocks final :
                &_WGSocks_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    121;
+    124;
 
   friend void swap(WGSocks& a, WGSocks& b) {
     a.Swap(&b);
@@ -24140,7 +24716,7 @@ class WGSocksStopReq final :
                &_WGSocksStopReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    122;
+    125;
 
   friend void swap(WGSocksStopReq& a, WGSocksStopReq& b) {
     a.Swap(&b);
@@ -24308,7 +24884,7 @@ class WGTCPForwardersReq final :
                &_WGTCPForwardersReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    123;
+    126;
 
   friend void swap(WGTCPForwardersReq& a, WGTCPForwardersReq& b) {
     a.Swap(&b);
@@ -24465,7 +25041,7 @@ class WGSocksServersReq final :
                &_WGSocksServersReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    124;
+    127;
 
   friend void swap(WGSocksServersReq& a, WGSocksServersReq& b) {
     a.Swap(&b);
@@ -24622,7 +25198,7 @@ class WGTCPForwarder final :
                &_WGTCPForwarder_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    125;
+    128;
 
   friend void swap(WGTCPForwarder& a, WGTCPForwarder& b) {
     a.Swap(&b);
@@ -24802,7 +25378,7 @@ class WGSocksServer final :
                &_WGSocksServer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    126;
+    129;
 
   friend void swap(WGSocksServer& a, WGSocksServer& b) {
     a.Swap(&b);
@@ -24966,7 +25542,7 @@ class WGSocksServers final :
                &_WGSocksServers_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    127;
+    130;
 
   friend void swap(WGSocksServers& a, WGSocksServers& b) {
     a.Swap(&b);
@@ -25143,7 +25719,7 @@ class WGTCPForwarders final :
                &_WGTCPForwarders_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    128;
+    131;
 
   friend void swap(WGTCPForwarders& a, WGTCPForwarders& b) {
     a.Swap(&b);
@@ -25320,7 +25896,7 @@ class ReconfigureReq final :
                &_ReconfigureReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    129;
+    132;
 
   friend void swap(ReconfigureReq& a, ReconfigureReq& b) {
     a.Swap(&b);
@@ -25510,7 +26086,7 @@ class Reconfigure final :
                &_Reconfigure_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    130;
+    133;
 
   friend void swap(Reconfigure& a, Reconfigure& b) {
     a.Swap(&b);
@@ -25667,7 +26243,7 @@ class PollIntervalReq final :
                &_PollIntervalReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    131;
+    134;
 
   friend void swap(PollIntervalReq& a, PollIntervalReq& b) {
     a.Swap(&b);
@@ -25835,7 +26411,7 @@ class PollInterval final :
                &_PollInterval_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    132;
+    135;
 
   friend void swap(PollInterval& a, PollInterval& b) {
     a.Swap(&b);
@@ -25992,7 +26568,7 @@ class SSHCommandReq final :
                &_SSHCommandReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    133;
+    136;
 
   friend void swap(SSHCommandReq& a, SSHCommandReq& b) {
     a.Swap(&b);
@@ -26288,7 +26864,7 @@ class SSHCommand final :
                &_SSHCommand_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    134;
+    137;
 
   friend void swap(SSHCommand& a, SSHCommand& b) {
     a.Swap(&b);
@@ -26477,7 +27053,7 @@ class GetPrivsReq final :
                &_GetPrivsReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    135;
+    138;
 
   friend void swap(GetPrivsReq& a, GetPrivsReq& b) {
     a.Swap(&b);
@@ -26634,7 +27210,7 @@ class WindowsPrivilegeEntry final :
                &_WindowsPrivilegeEntry_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    136;
+    139;
 
   friend void swap(WindowsPrivilegeEntry& a, WindowsPrivilegeEntry& b) {
     a.Swap(&b);
@@ -26847,7 +27423,7 @@ class GetPrivs final :
                &_GetPrivs_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    137;
+    140;
 
   friend void swap(GetPrivs& a, GetPrivs& b) {
     a.Swap(&b);
@@ -27056,7 +27632,7 @@ class RegisterExtensionReq final :
                &_RegisterExtensionReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    138;
+    141;
 
   friend void swap(RegisterExtensionReq& a, RegisterExtensionReq& b) {
     a.Swap(&b);
@@ -27277,7 +27853,7 @@ class RegisterExtension final :
                &_RegisterExtension_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    139;
+    142;
 
   friend void swap(RegisterExtension& a, RegisterExtension& b) {
     a.Swap(&b);
@@ -27434,7 +28010,7 @@ class CallExtensionReq final :
                &_CallExtensionReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    140;
+    143;
 
   friend void swap(CallExtensionReq& a, CallExtensionReq& b) {
     a.Swap(&b);
@@ -27650,7 +28226,7 @@ class CallExtension final :
                &_CallExtension_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    141;
+    144;
 
   friend void swap(CallExtension& a, CallExtension& b) {
     a.Swap(&b);
@@ -27834,7 +28410,7 @@ class ListExtensionsReq final :
                &_ListExtensionsReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    142;
+    145;
 
   friend void swap(ListExtensionsReq& a, ListExtensionsReq& b) {
     a.Swap(&b);
@@ -27991,7 +28567,7 @@ class ListExtensions final :
                &_ListExtensions_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    143;
+    146;
 
   friend void swap(ListExtensions& a, ListExtensions& b) {
     a.Swap(&b);
@@ -28174,7 +28750,7 @@ class RportFwdStopListenerReq final :
                &_RportFwdStopListenerReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    144;
+    147;
 
   friend void swap(RportFwdStopListenerReq& a, RportFwdStopListenerReq& b) {
     a.Swap(&b);
@@ -28342,7 +28918,7 @@ class RportFwdStartListenerReq final :
                &_RportFwdStartListenerReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    145;
+    148;
 
   friend void swap(RportFwdStartListenerReq& a, RportFwdStartListenerReq& b) {
     a.Swap(&b);
@@ -28553,7 +29129,7 @@ class RportFwdListener final :
                &_RportFwdListener_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    146;
+    149;
 
   friend void swap(RportFwdListener& a, RportFwdListener& b) {
     a.Swap(&b);
@@ -28775,7 +29351,7 @@ class RportFwdListeners final :
                &_RportFwdListeners_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    147;
+    150;
 
   friend void swap(RportFwdListeners& a, RportFwdListeners& b) {
     a.Swap(&b);
@@ -28952,7 +29528,7 @@ class RportFwdListenersReq final :
                &_RportFwdListenersReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    148;
+    151;
 
   friend void swap(RportFwdListenersReq& a, RportFwdListenersReq& b) {
     a.Swap(&b);
@@ -29109,7 +29685,7 @@ class RPortfwd final :
                &_RPortfwd_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    149;
+    152;
 
   friend void swap(RPortfwd& a, RPortfwd& b) {
     a.Swap(&b);
@@ -29315,7 +29891,7 @@ class RPortfwdReq final :
                &_RPortfwdReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    150;
+    153;
 
   friend void swap(RPortfwdReq& a, RPortfwdReq& b) {
     a.Swap(&b);
@@ -37397,6 +37973,418 @@ inline void MakeToken::set_allocated_response(::sliverpb::Response* response) {
   }
   _impl_.response_ = response;
   // @@protoc_insertion_point(field_set_allocated:sliverpb.MakeToken.Response)
+}
+
+// -------------------------------------------------------------------
+
+// Token
+
+// int64 TokenId = 1;
+inline void Token::clear_tokenid() {
+  _impl_.tokenid_ = int64_t{0};
+}
+inline int64_t Token::_internal_tokenid() const {
+  return _impl_.tokenid_;
+}
+inline int64_t Token::tokenid() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.TokenId)
+  return _internal_tokenid();
+}
+inline void Token::_internal_set_tokenid(int64_t value) {
+  
+  _impl_.tokenid_ = value;
+}
+inline void Token::set_tokenid(int64_t value) {
+  _internal_set_tokenid(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.TokenId)
+}
+
+// int64 LogonSessionId = 2;
+inline void Token::clear_logonsessionid() {
+  _impl_.logonsessionid_ = int64_t{0};
+}
+inline int64_t Token::_internal_logonsessionid() const {
+  return _impl_.logonsessionid_;
+}
+inline int64_t Token::logonsessionid() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.LogonSessionId)
+  return _internal_logonsessionid();
+}
+inline void Token::_internal_set_logonsessionid(int64_t value) {
+  
+  _impl_.logonsessionid_ = value;
+}
+inline void Token::set_logonsessionid(int64_t value) {
+  _internal_set_logonsessionid(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.LogonSessionId)
+}
+
+// int32 LogonType = 3;
+inline void Token::clear_logontype() {
+  _impl_.logontype_ = 0;
+}
+inline int32_t Token::_internal_logontype() const {
+  return _impl_.logontype_;
+}
+inline int32_t Token::logontype() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.LogonType)
+  return _internal_logontype();
+}
+inline void Token::_internal_set_logontype(int32_t value) {
+  
+  _impl_.logontype_ = value;
+}
+inline void Token::set_logontype(int32_t value) {
+  _internal_set_logontype(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.LogonType)
+}
+
+// string Username = 4;
+inline void Token::clear_username() {
+  _impl_.username_.ClearToEmpty();
+}
+inline const std::string& Token::username() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.Username)
+  return _internal_username();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void Token::set_username(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.username_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:sliverpb.Token.Username)
+}
+inline std::string* Token::mutable_username() {
+  std::string* _s = _internal_mutable_username();
+  // @@protoc_insertion_point(field_mutable:sliverpb.Token.Username)
+  return _s;
+}
+inline const std::string& Token::_internal_username() const {
+  return _impl_.username_.Get();
+}
+inline void Token::_internal_set_username(const std::string& value) {
+  
+  _impl_.username_.Set(value, GetArenaForAllocation());
+}
+inline std::string* Token::_internal_mutable_username() {
+  
+  return _impl_.username_.Mutable(GetArenaForAllocation());
+}
+inline std::string* Token::release_username() {
+  // @@protoc_insertion_point(field_release:sliverpb.Token.Username)
+  return _impl_.username_.Release();
+}
+inline void Token::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.username_.SetAllocated(username, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.username_.IsDefault()) {
+    _impl_.username_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:sliverpb.Token.Username)
+}
+
+// int32 TokenType = 5;
+inline void Token::clear_tokentype() {
+  _impl_.tokentype_ = 0;
+}
+inline int32_t Token::_internal_tokentype() const {
+  return _impl_.tokentype_;
+}
+inline int32_t Token::tokentype() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.TokenType)
+  return _internal_tokentype();
+}
+inline void Token::_internal_set_tokentype(int32_t value) {
+  
+  _impl_.tokentype_ = value;
+}
+inline void Token::set_tokentype(int32_t value) {
+  _internal_set_tokentype(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.TokenType)
+}
+
+// int32 TokenImpLevel = 6;
+inline void Token::clear_tokenimplevel() {
+  _impl_.tokenimplevel_ = 0;
+}
+inline int32_t Token::_internal_tokenimplevel() const {
+  return _impl_.tokenimplevel_;
+}
+inline int32_t Token::tokenimplevel() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.TokenImpLevel)
+  return _internal_tokenimplevel();
+}
+inline void Token::_internal_set_tokenimplevel(int32_t value) {
+  
+  _impl_.tokenimplevel_ = value;
+}
+inline void Token::set_tokenimplevel(int32_t value) {
+  _internal_set_tokenimplevel(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.TokenImpLevel)
+}
+
+// int32 PrivilegesCount = 7;
+inline void Token::clear_privilegescount() {
+  _impl_.privilegescount_ = 0;
+}
+inline int32_t Token::_internal_privilegescount() const {
+  return _impl_.privilegescount_;
+}
+inline int32_t Token::privilegescount() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.PrivilegesCount)
+  return _internal_privilegescount();
+}
+inline void Token::_internal_set_privilegescount(int32_t value) {
+  
+  _impl_.privilegescount_ = value;
+}
+inline void Token::set_privilegescount(int32_t value) {
+  _internal_set_privilegescount(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.PrivilegesCount)
+}
+
+// int32 TokenIntegrity = 8;
+inline void Token::clear_tokenintegrity() {
+  _impl_.tokenintegrity_ = 0;
+}
+inline int32_t Token::_internal_tokenintegrity() const {
+  return _impl_.tokenintegrity_;
+}
+inline int32_t Token::tokenintegrity() const {
+  // @@protoc_insertion_point(field_get:sliverpb.Token.TokenIntegrity)
+  return _internal_tokenintegrity();
+}
+inline void Token::_internal_set_tokenintegrity(int32_t value) {
+  
+  _impl_.tokenintegrity_ = value;
+}
+inline void Token::set_tokenintegrity(int32_t value) {
+  _internal_set_tokenintegrity(value);
+  // @@protoc_insertion_point(field_set:sliverpb.Token.TokenIntegrity)
+}
+
+// -------------------------------------------------------------------
+
+// ListTokensReq
+
+// .sliverpb.Request Request = 9;
+inline bool ListTokensReq::_internal_has_request() const {
+  return this != internal_default_instance() && _impl_.request_ != nullptr;
+}
+inline bool ListTokensReq::has_request() const {
+  return _internal_has_request();
+}
+inline const ::sliverpb::Request& ListTokensReq::_internal_request() const {
+  const ::sliverpb::Request* p = _impl_.request_;
+  return p != nullptr ? *p : reinterpret_cast<const ::sliverpb::Request&>(
+      ::sliverpb::_Request_default_instance_);
+}
+inline const ::sliverpb::Request& ListTokensReq::request() const {
+  // @@protoc_insertion_point(field_get:sliverpb.ListTokensReq.Request)
+  return _internal_request();
+}
+inline void ListTokensReq::unsafe_arena_set_allocated_request(
+    ::sliverpb::Request* request) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  _impl_.request_ = request;
+  if (request) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:sliverpb.ListTokensReq.Request)
+}
+inline ::sliverpb::Request* ListTokensReq::release_request() {
+  
+  ::sliverpb::Request* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::sliverpb::Request* ListTokensReq::unsafe_arena_release_request() {
+  // @@protoc_insertion_point(field_release:sliverpb.ListTokensReq.Request)
+  
+  ::sliverpb::Request* temp = _impl_.request_;
+  _impl_.request_ = nullptr;
+  return temp;
+}
+inline ::sliverpb::Request* ListTokensReq::_internal_mutable_request() {
+  
+  if (_impl_.request_ == nullptr) {
+    auto* p = CreateMaybeMessage<::sliverpb::Request>(GetArenaForAllocation());
+    _impl_.request_ = p;
+  }
+  return _impl_.request_;
+}
+inline ::sliverpb::Request* ListTokensReq::mutable_request() {
+  ::sliverpb::Request* _msg = _internal_mutable_request();
+  // @@protoc_insertion_point(field_mutable:sliverpb.ListTokensReq.Request)
+  return _msg;
+}
+inline void ListTokensReq::set_allocated_request(::sliverpb::Request* request) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.request_);
+  }
+  if (request) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(request));
+    if (message_arena != submessage_arena) {
+      request = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, request, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.request_ = request;
+  // @@protoc_insertion_point(field_set_allocated:sliverpb.ListTokensReq.Request)
+}
+
+// -------------------------------------------------------------------
+
+// ListTokens
+
+// repeated .sliverpb.Token Tokens = 1;
+inline int ListTokens::_internal_tokens_size() const {
+  return _impl_.tokens_.size();
+}
+inline int ListTokens::tokens_size() const {
+  return _internal_tokens_size();
+}
+inline void ListTokens::clear_tokens() {
+  _impl_.tokens_.Clear();
+}
+inline ::sliverpb::Token* ListTokens::mutable_tokens(int index) {
+  // @@protoc_insertion_point(field_mutable:sliverpb.ListTokens.Tokens)
+  return _impl_.tokens_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::sliverpb::Token >*
+ListTokens::mutable_tokens() {
+  // @@protoc_insertion_point(field_mutable_list:sliverpb.ListTokens.Tokens)
+  return &_impl_.tokens_;
+}
+inline const ::sliverpb::Token& ListTokens::_internal_tokens(int index) const {
+  return _impl_.tokens_.Get(index);
+}
+inline const ::sliverpb::Token& ListTokens::tokens(int index) const {
+  // @@protoc_insertion_point(field_get:sliverpb.ListTokens.Tokens)
+  return _internal_tokens(index);
+}
+inline ::sliverpb::Token* ListTokens::_internal_add_tokens() {
+  return _impl_.tokens_.Add();
+}
+inline ::sliverpb::Token* ListTokens::add_tokens() {
+  ::sliverpb::Token* _add = _internal_add_tokens();
+  // @@protoc_insertion_point(field_add:sliverpb.ListTokens.Tokens)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::sliverpb::Token >&
+ListTokens::tokens() const {
+  // @@protoc_insertion_point(field_list:sliverpb.ListTokens.Tokens)
+  return _impl_.tokens_;
+}
+
+// .sliverpb.Response Response = 9;
+inline bool ListTokens::_internal_has_response() const {
+  return this != internal_default_instance() && _impl_.response_ != nullptr;
+}
+inline bool ListTokens::has_response() const {
+  return _internal_has_response();
+}
+inline const ::sliverpb::Response& ListTokens::_internal_response() const {
+  const ::sliverpb::Response* p = _impl_.response_;
+  return p != nullptr ? *p : reinterpret_cast<const ::sliverpb::Response&>(
+      ::sliverpb::_Response_default_instance_);
+}
+inline const ::sliverpb::Response& ListTokens::response() const {
+  // @@protoc_insertion_point(field_get:sliverpb.ListTokens.Response)
+  return _internal_response();
+}
+inline void ListTokens::unsafe_arena_set_allocated_response(
+    ::sliverpb::Response* response) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
+  }
+  _impl_.response_ = response;
+  if (response) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:sliverpb.ListTokens.Response)
+}
+inline ::sliverpb::Response* ListTokens::release_response() {
+  
+  ::sliverpb::Response* temp = _impl_.response_;
+  _impl_.response_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::sliverpb::Response* ListTokens::unsafe_arena_release_response() {
+  // @@protoc_insertion_point(field_release:sliverpb.ListTokens.Response)
+  
+  ::sliverpb::Response* temp = _impl_.response_;
+  _impl_.response_ = nullptr;
+  return temp;
+}
+inline ::sliverpb::Response* ListTokens::_internal_mutable_response() {
+  
+  if (_impl_.response_ == nullptr) {
+    auto* p = CreateMaybeMessage<::sliverpb::Response>(GetArenaForAllocation());
+    _impl_.response_ = p;
+  }
+  return _impl_.response_;
+}
+inline ::sliverpb::Response* ListTokens::mutable_response() {
+  ::sliverpb::Response* _msg = _internal_mutable_response();
+  // @@protoc_insertion_point(field_mutable:sliverpb.ListTokens.Response)
+  return _msg;
+}
+inline void ListTokens::set_allocated_response(::sliverpb::Response* response) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.response_);
+  }
+  if (response) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(response));
+    if (message_arena != submessage_arena) {
+      response = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, response, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.response_ = response;
+  // @@protoc_insertion_point(field_set_allocated:sliverpb.ListTokens.Response)
 }
 
 // -------------------------------------------------------------------
@@ -55896,6 +56884,12 @@ inline void RPortfwdReq::set_allocated_request(::sliverpb::Request* request) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

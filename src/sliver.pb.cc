@@ -720,6 +720,53 @@ struct MakeTokenDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MakeTokenDefaultTypeInternal _MakeToken_default_instance_;
+PROTOBUF_CONSTEXPR Token::Token(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.username_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.tokenid_)*/int64_t{0}
+  , /*decltype(_impl_.logonsessionid_)*/int64_t{0}
+  , /*decltype(_impl_.logontype_)*/0
+  , /*decltype(_impl_.tokentype_)*/0
+  , /*decltype(_impl_.tokenimplevel_)*/0
+  , /*decltype(_impl_.privilegescount_)*/0
+  , /*decltype(_impl_.tokenintegrity_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct TokenDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR TokenDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~TokenDefaultTypeInternal() {}
+  union {
+    Token _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TokenDefaultTypeInternal _Token_default_instance_;
+PROTOBUF_CONSTEXPR ListTokensReq::ListTokensReq(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.request_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ListTokensReqDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListTokensReqDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListTokensReqDefaultTypeInternal() {}
+  union {
+    ListTokensReq _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListTokensReqDefaultTypeInternal _ListTokensReq_default_instance_;
+PROTOBUF_CONSTEXPR ListTokens::ListTokens(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.tokens_)*/{}
+  , /*decltype(_impl_.response_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ListTokensDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListTokensDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListTokensDefaultTypeInternal() {}
+  union {
+    ListTokens _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListTokensDefaultTypeInternal _ListTokens_default_instance_;
 PROTOBUF_CONSTEXPR TaskReq::TaskReq(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.encoder_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -2335,7 +2382,7 @@ struct RPortfwdReqDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 RPortfwdReqDefaultTypeInternal _RPortfwdReq_default_instance_;
 }  // namespace sliverpb
-static ::_pb::Metadata file_level_metadata_sliver_2eproto[151];
+static ::_pb::Metadata file_level_metadata_sliver_2eproto[154];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_sliver_2eproto[3];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_sliver_2eproto = nullptr;
 
@@ -2763,6 +2810,35 @@ const uint32_t TableStruct_sliver_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::sliverpb::MakeToken, _impl_.response_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.tokenid_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.logonsessionid_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.logontype_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.username_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.tokentype_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.tokenimplevel_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.privilegescount_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::Token, _impl_.tokenintegrity_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::sliverpb::ListTokensReq, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::sliverpb::ListTokensReq, _impl_.request_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::sliverpb::ListTokens, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::sliverpb::ListTokens, _impl_.tokens_),
+  PROTOBUF_FIELD_OFFSET(::sliverpb::ListTokens, _impl_.response_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::sliverpb::TaskReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -3795,111 +3871,114 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 398, -1, -1, sizeof(::sliverpb::GetSystem)},
   { 405, -1, -1, sizeof(::sliverpb::MakeTokenReq)},
   { 416, -1, -1, sizeof(::sliverpb::MakeToken)},
-  { 423, -1, -1, sizeof(::sliverpb::TaskReq)},
-  { 434, -1, -1, sizeof(::sliverpb::Task)},
-  { 441, -1, -1, sizeof(::sliverpb::ExecuteAssemblyReq)},
-  { 462, -1, -1, sizeof(::sliverpb::InvokeExecuteAssemblyReq)},
-  { 473, -1, -1, sizeof(::sliverpb::InvokeInProcExecuteAssemblyReq)},
-  { 485, -1, -1, sizeof(::sliverpb::ExecuteAssembly)},
-  { 493, -1, -1, sizeof(::sliverpb::InvokeMigrateReq)},
-  { 502, -1, -1, sizeof(::sliverpb::Migrate)},
-  { 510, -1, -1, sizeof(::sliverpb::ExecuteReq)},
-  { 523, -1, -1, sizeof(::sliverpb::ExecuteWindowsReq)},
-  { 537, -1, -1, sizeof(::sliverpb::Execute)},
-  { 548, -1, -1, sizeof(::sliverpb::SideloadReq)},
-  { 564, -1, -1, sizeof(::sliverpb::Sideload)},
-  { 572, -1, -1, sizeof(::sliverpb::InvokeSpawnDllReq)},
-  { 586, -1, -1, sizeof(::sliverpb::SpawnDllReq)},
-  { 600, -1, -1, sizeof(::sliverpb::SpawnDll)},
-  { 608, -1, -1, sizeof(::sliverpb::NetstatReq)},
-  { 620, -1, -1, sizeof(::sliverpb::SockTabEntry_SockAddr)},
-  { 628, -1, -1, sizeof(::sliverpb::SockTabEntry)},
-  { 640, -1, -1, sizeof(::sliverpb::Netstat)},
-  { 648, -1, -1, sizeof(::sliverpb::EnvReq)},
-  { 656, -1, -1, sizeof(::sliverpb::EnvInfo)},
-  { 664, -1, -1, sizeof(::sliverpb::SetEnvReq)},
-  { 672, -1, -1, sizeof(::sliverpb::SetEnv)},
-  { 679, -1, -1, sizeof(::sliverpb::UnsetEnvReq)},
-  { 687, -1, -1, sizeof(::sliverpb::UnsetEnv)},
-  { 694, -1, -1, sizeof(::sliverpb::DNSSessionInit)},
-  { 701, -1, -1, sizeof(::sliverpb::DNSPoll)},
-  { 708, -1, -1, sizeof(::sliverpb::DNSBlockHeader)},
-  { 716, -1, -1, sizeof(::sliverpb::HTTPSessionInit)},
-  { 723, -1, -1, sizeof(::sliverpb::ScreenshotReq)},
-  { 730, -1, -1, sizeof(::sliverpb::Screenshot)},
-  { 738, -1, -1, sizeof(::sliverpb::StartServiceReq)},
-  { 750, -1, -1, sizeof(::sliverpb::ServiceInfo)},
-  { 757, -1, -1, sizeof(::sliverpb::ServiceInfoReq)},
-  { 765, -1, -1, sizeof(::sliverpb::StopServiceReq)},
-  { 773, -1, -1, sizeof(::sliverpb::RemoveServiceReq)},
-  { 781, -1, -1, sizeof(::sliverpb::BackdoorReq)},
-  { 790, -1, -1, sizeof(::sliverpb::Backdoor)},
-  { 797, -1, -1, sizeof(::sliverpb::RegistryReadReq)},
-  { 808, -1, -1, sizeof(::sliverpb::RegistryRead)},
-  { 816, -1, -1, sizeof(::sliverpb::RegistryWriteReq)},
-  { 832, -1, -1, sizeof(::sliverpb::RegistryWrite)},
-  { 839, -1, -1, sizeof(::sliverpb::RegistryCreateKeyReq)},
-  { 850, -1, -1, sizeof(::sliverpb::RegistryCreateKey)},
-  { 857, -1, -1, sizeof(::sliverpb::RegistryDeleteKeyReq)},
-  { 868, -1, -1, sizeof(::sliverpb::RegistryDeleteKey)},
-  { 875, -1, -1, sizeof(::sliverpb::RegistrySubKeyListReq)},
-  { 885, -1, -1, sizeof(::sliverpb::RegistrySubKeyList)},
-  { 893, -1, -1, sizeof(::sliverpb::RegistryListValuesReq)},
-  { 903, -1, -1, sizeof(::sliverpb::RegistryValuesList)},
-  { 911, -1, -1, sizeof(::sliverpb::Tunnel)},
-  { 919, -1, -1, sizeof(::sliverpb::TunnelData)},
-  { 934, -1, -1, sizeof(::sliverpb::ShellReq)},
-  { 945, -1, -1, sizeof(::sliverpb::Shell)},
-  { 956, -1, -1, sizeof(::sliverpb::PortfwdReq)},
-  { 967, -1, -1, sizeof(::sliverpb::Portfwd)},
-  { 978, -1, -1, sizeof(::sliverpb::Socks)},
-  { 986, -1, -1, sizeof(::sliverpb::SocksData)},
-  { 999, -1, -1, sizeof(::sliverpb::PivotStartListenerReq)},
-  { 1009, -1, -1, sizeof(::sliverpb::PivotStopListenerReq)},
-  { 1017, -1, -1, sizeof(::sliverpb::PivotListener)},
-  { 1028, -1, -1, sizeof(::sliverpb::PivotHello)},
-  { 1038, -1, -1, sizeof(::sliverpb::PivotServerKeyExchange)},
-  { 1046, -1, -1, sizeof(::sliverpb::PivotPeer)},
-  { 1054, -1, -1, sizeof(::sliverpb::PivotPeerEnvelope)},
-  { 1065, -1, -1, sizeof(::sliverpb::PivotPing)},
-  { 1072, -1, -1, sizeof(::sliverpb::NetConnPivot)},
-  { 1080, -1, -1, sizeof(::sliverpb::PivotPeerFailure)},
-  { 1089, -1, -1, sizeof(::sliverpb::PivotListenersReq)},
-  { 1096, -1, -1, sizeof(::sliverpb::PivotListeners)},
-  { 1104, -1, -1, sizeof(::sliverpb::WGPortForwardStartReq)},
-  { 1113, -1, -1, sizeof(::sliverpb::WGPortForward)},
-  { 1121, -1, -1, sizeof(::sliverpb::WGPortForwardStopReq)},
-  { 1129, -1, -1, sizeof(::sliverpb::WGSocksStartReq)},
-  { 1137, -1, -1, sizeof(::sliverpb::WGSocks)},
-  { 1145, -1, -1, sizeof(::sliverpb::WGSocksStopReq)},
-  { 1153, -1, -1, sizeof(::sliverpb::WGTCPForwardersReq)},
-  { 1160, -1, -1, sizeof(::sliverpb::WGSocksServersReq)},
-  { 1167, -1, -1, sizeof(::sliverpb::WGTCPForwarder)},
-  { 1176, -1, -1, sizeof(::sliverpb::WGSocksServer)},
-  { 1184, -1, -1, sizeof(::sliverpb::WGSocksServers)},
-  { 1192, -1, -1, sizeof(::sliverpb::WGTCPForwarders)},
-  { 1200, -1, -1, sizeof(::sliverpb::ReconfigureReq)},
-  { 1210, -1, -1, sizeof(::sliverpb::Reconfigure)},
-  { 1217, -1, -1, sizeof(::sliverpb::PollIntervalReq)},
-  { 1225, -1, -1, sizeof(::sliverpb::PollInterval)},
-  { 1232, -1, -1, sizeof(::sliverpb::SSHCommandReq)},
-  { 1248, -1, -1, sizeof(::sliverpb::SSHCommand)},
-  { 1257, -1, -1, sizeof(::sliverpb::GetPrivsReq)},
-  { 1264, -1, -1, sizeof(::sliverpb::WindowsPrivilegeEntry)},
-  { 1276, -1, -1, sizeof(::sliverpb::GetPrivs)},
-  { 1286, -1, -1, sizeof(::sliverpb::RegisterExtensionReq)},
-  { 1297, -1, -1, sizeof(::sliverpb::RegisterExtension)},
-  { 1304, -1, -1, sizeof(::sliverpb::CallExtensionReq)},
-  { 1315, -1, -1, sizeof(::sliverpb::CallExtension)},
-  { 1324, -1, -1, sizeof(::sliverpb::ListExtensionsReq)},
-  { 1331, -1, -1, sizeof(::sliverpb::ListExtensions)},
-  { 1339, -1, -1, sizeof(::sliverpb::RportFwdStopListenerReq)},
-  { 1347, -1, -1, sizeof(::sliverpb::RportFwdStartListenerReq)},
-  { 1358, -1, -1, sizeof(::sliverpb::RportFwdListener)},
-  { 1370, -1, -1, sizeof(::sliverpb::RportFwdListeners)},
-  { 1378, -1, -1, sizeof(::sliverpb::RportFwdListenersReq)},
-  { 1385, -1, -1, sizeof(::sliverpb::RPortfwd)},
-  { 1396, -1, -1, sizeof(::sliverpb::RPortfwdReq)},
+  { 423, -1, -1, sizeof(::sliverpb::Token)},
+  { 437, -1, -1, sizeof(::sliverpb::ListTokensReq)},
+  { 444, -1, -1, sizeof(::sliverpb::ListTokens)},
+  { 452, -1, -1, sizeof(::sliverpb::TaskReq)},
+  { 463, -1, -1, sizeof(::sliverpb::Task)},
+  { 470, -1, -1, sizeof(::sliverpb::ExecuteAssemblyReq)},
+  { 491, -1, -1, sizeof(::sliverpb::InvokeExecuteAssemblyReq)},
+  { 502, -1, -1, sizeof(::sliverpb::InvokeInProcExecuteAssemblyReq)},
+  { 514, -1, -1, sizeof(::sliverpb::ExecuteAssembly)},
+  { 522, -1, -1, sizeof(::sliverpb::InvokeMigrateReq)},
+  { 531, -1, -1, sizeof(::sliverpb::Migrate)},
+  { 539, -1, -1, sizeof(::sliverpb::ExecuteReq)},
+  { 552, -1, -1, sizeof(::sliverpb::ExecuteWindowsReq)},
+  { 566, -1, -1, sizeof(::sliverpb::Execute)},
+  { 577, -1, -1, sizeof(::sliverpb::SideloadReq)},
+  { 593, -1, -1, sizeof(::sliverpb::Sideload)},
+  { 601, -1, -1, sizeof(::sliverpb::InvokeSpawnDllReq)},
+  { 615, -1, -1, sizeof(::sliverpb::SpawnDllReq)},
+  { 629, -1, -1, sizeof(::sliverpb::SpawnDll)},
+  { 637, -1, -1, sizeof(::sliverpb::NetstatReq)},
+  { 649, -1, -1, sizeof(::sliverpb::SockTabEntry_SockAddr)},
+  { 657, -1, -1, sizeof(::sliverpb::SockTabEntry)},
+  { 669, -1, -1, sizeof(::sliverpb::Netstat)},
+  { 677, -1, -1, sizeof(::sliverpb::EnvReq)},
+  { 685, -1, -1, sizeof(::sliverpb::EnvInfo)},
+  { 693, -1, -1, sizeof(::sliverpb::SetEnvReq)},
+  { 701, -1, -1, sizeof(::sliverpb::SetEnv)},
+  { 708, -1, -1, sizeof(::sliverpb::UnsetEnvReq)},
+  { 716, -1, -1, sizeof(::sliverpb::UnsetEnv)},
+  { 723, -1, -1, sizeof(::sliverpb::DNSSessionInit)},
+  { 730, -1, -1, sizeof(::sliverpb::DNSPoll)},
+  { 737, -1, -1, sizeof(::sliverpb::DNSBlockHeader)},
+  { 745, -1, -1, sizeof(::sliverpb::HTTPSessionInit)},
+  { 752, -1, -1, sizeof(::sliverpb::ScreenshotReq)},
+  { 759, -1, -1, sizeof(::sliverpb::Screenshot)},
+  { 767, -1, -1, sizeof(::sliverpb::StartServiceReq)},
+  { 779, -1, -1, sizeof(::sliverpb::ServiceInfo)},
+  { 786, -1, -1, sizeof(::sliverpb::ServiceInfoReq)},
+  { 794, -1, -1, sizeof(::sliverpb::StopServiceReq)},
+  { 802, -1, -1, sizeof(::sliverpb::RemoveServiceReq)},
+  { 810, -1, -1, sizeof(::sliverpb::BackdoorReq)},
+  { 819, -1, -1, sizeof(::sliverpb::Backdoor)},
+  { 826, -1, -1, sizeof(::sliverpb::RegistryReadReq)},
+  { 837, -1, -1, sizeof(::sliverpb::RegistryRead)},
+  { 845, -1, -1, sizeof(::sliverpb::RegistryWriteReq)},
+  { 861, -1, -1, sizeof(::sliverpb::RegistryWrite)},
+  { 868, -1, -1, sizeof(::sliverpb::RegistryCreateKeyReq)},
+  { 879, -1, -1, sizeof(::sliverpb::RegistryCreateKey)},
+  { 886, -1, -1, sizeof(::sliverpb::RegistryDeleteKeyReq)},
+  { 897, -1, -1, sizeof(::sliverpb::RegistryDeleteKey)},
+  { 904, -1, -1, sizeof(::sliverpb::RegistrySubKeyListReq)},
+  { 914, -1, -1, sizeof(::sliverpb::RegistrySubKeyList)},
+  { 922, -1, -1, sizeof(::sliverpb::RegistryListValuesReq)},
+  { 932, -1, -1, sizeof(::sliverpb::RegistryValuesList)},
+  { 940, -1, -1, sizeof(::sliverpb::Tunnel)},
+  { 948, -1, -1, sizeof(::sliverpb::TunnelData)},
+  { 963, -1, -1, sizeof(::sliverpb::ShellReq)},
+  { 974, -1, -1, sizeof(::sliverpb::Shell)},
+  { 985, -1, -1, sizeof(::sliverpb::PortfwdReq)},
+  { 996, -1, -1, sizeof(::sliverpb::Portfwd)},
+  { 1007, -1, -1, sizeof(::sliverpb::Socks)},
+  { 1015, -1, -1, sizeof(::sliverpb::SocksData)},
+  { 1028, -1, -1, sizeof(::sliverpb::PivotStartListenerReq)},
+  { 1038, -1, -1, sizeof(::sliverpb::PivotStopListenerReq)},
+  { 1046, -1, -1, sizeof(::sliverpb::PivotListener)},
+  { 1057, -1, -1, sizeof(::sliverpb::PivotHello)},
+  { 1067, -1, -1, sizeof(::sliverpb::PivotServerKeyExchange)},
+  { 1075, -1, -1, sizeof(::sliverpb::PivotPeer)},
+  { 1083, -1, -1, sizeof(::sliverpb::PivotPeerEnvelope)},
+  { 1094, -1, -1, sizeof(::sliverpb::PivotPing)},
+  { 1101, -1, -1, sizeof(::sliverpb::NetConnPivot)},
+  { 1109, -1, -1, sizeof(::sliverpb::PivotPeerFailure)},
+  { 1118, -1, -1, sizeof(::sliverpb::PivotListenersReq)},
+  { 1125, -1, -1, sizeof(::sliverpb::PivotListeners)},
+  { 1133, -1, -1, sizeof(::sliverpb::WGPortForwardStartReq)},
+  { 1142, -1, -1, sizeof(::sliverpb::WGPortForward)},
+  { 1150, -1, -1, sizeof(::sliverpb::WGPortForwardStopReq)},
+  { 1158, -1, -1, sizeof(::sliverpb::WGSocksStartReq)},
+  { 1166, -1, -1, sizeof(::sliverpb::WGSocks)},
+  { 1174, -1, -1, sizeof(::sliverpb::WGSocksStopReq)},
+  { 1182, -1, -1, sizeof(::sliverpb::WGTCPForwardersReq)},
+  { 1189, -1, -1, sizeof(::sliverpb::WGSocksServersReq)},
+  { 1196, -1, -1, sizeof(::sliverpb::WGTCPForwarder)},
+  { 1205, -1, -1, sizeof(::sliverpb::WGSocksServer)},
+  { 1213, -1, -1, sizeof(::sliverpb::WGSocksServers)},
+  { 1221, -1, -1, sizeof(::sliverpb::WGTCPForwarders)},
+  { 1229, -1, -1, sizeof(::sliverpb::ReconfigureReq)},
+  { 1239, -1, -1, sizeof(::sliverpb::Reconfigure)},
+  { 1246, -1, -1, sizeof(::sliverpb::PollIntervalReq)},
+  { 1254, -1, -1, sizeof(::sliverpb::PollInterval)},
+  { 1261, -1, -1, sizeof(::sliverpb::SSHCommandReq)},
+  { 1277, -1, -1, sizeof(::sliverpb::SSHCommand)},
+  { 1286, -1, -1, sizeof(::sliverpb::GetPrivsReq)},
+  { 1293, -1, -1, sizeof(::sliverpb::WindowsPrivilegeEntry)},
+  { 1305, -1, -1, sizeof(::sliverpb::GetPrivs)},
+  { 1315, -1, -1, sizeof(::sliverpb::RegisterExtensionReq)},
+  { 1326, -1, -1, sizeof(::sliverpb::RegisterExtension)},
+  { 1333, -1, -1, sizeof(::sliverpb::CallExtensionReq)},
+  { 1344, -1, -1, sizeof(::sliverpb::CallExtension)},
+  { 1353, -1, -1, sizeof(::sliverpb::ListExtensionsReq)},
+  { 1360, -1, -1, sizeof(::sliverpb::ListExtensions)},
+  { 1368, -1, -1, sizeof(::sliverpb::RportFwdStopListenerReq)},
+  { 1376, -1, -1, sizeof(::sliverpb::RportFwdStartListenerReq)},
+  { 1387, -1, -1, sizeof(::sliverpb::RportFwdListener)},
+  { 1399, -1, -1, sizeof(::sliverpb::RportFwdListeners)},
+  { 1407, -1, -1, sizeof(::sliverpb::RportFwdListenersReq)},
+  { 1414, -1, -1, sizeof(::sliverpb::RPortfwd)},
+  { 1425, -1, -1, sizeof(::sliverpb::RPortfwdReq)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -3949,6 +4028,9 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::sliverpb::_GetSystem_default_instance_._instance,
   &::sliverpb::_MakeTokenReq_default_instance_._instance,
   &::sliverpb::_MakeToken_default_instance_._instance,
+  &::sliverpb::_Token_default_instance_._instance,
+  &::sliverpb::_ListTokensReq_default_instance_._instance,
+  &::sliverpb::_ListTokens_default_instance_._instance,
   &::sliverpb::_TaskReq_default_instance_._instance,
   &::sliverpb::_Task_default_instance_._instance,
   &::sliverpb::_ExecuteAssemblyReq_default_instance_._instance,
@@ -4156,275 +4238,283 @@ const char descriptor_table_protodef_sliver_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "name\030\001 \001(\t\022\020\n\010Password\030\002 \001(\t\022\016\n\006Domain\030\003"
   " \001(\t\022\021\n\tLogonType\030\004 \001(\r\022\"\n\007Request\030\t \001(\013"
   "2\021.sliverpb.Request\"1\n\tMakeToken\022$\n\010Resp"
-  "onse\030\t \001(\0132\022.sliverpb.Response\"k\n\007TaskRe"
-  "q\022\017\n\007Encoder\030\001 \001(\t\022\020\n\010RWXPages\030\002 \001(\010\022\013\n\003"
-  "Pid\030\003 \001(\r\022\014\n\004Data\030\004 \001(\014\022\"\n\007Request\030\t \001(\013"
-  "2\021.sliverpb.Request\",\n\004Task\022$\n\010Response\030"
-  "\t \001(\0132\022.sliverpb.Response\"\257\002\n\022ExecuteAss"
-  "emblyReq\022\020\n\010Assembly\030\001 \001(\014\022\021\n\tArguments\030"
-  "\002 \001(\t\022\017\n\007Process\030\003 \001(\t\022\r\n\005IsDLL\030\004 \001(\010\022\014\n"
-  "\004Arch\030\005 \001(\t\022\021\n\tClassName\030\006 \001(\t\022\016\n\006Method"
-  "\030\007 \001(\t\022\021\n\tAppDomain\030\010 \001(\t\022\014\n\004PPid\030\n \001(\r\022"
-  "\023\n\013ProcessArgs\030\013 \003(\t\022\021\n\tInProcess\030\014 \001(\010\022"
-  "\017\n\007Runtime\030\r \001(\t\022\022\n\nAmsiBypass\030\016 \001(\010\022\021\n\t"
-  "EtwBypass\030\017 \001(\010\022\"\n\007Request\030\t \001(\0132\021.slive"
-  "rpb.Request\"\200\001\n\030InvokeExecuteAssemblyReq"
-  "\022\014\n\004Data\030\001 \001(\014\022\017\n\007process\030\002 \001(\t\022\014\n\004PPid\030"
-  "\n \001(\r\022\023\n\013ProcessArgs\030\013 \003(\t\022\"\n\007Request\030\t "
-  "\001(\0132\021.sliverpb.Request\"\235\001\n\036InvokeInProcE"
-  "xecuteAssemblyReq\022\014\n\004Data\030\001 \001(\014\022\021\n\tArgum"
-  "ents\030\002 \003(\t\022\017\n\007Runtime\030\003 \001(\t\022\022\n\nAmsiBypas"
-  "s\030\004 \001(\010\022\021\n\tEtwBypass\030\005 \001(\010\022\"\n\007Request\030\t "
-  "\001(\0132\021.sliverpb.Request\"G\n\017ExecuteAssembl"
-  "y\022\016\n\006Output\030\001 \001(\014\022$\n\010Response\030\t \001(\0132\022.sl"
-  "iverpb.Response\"Q\n\020InvokeMigrateReq\022\013\n\003P"
-  "id\030\001 \001(\r\022\014\n\004Data\030\002 \001(\014\022\"\n\007Request\030\t \001(\0132"
-  "\021.sliverpb.Request\"@\n\007Migrate\022\017\n\007Success"
-  "\030\001 \001(\010\022$\n\010Response\030\t \001(\0132\022.sliverpb.Resp"
-  "onse\"\220\001\n\nExecuteReq\022\014\n\004Path\030\001 \001(\t\022\014\n\004Arg"
-  "s\030\002 \003(\t\022\016\n\006Output\030\003 \001(\010\022\021\n\tstdout_pb\030\004 \001"
-  "(\t\022\021\n\tstderr_pb\030\005 \001(\t\022\014\n\004PPid\030\n \001(\r\022\"\n\007R"
-  "equest\030\t \001(\0132\021.sliverpb.Request\"\251\001\n\021Exec"
-  "uteWindowsReq\022\014\n\004Path\030\001 \001(\t\022\014\n\004Args\030\002 \003("
-  "\t\022\016\n\006Output\030\003 \001(\010\022\021\n\tstdout_pb\030\004 \001(\t\022\021\n\t"
-  "stderr_pb\030\005 \001(\t\022\020\n\010UseToken\030\006 \001(\010\022\014\n\004PPi"
-  "d\030\n \001(\r\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Requ"
-  "est\"r\n\007Execute\022\016\n\006Status\030\001 \001(\r\022\021\n\tstdout"
-  "_pb\030\002 \001(\014\022\021\n\tstderr_pb\030\003 \001(\014\022\013\n\003Pid\030\004 \001("
-  "\r\022$\n\010Response\030\t \001(\0132\022.sliverpb.Response\""
-  "\311\001\n\013SideloadReq\022\014\n\004Data\030\001 \001(\014\022\023\n\013Process"
-  "Name\030\002 \001(\t\022\014\n\004Args\030\003 \001(\t\022\022\n\nEntryPoint\030\004"
-  " \001(\t\022\014\n\004Kill\030\005 \001(\010\022\r\n\005isDLL\030\006 \001(\010\022\021\n\tisU"
-  "nicode\030\007 \001(\010\022\014\n\004PPid\030\n \001(\r\022\023\n\013ProcessArg"
-  "s\030\013 \003(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Requ"
-  "est\"@\n\010Sideload\022\016\n\006Result\030\001 \001(\t\022$\n\010Respo"
-  "nse\030\t \001(\0132\022.sliverpb.Response\"\255\001\n\021Invoke"
-  "SpawnDllReq\022\014\n\004Data\030\001 \001(\014\022\023\n\013ProcessName"
-  "\030\002 \001(\t\022\014\n\004Args\030\003 \001(\t\022\022\n\nEntryPoint\030\004 \001(\t"
-  "\022\014\n\004Kill\030\005 \001(\010\022\014\n\004PPid\030\n \001(\r\022\023\n\013ProcessA"
-  "rgs\030\013 \003(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Re"
-  "quest\"\243\001\n\013SpawnDllReq\022\014\n\004Data\030\001 \001(\014\022\023\n\013P"
-  "rocessName\030\002 \001(\t\022\016\n\006Offset\030\003 \001(\r\022\014\n\004Args"
-  "\030\004 \001(\t\022\014\n\004Kill\030\005 \001(\010\022\014\n\004PPid\030\n \001(\r\022\023\n\013Pr"
-  "ocessArgs\030\013 \003(\t\022\"\n\007Request\030\t \001(\0132\021.slive"
-  "rpb.Request\"@\n\010SpawnDll\022\016\n\006Result\030\001 \001(\t\022"
-  "$\n\010Response\030\t \001(\0132\022.sliverpb.Response\"w\n"
-  "\nNetstatReq\022\013\n\003TCP\030\001 \001(\010\022\013\n\003UDP\030\002 \001(\010\022\013\n"
-  "\003IP4\030\003 \001(\010\022\013\n\003IP6\030\005 \001(\010\022\021\n\tListening\030\006 \001"
-  "(\010\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"\361"
-  "\001\n\014SockTabEntry\0222\n\tLocalAddr\030\001 \001(\0132\037.sli"
-  "verpb.SockTabEntry.SockAddr\0223\n\nRemoteAdd"
-  "r\030\002 \001(\0132\037.sliverpb.SockTabEntry.SockAddr"
-  "\022\017\n\007SkState\030\003 \001(\t\022\013\n\003UID\030\004 \001(\r\022\"\n\007Proces"
-  "s\030\005 \001(\0132\021.sliverpb.Process\022\020\n\010Protocol\030\006"
-  " \001(\t\032$\n\010SockAddr\022\n\n\002Ip\030\001 \001(\t\022\014\n\004Port\030\002 \001"
-  "(\r\"X\n\007Netstat\022\'\n\007Entries\030\001 \003(\0132\026.sliverp"
-  "b.SockTabEntry\022$\n\010Response\030\t \001(\0132\022.slive"
-  "rpb.Response\":\n\006EnvReq\022\014\n\004Name\030\001 \001(\t\022\"\n\007"
-  "Request\030\t \001(\0132\021.sliverpb.Request\"T\n\007EnvI"
-  "nfo\022#\n\tVariables\030\001 \003(\0132\020.sliverpb.EnvVar"
-  "\022$\n\010Response\030\t \001(\0132\022.sliverpb.Response\"S"
-  "\n\tSetEnvReq\022\"\n\010Variable\030\001 \001(\0132\020.sliverpb"
-  ".EnvVar\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Requ"
-  "est\".\n\006SetEnv\022$\n\010Response\030\t \001(\0132\022.sliver"
-  "pb.Response\"\?\n\013UnsetEnvReq\022\014\n\004Name\030\001 \001(\t"
-  "\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"0\n\010"
-  "UnsetEnv\022$\n\010Response\030\t \001(\0132\022.sliverpb.Re"
-  "sponse\"\035\n\016DNSSessionInit\022\013\n\003Key\030\001 \001(\014\"3\n"
-  "\007DNSPoll\022(\n\006blocks\030\001 \003(\0132\030.sliverpb.DNSB"
-  "lockHeader\"*\n\016DNSBlockHeader\022\n\n\002ID\030\001 \001(\t"
-  "\022\014\n\004Size\030\002 \001(\r\"\036\n\017HTTPSessionInit\022\013\n\003Key"
-  "\030\001 \001(\014\"3\n\rScreenshotReq\022\"\n\007Request\030\t \001(\013"
-  "2\021.sliverpb.Request\"@\n\nScreenshot\022\014\n\004Dat"
-  "a\030\001 \001(\014\022$\n\010Response\030\t \001(\0132\022.sliverpb.Res"
-  "ponse\"\234\001\n\017StartServiceReq\022\023\n\013ServiceName"
-  "\030\001 \001(\t\022\032\n\022ServiceDescription\030\002 \001(\t\022\017\n\007Bi"
-  "nPath\030\003 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\021\n\tArgumen"
-  "ts\030\005 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Req"
-  "uest\"3\n\013ServiceInfo\022$\n\010Response\030\t \001(\0132\022."
-  "sliverpb.Response\"7\n\016ServiceInfoReq\022\023\n\013S"
-  "erviceName\030\001 \001(\t\022\020\n\010Hostname\030\002 \001(\t\"c\n\016St"
-  "opServiceReq\022-\n\013ServiceInfo\030\001 \001(\0132\030.sliv"
-  "erpb.ServiceInfoReq\022\"\n\007Request\030\t \001(\0132\021.s"
-  "liverpb.Request\"e\n\020RemoveServiceReq\022-\n\013S"
-  "erviceInfo\030\001 \001(\0132\030.sliverpb.ServiceInfoR"
-  "eq\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"X"
-  "\n\013BackdoorReq\022\020\n\010FilePath\030\001 \001(\t\022\023\n\013Profi"
-  "leName\030\002 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb"
-  ".Request\"0\n\010Backdoor\022$\n\010Response\030\t \001(\0132\022"
-  ".sliverpb.Response\"p\n\017RegistryReadReq\022\014\n"
-  "\004Hive\030\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\013\n\003Key\030\003 \001(\t\022\020"
-  "\n\010Hostname\030\004 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliv"
-  "erpb.Request\"C\n\014RegistryRead\022\r\n\005Value\030\001 "
-  "\001(\t\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respons"
-  "e\"\317\001\n\020RegistryWriteReq\022\014\n\004Hive\030\001 \001(\t\022\014\n\004"
-  "Path\030\002 \001(\t\022\013\n\003Key\030\003 \001(\t\022\020\n\010Hostname\030\004 \001("
-  "\t\022\023\n\013StringValue\030\005 \001(\t\022\021\n\tByteValue\030\006 \001("
-  "\014\022\022\n\nDWordValue\030\007 \001(\r\022\022\n\nQWordValue\030\010 \001("
-  "\004\022\014\n\004Type\030\n \001(\r\022\"\n\007Request\030\t \001(\0132\021.slive"
-  "rpb.Request\"5\n\rRegistryWrite\022$\n\010Response"
-  "\030\t \001(\0132\022.sliverpb.Response\"u\n\024RegistryCr"
-  "eateKeyReq\022\014\n\004Hive\030\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\013"
-  "\n\003Key\030\003 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\"\n\007Request"
-  "\030\t \001(\0132\021.sliverpb.Request\"9\n\021RegistryCre"
-  "ateKey\022$\n\010Response\030\t \001(\0132\022.sliverpb.Resp"
-  "onse\"u\n\024RegistryDeleteKeyReq\022\014\n\004Hive\030\001 \001"
-  "(\t\022\014\n\004Path\030\002 \001(\t\022\013\n\003Key\030\003 \001(\t\022\020\n\010Hostnam"
-  "e\030\004 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Requ"
-  "est\"9\n\021RegistryDeleteKey\022$\n\010Response\030\t \001"
-  "(\0132\022.sliverpb.Response\"i\n\025RegistrySubKey"
-  "ListReq\022\014\n\004Hive\030\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\020\n\010H"
+  "onse\030\t \001(\0132\022.sliverpb.Response\"\260\001\n\005Token"
+  "\022\017\n\007TokenId\030\001 \001(\003\022\026\n\016LogonSessionId\030\002 \001("
+  "\003\022\021\n\tLogonType\030\003 \001(\005\022\020\n\010Username\030\004 \001(\t\022\021"
+  "\n\tTokenType\030\005 \001(\005\022\025\n\rTokenImpLevel\030\006 \001(\005"
+  "\022\027\n\017PrivilegesCount\030\007 \001(\005\022\026\n\016TokenIntegr"
+  "ity\030\010 \001(\005\"3\n\rListTokensReq\022\"\n\007Request\030\t "
+  "\001(\0132\021.sliverpb.Request\"S\n\nListTokens\022\037\n\006"
+  "Tokens\030\001 \003(\0132\017.sliverpb.Token\022$\n\010Respons"
+  "e\030\t \001(\0132\022.sliverpb.Response\"k\n\007TaskReq\022\017"
+  "\n\007Encoder\030\001 \001(\t\022\020\n\010RWXPages\030\002 \001(\010\022\013\n\003Pid"
+  "\030\003 \001(\r\022\014\n\004Data\030\004 \001(\014\022\"\n\007Request\030\t \001(\0132\021."
+  "sliverpb.Request\",\n\004Task\022$\n\010Response\030\t \001"
+  "(\0132\022.sliverpb.Response\"\257\002\n\022ExecuteAssemb"
+  "lyReq\022\020\n\010Assembly\030\001 \001(\014\022\021\n\tArguments\030\002 \001"
+  "(\t\022\017\n\007Process\030\003 \001(\t\022\r\n\005IsDLL\030\004 \001(\010\022\014\n\004Ar"
+  "ch\030\005 \001(\t\022\021\n\tClassName\030\006 \001(\t\022\016\n\006Method\030\007 "
+  "\001(\t\022\021\n\tAppDomain\030\010 \001(\t\022\014\n\004PPid\030\n \001(\r\022\023\n\013"
+  "ProcessArgs\030\013 \003(\t\022\021\n\tInProcess\030\014 \001(\010\022\017\n\007"
+  "Runtime\030\r \001(\t\022\022\n\nAmsiBypass\030\016 \001(\010\022\021\n\tEtw"
+  "Bypass\030\017 \001(\010\022\"\n\007Request\030\t \001(\0132\021.sliverpb"
+  ".Request\"\200\001\n\030InvokeExecuteAssemblyReq\022\014\n"
+  "\004Data\030\001 \001(\014\022\017\n\007process\030\002 \001(\t\022\014\n\004PPid\030\n \001"
+  "(\r\022\023\n\013ProcessArgs\030\013 \003(\t\022\"\n\007Request\030\t \001(\013"
+  "2\021.sliverpb.Request\"\235\001\n\036InvokeInProcExec"
+  "uteAssemblyReq\022\014\n\004Data\030\001 \001(\014\022\021\n\tArgument"
+  "s\030\002 \003(\t\022\017\n\007Runtime\030\003 \001(\t\022\022\n\nAmsiBypass\030\004"
+  " \001(\010\022\021\n\tEtwBypass\030\005 \001(\010\022\"\n\007Request\030\t \001(\013"
+  "2\021.sliverpb.Request\"G\n\017ExecuteAssembly\022\016"
+  "\n\006Output\030\001 \001(\014\022$\n\010Response\030\t \001(\0132\022.slive"
+  "rpb.Response\"Q\n\020InvokeMigrateReq\022\013\n\003Pid\030"
+  "\001 \001(\r\022\014\n\004Data\030\002 \001(\014\022\"\n\007Request\030\t \001(\0132\021.s"
+  "liverpb.Request\"@\n\007Migrate\022\017\n\007Success\030\001 "
+  "\001(\010\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respons"
+  "e\"\220\001\n\nExecuteReq\022\014\n\004Path\030\001 \001(\t\022\014\n\004Args\030\002"
+  " \003(\t\022\016\n\006Output\030\003 \001(\010\022\021\n\tstdout_pb\030\004 \001(\t\022"
+  "\021\n\tstderr_pb\030\005 \001(\t\022\014\n\004PPid\030\n \001(\r\022\"\n\007Requ"
+  "est\030\t \001(\0132\021.sliverpb.Request\"\251\001\n\021Execute"
+  "WindowsReq\022\014\n\004Path\030\001 \001(\t\022\014\n\004Args\030\002 \003(\t\022\016"
+  "\n\006Output\030\003 \001(\010\022\021\n\tstdout_pb\030\004 \001(\t\022\021\n\tstd"
+  "err_pb\030\005 \001(\t\022\020\n\010UseToken\030\006 \001(\010\022\014\n\004PPid\030\n"
+  " \001(\r\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request"
+  "\"r\n\007Execute\022\016\n\006Status\030\001 \001(\r\022\021\n\tstdout_pb"
+  "\030\002 \001(\014\022\021\n\tstderr_pb\030\003 \001(\014\022\013\n\003Pid\030\004 \001(\r\022$"
+  "\n\010Response\030\t \001(\0132\022.sliverpb.Response\"\311\001\n"
+  "\013SideloadReq\022\014\n\004Data\030\001 \001(\014\022\023\n\013ProcessNam"
+  "e\030\002 \001(\t\022\014\n\004Args\030\003 \001(\t\022\022\n\nEntryPoint\030\004 \001("
+  "\t\022\014\n\004Kill\030\005 \001(\010\022\r\n\005isDLL\030\006 \001(\010\022\021\n\tisUnic"
+  "ode\030\007 \001(\010\022\014\n\004PPid\030\n \001(\r\022\023\n\013ProcessArgs\030\013"
+  " \003(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request"
+  "\"@\n\010Sideload\022\016\n\006Result\030\001 \001(\t\022$\n\010Response"
+  "\030\t \001(\0132\022.sliverpb.Response\"\255\001\n\021InvokeSpa"
+  "wnDllReq\022\014\n\004Data\030\001 \001(\014\022\023\n\013ProcessName\030\002 "
+  "\001(\t\022\014\n\004Args\030\003 \001(\t\022\022\n\nEntryPoint\030\004 \001(\t\022\014\n"
+  "\004Kill\030\005 \001(\010\022\014\n\004PPid\030\n \001(\r\022\023\n\013ProcessArgs"
+  "\030\013 \003(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Reque"
+  "st\"\243\001\n\013SpawnDllReq\022\014\n\004Data\030\001 \001(\014\022\023\n\013Proc"
+  "essName\030\002 \001(\t\022\016\n\006Offset\030\003 \001(\r\022\014\n\004Args\030\004 "
+  "\001(\t\022\014\n\004Kill\030\005 \001(\010\022\014\n\004PPid\030\n \001(\r\022\023\n\013Proce"
+  "ssArgs\030\013 \003(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb"
+  ".Request\"@\n\010SpawnDll\022\016\n\006Result\030\001 \001(\t\022$\n\010"
+  "Response\030\t \001(\0132\022.sliverpb.Response\"w\n\nNe"
+  "tstatReq\022\013\n\003TCP\030\001 \001(\010\022\013\n\003UDP\030\002 \001(\010\022\013\n\003IP"
+  "4\030\003 \001(\010\022\013\n\003IP6\030\005 \001(\010\022\021\n\tListening\030\006 \001(\010\022"
+  "\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"\361\001\n\014"
+  "SockTabEntry\0222\n\tLocalAddr\030\001 \001(\0132\037.sliver"
+  "pb.SockTabEntry.SockAddr\0223\n\nRemoteAddr\030\002"
+  " \001(\0132\037.sliverpb.SockTabEntry.SockAddr\022\017\n"
+  "\007SkState\030\003 \001(\t\022\013\n\003UID\030\004 \001(\r\022\"\n\007Process\030\005"
+  " \001(\0132\021.sliverpb.Process\022\020\n\010Protocol\030\006 \001("
+  "\t\032$\n\010SockAddr\022\n\n\002Ip\030\001 \001(\t\022\014\n\004Port\030\002 \001(\r\""
+  "X\n\007Netstat\022\'\n\007Entries\030\001 \003(\0132\026.sliverpb.S"
+  "ockTabEntry\022$\n\010Response\030\t \001(\0132\022.sliverpb"
+  ".Response\":\n\006EnvReq\022\014\n\004Name\030\001 \001(\t\022\"\n\007Req"
+  "uest\030\t \001(\0132\021.sliverpb.Request\"T\n\007EnvInfo"
+  "\022#\n\tVariables\030\001 \003(\0132\020.sliverpb.EnvVar\022$\n"
+  "\010Response\030\t \001(\0132\022.sliverpb.Response\"S\n\tS"
+  "etEnvReq\022\"\n\010Variable\030\001 \001(\0132\020.sliverpb.En"
+  "vVar\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request"
+  "\".\n\006SetEnv\022$\n\010Response\030\t \001(\0132\022.sliverpb."
+  "Response\"\?\n\013UnsetEnvReq\022\014\n\004Name\030\001 \001(\t\022\"\n"
+  "\007Request\030\t \001(\0132\021.sliverpb.Request\"0\n\010Uns"
+  "etEnv\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respo"
+  "nse\"\035\n\016DNSSessionInit\022\013\n\003Key\030\001 \001(\014\"3\n\007DN"
+  "SPoll\022(\n\006blocks\030\001 \003(\0132\030.sliverpb.DNSBloc"
+  "kHeader\"*\n\016DNSBlockHeader\022\n\n\002ID\030\001 \001(\t\022\014\n"
+  "\004Size\030\002 \001(\r\"\036\n\017HTTPSessionInit\022\013\n\003Key\030\001 "
+  "\001(\014\"3\n\rScreenshotReq\022\"\n\007Request\030\t \001(\0132\021."
+  "sliverpb.Request\"@\n\nScreenshot\022\014\n\004Data\030\001"
+  " \001(\014\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respon"
+  "se\"\234\001\n\017StartServiceReq\022\023\n\013ServiceName\030\001 "
+  "\001(\t\022\032\n\022ServiceDescription\030\002 \001(\t\022\017\n\007BinPa"
+  "th\030\003 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\021\n\tArguments\030"
+  "\005 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Reques"
+  "t\"3\n\013ServiceInfo\022$\n\010Response\030\t \001(\0132\022.sli"
+  "verpb.Response\"7\n\016ServiceInfoReq\022\023\n\013Serv"
+  "iceName\030\001 \001(\t\022\020\n\010Hostname\030\002 \001(\t\"c\n\016StopS"
+  "erviceReq\022-\n\013ServiceInfo\030\001 \001(\0132\030.sliverp"
+  "b.ServiceInfoReq\022\"\n\007Request\030\t \001(\0132\021.sliv"
+  "erpb.Request\"e\n\020RemoveServiceReq\022-\n\013Serv"
+  "iceInfo\030\001 \001(\0132\030.sliverpb.ServiceInfoReq\022"
+  "\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"X\n\013B"
+  "ackdoorReq\022\020\n\010FilePath\030\001 \001(\t\022\023\n\013ProfileN"
+  "ame\030\002 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Re"
+  "quest\"0\n\010Backdoor\022$\n\010Response\030\t \001(\0132\022.sl"
+  "iverpb.Response\"p\n\017RegistryReadReq\022\014\n\004Hi"
+  "ve\030\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\013\n\003Key\030\003 \001(\t\022\020\n\010H"
   "ostname\030\004 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverp"
-  "b.Request\"K\n\022RegistrySubKeyList\022\017\n\007Subke"
-  "ys\030\001 \003(\t\022$\n\010Response\030\t \001(\0132\022.sliverpb.Re"
-  "sponse\"i\n\025RegistryListValuesReq\022\014\n\004Hive\030"
-  "\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\"\n"
-  "\007Request\030\t \001(\0132\021.sliverpb.Request\"N\n\022Reg"
-  "istryValuesList\022\022\n\nValueNames\030\001 \003(\t\022$\n\010R"
-  "esponse\030\t \001(\0132\022.sliverpb.Response\"1\n\006Tun"
-  "nel\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\021\n\tSessionID\030\t"
-  " \001(\t\"\277\001\n\nTunnelData\022\014\n\004Data\030\001 \001(\014\022\016\n\006Clo"
-  "sed\030\002 \001(\010\022\020\n\010Sequence\030\003 \001(\004\022\013\n\003Ack\030\004 \001(\004"
-  "\022\016\n\006Resend\030\005 \001(\010\022\025\n\rCreateReverse\030\006 \001(\010\022"
-  "$\n\010rportfwd\030\007 \001(\0132\022.sliverpb.RPortfwd\022\024\n"
-  "\010TunnelID\030\010 \001(\004B\0020\001\022\021\n\tSessionID\030\t \001(\t\"r"
-  "\n\010ShellReq\022\014\n\004Path\030\001 \001(\t\022\021\n\tEnablePTY\030\002 "
-  "\001(\010\022\013\n\003Pid\030\003 \001(\r\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\""
-  "\n\007Request\030\t \001(\0132\021.sliverpb.Request\"q\n\005Sh"
-  "ell\022\014\n\004Path\030\001 \001(\t\022\021\n\tEnablePTY\030\002 \001(\010\022\013\n\003"
-  "Pid\030\003 \001(\r\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022$\n\010Respo"
-  "nse\030\t \001(\0132\022.sliverpb.Response\"t\n\nPortfwd"
-  "Req\022\014\n\004Port\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004H"
-  "ost\030\003 \001(\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n\007Reque"
-  "st\030\t \001(\0132\021.sliverpb.Request\"s\n\007Portfwd\022\014"
+  "b.Request\"C\n\014RegistryRead\022\r\n\005Value\030\001 \001(\t"
+  "\022$\n\010Response\030\t \001(\0132\022.sliverpb.Response\"\317"
+  "\001\n\020RegistryWriteReq\022\014\n\004Hive\030\001 \001(\t\022\014\n\004Pat"
+  "h\030\002 \001(\t\022\013\n\003Key\030\003 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\023"
+  "\n\013StringValue\030\005 \001(\t\022\021\n\tByteValue\030\006 \001(\014\022\022"
+  "\n\nDWordValue\030\007 \001(\r\022\022\n\nQWordValue\030\010 \001(\004\022\014"
+  "\n\004Type\030\n \001(\r\022\"\n\007Request\030\t \001(\0132\021.sliverpb"
+  ".Request\"5\n\rRegistryWrite\022$\n\010Response\030\t "
+  "\001(\0132\022.sliverpb.Response\"u\n\024RegistryCreat"
+  "eKeyReq\022\014\n\004Hive\030\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\013\n\003K"
+  "ey\030\003 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\"\n\007Request\030\t "
+  "\001(\0132\021.sliverpb.Request\"9\n\021RegistryCreate"
+  "Key\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respons"
+  "e\"u\n\024RegistryDeleteKeyReq\022\014\n\004Hive\030\001 \001(\t\022"
+  "\014\n\004Path\030\002 \001(\t\022\013\n\003Key\030\003 \001(\t\022\020\n\010Hostname\030\004"
+  " \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request"
+  "\"9\n\021RegistryDeleteKey\022$\n\010Response\030\t \001(\0132"
+  "\022.sliverpb.Response\"i\n\025RegistrySubKeyLis"
+  "tReq\022\014\n\004Hive\030\001 \001(\t\022\014\n\004Path\030\002 \001(\t\022\020\n\010Host"
+  "name\030\004 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.R"
+  "equest\"K\n\022RegistrySubKeyList\022\017\n\007Subkeys\030"
+  "\001 \003(\t\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respo"
+  "nse\"i\n\025RegistryListValuesReq\022\014\n\004Hive\030\001 \001"
+  "(\t\022\014\n\004Path\030\002 \001(\t\022\020\n\010Hostname\030\004 \001(\t\022\"\n\007Re"
+  "quest\030\t \001(\0132\021.sliverpb.Request\"N\n\022Regist"
+  "ryValuesList\022\022\n\nValueNames\030\001 \003(\t\022$\n\010Resp"
+  "onse\030\t \001(\0132\022.sliverpb.Response\"1\n\006Tunnel"
+  "\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\021\n\tSessionID\030\t \001("
+  "\t\"\277\001\n\nTunnelData\022\014\n\004Data\030\001 \001(\014\022\016\n\006Closed"
+  "\030\002 \001(\010\022\020\n\010Sequence\030\003 \001(\004\022\013\n\003Ack\030\004 \001(\004\022\016\n"
+  "\006Resend\030\005 \001(\010\022\025\n\rCreateReverse\030\006 \001(\010\022$\n\010"
+  "rportfwd\030\007 \001(\0132\022.sliverpb.RPortfwd\022\024\n\010Tu"
+  "nnelID\030\010 \001(\004B\0020\001\022\021\n\tSessionID\030\t \001(\t\"r\n\010S"
+  "hellReq\022\014\n\004Path\030\001 \001(\t\022\021\n\tEnablePTY\030\002 \001(\010"
+  "\022\013\n\003Pid\030\003 \001(\r\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n\007R"
+  "equest\030\t \001(\0132\021.sliverpb.Request\"q\n\005Shell"
+  "\022\014\n\004Path\030\001 \001(\t\022\021\n\tEnablePTY\030\002 \001(\010\022\013\n\003Pid"
+  "\030\003 \001(\r\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022$\n\010Response"
+  "\030\t \001(\0132\022.sliverpb.Response\"t\n\nPortfwdReq"
+  "\022\014\n\004Port\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004Host"
+  "\030\003 \001(\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n\007Request\030"
+  "\t \001(\0132\021.sliverpb.Request\"s\n\007Portfwd\022\014\n\004P"
+  "ort\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004Host\030\003 \001("
+  "\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022$\n\010Response\030\t \001("
+  "\0132\022.sliverpb.Response\"0\n\005Socks\022\024\n\010Tunnel"
+  "ID\030\010 \001(\004B\0020\001\022\021\n\tSessionID\030\t \001(\t\"\234\001\n\tSock"
+  "sData\022\014\n\004Data\030\001 \001(\014\022\021\n\tCloseConn\030\002 \001(\010\022\020"
+  "\n\010Username\030\003 \001(\t\022\020\n\010Password\030\004 \001(\t\022\020\n\010Se"
+  "quence\030\005 \001(\004\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n\007Re"
+  "quest\030\t \001(\0132\021.sliverpb.Request\"\204\001\n\025Pivot"
+  "StartListenerReq\022!\n\004Type\030\001 \001(\0162\023.sliverp"
+  "b.PivotType\022\023\n\013BindAddress\030\002 \001(\t\022\017\n\007Opti"
+  "ons\030\003 \003(\010\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Re"
+  "quest\"F\n\024PivotStopListenerReq\022\n\n\002ID\030\001 \001("
+  "\r\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"\241\001"
+  "\n\rPivotListener\022\n\n\002ID\030\001 \001(\r\022!\n\004Type\030\002 \001("
+  "\0162\023.sliverpb.PivotType\022\023\n\013BindAddress\030\003 "
+  "\001(\t\022&\n\006Pivots\030\004 \003(\0132\026.sliverpb.NetConnPi"
+  "vot\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respons"
+  "e\"c\n\nPivotHello\022\021\n\tPublicKey\030\001 \001(\014\022\022\n\006Pe"
+  "erID\030\002 \001(\003B\0020\001\022\032\n\022PublicKeySignature\030\003 \001"
+  "(\t\022\022\n\nSessionKey\030\004 \001(\014\">\n\026PivotServerKey"
+  "Exchange\022\020\n\010OriginID\030\001 \001(\003\022\022\n\nSessionKey"
+  "\030\002 \001(\014\"-\n\tPivotPeer\022\022\n\006PeerID\030\001 \001(\003B\0020\001\022"
+  "\014\n\004Name\030\002 \001(\t\"\202\001\n\021PivotPeerEnvelope\022\"\n\005P"
+  "eers\030\001 \003(\0132\023.sliverpb.PivotPeer\022\014\n\004Type\030"
+  "\002 \001(\r\022\026\n\016PivotSessionID\030\003 \001(\014\022\014\n\004Data\030\004 "
+  "\001(\014\022\025\n\rPeerFailureAt\030\005 \001(\003\"\032\n\tPivotPing\022"
+  "\r\n\005Nonce\030\001 \001(\r\"9\n\014NetConnPivot\022\022\n\006PeerID"
+  "\030\001 \001(\003B\0020\001\022\025\n\rRemoteAddress\030\002 \001(\t\"\\\n\020Piv"
+  "otPeerFailure\022\022\n\006PeerID\030\001 \001(\003B\0020\001\022\'\n\004Typ"
+  "e\030\002 \001(\0162\031.sliverpb.PeerFailureType\022\013\n\003Er"
+  "r\030\003 \001(\t\"7\n\021PivotListenersReq\022\"\n\007Request\030"
+  "\t \001(\0132\021.sliverpb.Request\"b\n\016PivotListene"
+  "rs\022*\n\tListeners\030\001 \003(\0132\027.sliverpb.PivotLi"
+  "stener\022$\n\010Response\030\t \001(\0132\022.sliverpb.Resp"
+  "onse\"e\n\025WGPortForwardStartReq\022\021\n\tLocalPo"
+  "rt\030\001 \001(\005\022\025\n\rRemoteAddress\030\002 \001(\t\022\"\n\007Reque"
+  "st\030\t \001(\0132\021.sliverpb.Request\"b\n\rWGPortFor"
+  "ward\022+\n\tForwarder\030\001 \001(\0132\030.sliverpb.WGTCP"
+  "Forwarder\022$\n\010Response\030\t \001(\0132\022.sliverpb.R"
+  "esponse\"F\n\024WGPortForwardStopReq\022\n\n\002ID\030\001 "
+  "\001(\005\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\""
+  "C\n\017WGSocksStartReq\022\014\n\004Port\030\001 \001(\005\022\"\n\007Requ"
+  "est\030\t \001(\0132\021.sliverpb.Request\"X\n\007WGSocks\022"
+  "\'\n\006Server\030\001 \001(\0132\027.sliverpb.WGSocksServer"
+  "\022$\n\010Response\030\t \001(\0132\022.sliverpb.Response\"@"
+  "\n\016WGSocksStopReq\022\n\n\002ID\030\001 \001(\005\022\"\n\007Request\030"
+  "\t \001(\0132\021.sliverpb.Request\"8\n\022WGTCPForward"
+  "ersReq\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Reque"
+  "st\"7\n\021WGSocksServersReq\022\"\n\007Request\030\t \001(\013"
+  "2\021.sliverpb.Request\"C\n\016WGTCPForwarder\022\n\n"
+  "\002ID\030\001 \001(\005\022\021\n\tLocalAddr\030\002 \001(\t\022\022\n\nRemoteAd"
+  "dr\030\003 \001(\t\".\n\rWGSocksServer\022\n\n\002ID\030\001 \001(\005\022\021\n"
+  "\tLocalAddr\030\002 \001(\t\"`\n\016WGSocksServers\022(\n\007Se"
+  "rvers\030\001 \003(\0132\027.sliverpb.WGSocksServer\022$\n\010"
+  "Response\030\t \001(\0132\022.sliverpb.Response\"e\n\017WG"
+  "TCPForwarders\022,\n\nForwarders\030\001 \003(\0132\030.sliv"
+  "erpb.WGTCPForwarder\022$\n\010Response\030\t \001(\0132\022."
+  "sliverpb.Response\"}\n\016ReconfigureReq\022\031\n\021R"
+  "econnectInterval\030\001 \001(\003\022\026\n\016BeaconInterval"
+  "\030\002 \001(\003\022\024\n\014BeaconJitter\030\003 \001(\003\022\"\n\007Request\030"
+  "\t \001(\0132\021.sliverpb.Request\"3\n\013Reconfigure\022"
+  "$\n\010Response\030\t \001(\0132\022.sliverpb.Response\"K\n"
+  "\017PollIntervalReq\022\024\n\014PollInterval\030\001 \001(\003\022\""
+  "\n\007Request\030\t \001(\0132\021.sliverpb.Request\"4\n\014Po"
+  "llInterval\022$\n\010Response\030\t \001(\0132\022.sliverpb."
+  "Response\"\312\001\n\rSSHCommandReq\022\020\n\010Username\030\001"
+  " \001(\t\022\020\n\010Hostname\030\002 \001(\t\022\014\n\004Port\030\003 \001(\r\022\017\n\007"
+  "Command\030\004 \001(\t\022\020\n\010Password\030\005 \001(\t\022\017\n\007PrivK"
+  "ey\030\006 \001(\014\022\020\n\010Krb5Conf\030\007 \001(\t\022\016\n\006Keytab\030\010 \001"
+  "(\014\022\r\n\005Realm\030\n \001(\t\022\"\n\007Request\030\t \001(\0132\021.sli"
+  "verpb.Request\"X\n\nSSHCommand\022\021\n\tstdout_pb"
+  "\030\001 \001(\t\022\021\n\tstderr_pb\030\002 \001(\t\022$\n\010Response\030\t "
+  "\001(\0132\022.sliverpb.Response\"1\n\013GetPrivsReq\022\""
+  "\n\007Request\030\t \001(\0132\021.sliverpb.Request\"\215\001\n\025W"
+  "indowsPrivilegeEntry\022\014\n\004Name\030\001 \001(\t\022\023\n\013De"
+  "scription\030\002 \001(\t\022\017\n\007Enabled\030\003 \001(\010\022\030\n\020Enab"
+  "ledByDefault\030\004 \001(\010\022\017\n\007Removed\030\005 \001(\010\022\025\n\rU"
+  "sedForAccess\030\006 \001(\010\"\222\001\n\010GetPrivs\0221\n\010PrivI"
+  "nfo\030\001 \003(\0132\037.sliverpb.WindowsPrivilegeEnt"
+  "ry\022\030\n\020ProcessIntegrity\030\002 \001(\t\022\023\n\013ProcessN"
+  "ame\030\003 \001(\t\022$\n\010Response\030\t \001(\0132\022.sliverpb.R"
+  "esponse\"p\n\024RegisterExtensionReq\022\014\n\004Name\030"
+  "\001 \001(\t\022\014\n\004Data\030\002 \001(\014\022\n\n\002OS\030\003 \001(\t\022\014\n\004Init\030"
+  "\004 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Reques"
+  "t\"9\n\021RegisterExtension\022$\n\010Response\030\t \001(\013"
+  "2\022.sliverpb.Response\"w\n\020CallExtensionReq"
+  "\022\014\n\004Name\030\001 \001(\t\022\023\n\013ServerStore\030\002 \001(\010\022\014\n\004A"
+  "rgs\030\003 \001(\014\022\016\n\006Export\030\004 \001(\t\022\"\n\007Request\030\t \001"
+  "(\0132\021.sliverpb.Request\"Z\n\rCallExtension\022\016"
+  "\n\006Output\030\001 \001(\014\022\023\n\013ServerStore\030\002 \001(\010\022$\n\010R"
+  "esponse\030\t \001(\0132\022.sliverpb.Response\"7\n\021Lis"
+  "tExtensionsReq\022\"\n\007Request\030\t \001(\0132\021.sliver"
+  "pb.Request\"E\n\016ListExtensions\022\r\n\005Names\030\001 "
+  "\003(\t\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respons"
+  "e\"I\n\027RportFwdStopListenerReq\022\n\n\002ID\030\001 \001(\r"
+  "\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"\222\001\n"
+  "\030RportFwdStartListenerReq\022\023\n\013BindAddress"
+  "\030\001 \001(\t\022\020\n\010BindPort\030\002 \001(\r\022\023\n\013forwardPort\030"
+  "\003 \001(\r\022\026\n\016forwardAddress\030\004 \001(\t\022\"\n\007Request"
+  "\030\t \001(\0132\021.sliverpb.Request\"\230\001\n\020RportFwdLi"
+  "stener\022\n\n\002ID\030\001 \001(\r\022\023\n\013BindAddress\030\002 \001(\t\022"
+  "\020\n\010bindPort\030\003 \001(\r\022\026\n\016forwardAddress\030\004 \001("
+  "\t\022\023\n\013forwardPort\030\005 \001(\r\022$\n\010Response\030\t \001(\013"
+  "2\022.sliverpb.Response\"h\n\021RportFwdListener"
+  "s\022-\n\tListeners\030\001 \003(\0132\032.sliverpb.RportFwd"
+  "Listener\022$\n\010Response\030\t \001(\0132\022.sliverpb.Re"
+  "sponse\":\n\024RportFwdListenersReq\022\"\n\007Reques"
+  "t\030\t \001(\0132\021.sliverpb.Request\"t\n\010RPortfwd\022\014"
   "\n\004Port\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004Host\030\003"
   " \001(\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022$\n\010Response\030\t"
-  " \001(\0132\022.sliverpb.Response\"0\n\005Socks\022\024\n\010Tun"
-  "nelID\030\010 \001(\004B\0020\001\022\021\n\tSessionID\030\t \001(\t\"\234\001\n\tS"
-  "ocksData\022\014\n\004Data\030\001 \001(\014\022\021\n\tCloseConn\030\002 \001("
-  "\010\022\020\n\010Username\030\003 \001(\t\022\020\n\010Password\030\004 \001(\t\022\020\n"
-  "\010Sequence\030\005 \001(\004\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n"
-  "\007Request\030\t \001(\0132\021.sliverpb.Request\"\204\001\n\025Pi"
-  "votStartListenerReq\022!\n\004Type\030\001 \001(\0162\023.sliv"
-  "erpb.PivotType\022\023\n\013BindAddress\030\002 \001(\t\022\017\n\007O"
-  "ptions\030\003 \003(\010\022\"\n\007Request\030\t \001(\0132\021.sliverpb"
-  ".Request\"F\n\024PivotStopListenerReq\022\n\n\002ID\030\001"
-  " \001(\r\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request"
-  "\"\241\001\n\rPivotListener\022\n\n\002ID\030\001 \001(\r\022!\n\004Type\030\002"
-  " \001(\0162\023.sliverpb.PivotType\022\023\n\013BindAddress"
-  "\030\003 \001(\t\022&\n\006Pivots\030\004 \003(\0132\026.sliverpb.NetCon"
-  "nPivot\022$\n\010Response\030\t \001(\0132\022.sliverpb.Resp"
-  "onse\"c\n\nPivotHello\022\021\n\tPublicKey\030\001 \001(\014\022\022\n"
-  "\006PeerID\030\002 \001(\003B\0020\001\022\032\n\022PublicKeySignature\030"
-  "\003 \001(\t\022\022\n\nSessionKey\030\004 \001(\014\">\n\026PivotServer"
-  "KeyExchange\022\020\n\010OriginID\030\001 \001(\003\022\022\n\nSession"
-  "Key\030\002 \001(\014\"-\n\tPivotPeer\022\022\n\006PeerID\030\001 \001(\003B\002"
-  "0\001\022\014\n\004Name\030\002 \001(\t\"\202\001\n\021PivotPeerEnvelope\022\""
-  "\n\005Peers\030\001 \003(\0132\023.sliverpb.PivotPeer\022\014\n\004Ty"
-  "pe\030\002 \001(\r\022\026\n\016PivotSessionID\030\003 \001(\014\022\014\n\004Data"
-  "\030\004 \001(\014\022\025\n\rPeerFailureAt\030\005 \001(\003\"\032\n\tPivotPi"
-  "ng\022\r\n\005Nonce\030\001 \001(\r\"9\n\014NetConnPivot\022\022\n\006Pee"
-  "rID\030\001 \001(\003B\0020\001\022\025\n\rRemoteAddress\030\002 \001(\t\"\\\n\020"
-  "PivotPeerFailure\022\022\n\006PeerID\030\001 \001(\003B\0020\001\022\'\n\004"
-  "Type\030\002 \001(\0162\031.sliverpb.PeerFailureType\022\013\n"
-  "\003Err\030\003 \001(\t\"7\n\021PivotListenersReq\022\"\n\007Reque"
-  "st\030\t \001(\0132\021.sliverpb.Request\"b\n\016PivotList"
-  "eners\022*\n\tListeners\030\001 \003(\0132\027.sliverpb.Pivo"
-  "tListener\022$\n\010Response\030\t \001(\0132\022.sliverpb.R"
-  "esponse\"e\n\025WGPortForwardStartReq\022\021\n\tLoca"
-  "lPort\030\001 \001(\005\022\025\n\rRemoteAddress\030\002 \001(\t\022\"\n\007Re"
-  "quest\030\t \001(\0132\021.sliverpb.Request\"b\n\rWGPort"
-  "Forward\022+\n\tForwarder\030\001 \001(\0132\030.sliverpb.WG"
-  "TCPForwarder\022$\n\010Response\030\t \001(\0132\022.sliverp"
-  "b.Response\"F\n\024WGPortForwardStopReq\022\n\n\002ID"
-  "\030\001 \001(\005\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Reque"
-  "st\"C\n\017WGSocksStartReq\022\014\n\004Port\030\001 \001(\005\022\"\n\007R"
-  "equest\030\t \001(\0132\021.sliverpb.Request\"X\n\007WGSoc"
-  "ks\022\'\n\006Server\030\001 \001(\0132\027.sliverpb.WGSocksSer"
-  "ver\022$\n\010Response\030\t \001(\0132\022.sliverpb.Respons"
-  "e\"@\n\016WGSocksStopReq\022\n\n\002ID\030\001 \001(\005\022\"\n\007Reque"
-  "st\030\t \001(\0132\021.sliverpb.Request\"8\n\022WGTCPForw"
-  "ardersReq\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Re"
-  "quest\"7\n\021WGSocksServersReq\022\"\n\007Request\030\t "
-  "\001(\0132\021.sliverpb.Request\"C\n\016WGTCPForwarder"
-  "\022\n\n\002ID\030\001 \001(\005\022\021\n\tLocalAddr\030\002 \001(\t\022\022\n\nRemot"
-  "eAddr\030\003 \001(\t\".\n\rWGSocksServer\022\n\n\002ID\030\001 \001(\005"
-  "\022\021\n\tLocalAddr\030\002 \001(\t\"`\n\016WGSocksServers\022(\n"
-  "\007Servers\030\001 \003(\0132\027.sliverpb.WGSocksServer\022"
-  "$\n\010Response\030\t \001(\0132\022.sliverpb.Response\"e\n"
-  "\017WGTCPForwarders\022,\n\nForwarders\030\001 \003(\0132\030.s"
-  "liverpb.WGTCPForwarder\022$\n\010Response\030\t \001(\013"
-  "2\022.sliverpb.Response\"}\n\016ReconfigureReq\022\031"
-  "\n\021ReconnectInterval\030\001 \001(\003\022\026\n\016BeaconInter"
-  "val\030\002 \001(\003\022\024\n\014BeaconJitter\030\003 \001(\003\022\"\n\007Reque"
-  "st\030\t \001(\0132\021.sliverpb.Request\"3\n\013Reconfigu"
-  "re\022$\n\010Response\030\t \001(\0132\022.sliverpb.Response"
-  "\"K\n\017PollIntervalReq\022\024\n\014PollInterval\030\001 \001("
-  "\003\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"4\n"
-  "\014PollInterval\022$\n\010Response\030\t \001(\0132\022.sliver"
-  "pb.Response\"\312\001\n\rSSHCommandReq\022\020\n\010Usernam"
-  "e\030\001 \001(\t\022\020\n\010Hostname\030\002 \001(\t\022\014\n\004Port\030\003 \001(\r\022"
-  "\017\n\007Command\030\004 \001(\t\022\020\n\010Password\030\005 \001(\t\022\017\n\007Pr"
-  "ivKey\030\006 \001(\014\022\020\n\010Krb5Conf\030\007 \001(\t\022\016\n\006Keytab\030"
-  "\010 \001(\014\022\r\n\005Realm\030\n \001(\t\022\"\n\007Request\030\t \001(\0132\021."
-  "sliverpb.Request\"X\n\nSSHCommand\022\021\n\tstdout"
-  "_pb\030\001 \001(\t\022\021\n\tstderr_pb\030\002 \001(\t\022$\n\010Response"
-  "\030\t \001(\0132\022.sliverpb.Response\"1\n\013GetPrivsRe"
-  "q\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\"\215\001"
-  "\n\025WindowsPrivilegeEntry\022\014\n\004Name\030\001 \001(\t\022\023\n"
-  "\013Description\030\002 \001(\t\022\017\n\007Enabled\030\003 \001(\010\022\030\n\020E"
-  "nabledByDefault\030\004 \001(\010\022\017\n\007Removed\030\005 \001(\010\022\025"
-  "\n\rUsedForAccess\030\006 \001(\010\"\222\001\n\010GetPrivs\0221\n\010Pr"
-  "ivInfo\030\001 \003(\0132\037.sliverpb.WindowsPrivilege"
-  "Entry\022\030\n\020ProcessIntegrity\030\002 \001(\t\022\023\n\013Proce"
-  "ssName\030\003 \001(\t\022$\n\010Response\030\t \001(\0132\022.sliverp"
-  "b.Response\"p\n\024RegisterExtensionReq\022\014\n\004Na"
-  "me\030\001 \001(\t\022\014\n\004Data\030\002 \001(\014\022\n\n\002OS\030\003 \001(\t\022\014\n\004In"
-  "it\030\004 \001(\t\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Req"
-  "uest\"9\n\021RegisterExtension\022$\n\010Response\030\t "
-  "\001(\0132\022.sliverpb.Response\"w\n\020CallExtension"
-  "Req\022\014\n\004Name\030\001 \001(\t\022\023\n\013ServerStore\030\002 \001(\010\022\014"
-  "\n\004Args\030\003 \001(\014\022\016\n\006Export\030\004 \001(\t\022\"\n\007Request\030"
-  "\t \001(\0132\021.sliverpb.Request\"Z\n\rCallExtensio"
-  "n\022\016\n\006Output\030\001 \001(\014\022\023\n\013ServerStore\030\002 \001(\010\022$"
-  "\n\010Response\030\t \001(\0132\022.sliverpb.Response\"7\n\021"
-  "ListExtensionsReq\022\"\n\007Request\030\t \001(\0132\021.sli"
-  "verpb.Request\"E\n\016ListExtensions\022\r\n\005Names"
-  "\030\001 \003(\t\022$\n\010Response\030\t \001(\0132\022.sliverpb.Resp"
-  "onse\"I\n\027RportFwdStopListenerReq\022\n\n\002ID\030\001 "
-  "\001(\r\022\"\n\007Request\030\t \001(\0132\021.sliverpb.Request\""
-  "\222\001\n\030RportFwdStartListenerReq\022\023\n\013BindAddr"
-  "ess\030\001 \001(\t\022\020\n\010BindPort\030\002 \001(\r\022\023\n\013forwardPo"
-  "rt\030\003 \001(\r\022\026\n\016forwardAddress\030\004 \001(\t\022\"\n\007Requ"
-  "est\030\t \001(\0132\021.sliverpb.Request\"\230\001\n\020RportFw"
-  "dListener\022\n\n\002ID\030\001 \001(\r\022\023\n\013BindAddress\030\002 \001"
-  "(\t\022\020\n\010bindPort\030\003 \001(\r\022\026\n\016forwardAddress\030\004"
-  " \001(\t\022\023\n\013forwardPort\030\005 \001(\r\022$\n\010Response\030\t "
-  "\001(\0132\022.sliverpb.Response\"h\n\021RportFwdListe"
-  "ners\022-\n\tListeners\030\001 \003(\0132\032.sliverpb.Rport"
-  "FwdListener\022$\n\010Response\030\t \001(\0132\022.sliverpb"
-  ".Response\":\n\024RportFwdListenersReq\022\"\n\007Req"
-  "uest\030\t \001(\0132\021.sliverpb.Request\"t\n\010RPortfw"
-  "d\022\014\n\004Port\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004Hos"
-  "t\030\003 \001(\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022$\n\010Respons"
-  "e\030\t \001(\0132\022.sliverpb.Response\"u\n\013RPortfwdR"
-  "eq\022\014\n\004Port\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004Ho"
-  "st\030\003 \001(\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n\007Reques"
-  "t\030\t \001(\0132\021.sliverpb.Request*I\n\014RegistryTy"
-  "pe\022\013\n\007Unknown\020\000\022\n\n\006Binary\020\001\022\n\n\006String\020\002\022"
-  "\t\n\005DWORD\020\003\022\t\n\005QWORD\020\004*,\n\tPivotType\022\007\n\003TC"
-  "P\020\000\022\007\n\003UDP\020\001\022\r\n\tNamedPipe\020\002*3\n\017PeerFailu"
-  "reType\022\020\n\014SEND_FAILURE\020\000\022\016\n\nDISCONNECT\020\001"
-  "b\006proto3"
+  " \001(\0132\022.sliverpb.Response\"u\n\013RPortfwdReq\022"
+  "\014\n\004Port\030\001 \001(\r\022\020\n\010Protocol\030\002 \001(\005\022\014\n\004Host\030"
+  "\003 \001(\t\022\024\n\010TunnelID\030\010 \001(\004B\0020\001\022\"\n\007Request\030\t"
+  " \001(\0132\021.sliverpb.Request*I\n\014RegistryType\022"
+  "\013\n\007Unknown\020\000\022\n\n\006Binary\020\001\022\n\n\006String\020\002\022\t\n\005"
+  "DWORD\020\003\022\t\n\005QWORD\020\004*,\n\tPivotType\022\007\n\003TCP\020\000"
+  "\022\007\n\003UDP\020\001\022\r\n\tNamedPipe\020\002*3\n\017PeerFailureT"
+  "ype\022\020\n\014SEND_FAILURE\020\000\022\016\n\nDISCONNECT\020\001b\006p"
+  "roto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_sliver_2eproto_deps[1] = {
   &::descriptor_table_common_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_sliver_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_sliver_2eproto = {
-    false, false, 14328, descriptor_table_protodef_sliver_2eproto,
+    false, false, 14645, descriptor_table_protodef_sliver_2eproto,
     "sliver.proto",
-    &descriptor_table_sliver_2eproto_once, descriptor_table_sliver_2eproto_deps, 1, 151,
+    &descriptor_table_sliver_2eproto_once, descriptor_table_sliver_2eproto_deps, 1, 154,
     schemas, file_default_instances, TableStruct_sliver_2eproto::offsets,
     file_level_metadata_sliver_2eproto, file_level_enum_descriptors_sliver_2eproto,
     file_level_service_descriptors_sliver_2eproto,
@@ -17791,6 +17881,821 @@ void MakeToken::InternalSwap(MakeToken* other) {
 
 // ===================================================================
 
+class Token::_Internal {
+ public:
+};
+
+Token::Token(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:sliverpb.Token)
+}
+Token::Token(const Token& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Token* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.username_){}
+    , decltype(_impl_.tokenid_){}
+    , decltype(_impl_.logonsessionid_){}
+    , decltype(_impl_.logontype_){}
+    , decltype(_impl_.tokentype_){}
+    , decltype(_impl_.tokenimplevel_){}
+    , decltype(_impl_.privilegescount_){}
+    , decltype(_impl_.tokenintegrity_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.username_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.username_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_username().empty()) {
+    _this->_impl_.username_.Set(from._internal_username(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.tokenid_, &from._impl_.tokenid_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.tokenintegrity_) -
+    reinterpret_cast<char*>(&_impl_.tokenid_)) + sizeof(_impl_.tokenintegrity_));
+  // @@protoc_insertion_point(copy_constructor:sliverpb.Token)
+}
+
+inline void Token::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.username_){}
+    , decltype(_impl_.tokenid_){int64_t{0}}
+    , decltype(_impl_.logonsessionid_){int64_t{0}}
+    , decltype(_impl_.logontype_){0}
+    , decltype(_impl_.tokentype_){0}
+    , decltype(_impl_.tokenimplevel_){0}
+    , decltype(_impl_.privilegescount_){0}
+    , decltype(_impl_.tokenintegrity_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.username_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.username_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+Token::~Token() {
+  // @@protoc_insertion_point(destructor:sliverpb.Token)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Token::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.username_.Destroy();
+}
+
+void Token::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Token::Clear() {
+// @@protoc_insertion_point(message_clear_start:sliverpb.Token)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.username_.ClearToEmpty();
+  ::memset(&_impl_.tokenid_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.tokenintegrity_) -
+      reinterpret_cast<char*>(&_impl_.tokenid_)) + sizeof(_impl_.tokenintegrity_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Token::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 TokenId = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.tokenid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int64 LogonSessionId = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.logonsessionid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 LogonType = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.logontype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string Username = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_username();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "sliverpb.Token.Username"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 TokenType = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          _impl_.tokentype_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 TokenImpLevel = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          _impl_.tokenimplevel_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 PrivilegesCount = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _impl_.privilegescount_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 TokenIntegrity = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
+          _impl_.tokenintegrity_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Token::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:sliverpb.Token)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 TokenId = 1;
+  if (this->_internal_tokenid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_tokenid(), target);
+  }
+
+  // int64 LogonSessionId = 2;
+  if (this->_internal_logonsessionid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_logonsessionid(), target);
+  }
+
+  // int32 LogonType = 3;
+  if (this->_internal_logontype() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_logontype(), target);
+  }
+
+  // string Username = 4;
+  if (!this->_internal_username().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_username().data(), static_cast<int>(this->_internal_username().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "sliverpb.Token.Username");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_username(), target);
+  }
+
+  // int32 TokenType = 5;
+  if (this->_internal_tokentype() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(5, this->_internal_tokentype(), target);
+  }
+
+  // int32 TokenImpLevel = 6;
+  if (this->_internal_tokenimplevel() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(6, this->_internal_tokenimplevel(), target);
+  }
+
+  // int32 PrivilegesCount = 7;
+  if (this->_internal_privilegescount() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_privilegescount(), target);
+  }
+
+  // int32 TokenIntegrity = 8;
+  if (this->_internal_tokenintegrity() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(8, this->_internal_tokenintegrity(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:sliverpb.Token)
+  return target;
+}
+
+size_t Token::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:sliverpb.Token)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string Username = 4;
+  if (!this->_internal_username().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_username());
+  }
+
+  // int64 TokenId = 1;
+  if (this->_internal_tokenid() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_tokenid());
+  }
+
+  // int64 LogonSessionId = 2;
+  if (this->_internal_logonsessionid() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_logonsessionid());
+  }
+
+  // int32 LogonType = 3;
+  if (this->_internal_logontype() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_logontype());
+  }
+
+  // int32 TokenType = 5;
+  if (this->_internal_tokentype() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tokentype());
+  }
+
+  // int32 TokenImpLevel = 6;
+  if (this->_internal_tokenimplevel() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tokenimplevel());
+  }
+
+  // int32 PrivilegesCount = 7;
+  if (this->_internal_privilegescount() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_privilegescount());
+  }
+
+  // int32 TokenIntegrity = 8;
+  if (this->_internal_tokenintegrity() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_tokenintegrity());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Token::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Token::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Token::GetClassData() const { return &_class_data_; }
+
+
+void Token::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Token*>(&to_msg);
+  auto& from = static_cast<const Token&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:sliverpb.Token)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_username().empty()) {
+    _this->_internal_set_username(from._internal_username());
+  }
+  if (from._internal_tokenid() != 0) {
+    _this->_internal_set_tokenid(from._internal_tokenid());
+  }
+  if (from._internal_logonsessionid() != 0) {
+    _this->_internal_set_logonsessionid(from._internal_logonsessionid());
+  }
+  if (from._internal_logontype() != 0) {
+    _this->_internal_set_logontype(from._internal_logontype());
+  }
+  if (from._internal_tokentype() != 0) {
+    _this->_internal_set_tokentype(from._internal_tokentype());
+  }
+  if (from._internal_tokenimplevel() != 0) {
+    _this->_internal_set_tokenimplevel(from._internal_tokenimplevel());
+  }
+  if (from._internal_privilegescount() != 0) {
+    _this->_internal_set_privilegescount(from._internal_privilegescount());
+  }
+  if (from._internal_tokenintegrity() != 0) {
+    _this->_internal_set_tokenintegrity(from._internal_tokenintegrity());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Token::CopyFrom(const Token& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:sliverpb.Token)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Token::IsInitialized() const {
+  return true;
+}
+
+void Token::InternalSwap(Token* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.username_, lhs_arena,
+      &other->_impl_.username_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Token, _impl_.tokenintegrity_)
+      + sizeof(Token::_impl_.tokenintegrity_)
+      - PROTOBUF_FIELD_OFFSET(Token, _impl_.tokenid_)>(
+          reinterpret_cast<char*>(&_impl_.tokenid_),
+          reinterpret_cast<char*>(&other->_impl_.tokenid_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Token::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
+      file_level_metadata_sliver_2eproto[46]);
+}
+
+// ===================================================================
+
+class ListTokensReq::_Internal {
+ public:
+  static const ::sliverpb::Request& request(const ListTokensReq* msg);
+};
+
+const ::sliverpb::Request&
+ListTokensReq::_Internal::request(const ListTokensReq* msg) {
+  return *msg->_impl_.request_;
+}
+void ListTokensReq::clear_request() {
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+}
+ListTokensReq::ListTokensReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:sliverpb.ListTokensReq)
+}
+ListTokensReq::ListTokensReq(const ListTokensReq& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ListTokensReq* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_request()) {
+    _this->_impl_.request_ = new ::sliverpb::Request(*from._impl_.request_);
+  }
+  // @@protoc_insertion_point(copy_constructor:sliverpb.ListTokensReq)
+}
+
+inline void ListTokensReq::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.request_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+ListTokensReq::~ListTokensReq() {
+  // @@protoc_insertion_point(destructor:sliverpb.ListTokensReq)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void ListTokensReq::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.request_;
+}
+
+void ListTokensReq::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void ListTokensReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:sliverpb.ListTokensReq)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.request_ != nullptr) {
+    delete _impl_.request_;
+  }
+  _impl_.request_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ListTokensReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .sliverpb.Request Request = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr = ctx->ParseMessage(_internal_mutable_request(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* ListTokensReq::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:sliverpb.ListTokensReq)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .sliverpb.Request Request = 9;
+  if (this->_internal_has_request()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, _Internal::request(this),
+        _Internal::request(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:sliverpb.ListTokensReq)
+  return target;
+}
+
+size_t ListTokensReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:sliverpb.ListTokensReq)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .sliverpb.Request Request = 9;
+  if (this->_internal_has_request()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.request_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ListTokensReq::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ListTokensReq::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListTokensReq::GetClassData() const { return &_class_data_; }
+
+
+void ListTokensReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ListTokensReq*>(&to_msg);
+  auto& from = static_cast<const ListTokensReq&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:sliverpb.ListTokensReq)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_request()) {
+    _this->_internal_mutable_request()->::sliverpb::Request::MergeFrom(
+        from._internal_request());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ListTokensReq::CopyFrom(const ListTokensReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:sliverpb.ListTokensReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ListTokensReq::IsInitialized() const {
+  return true;
+}
+
+void ListTokensReq::InternalSwap(ListTokensReq* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.request_, other->_impl_.request_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ListTokensReq::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
+      file_level_metadata_sliver_2eproto[47]);
+}
+
+// ===================================================================
+
+class ListTokens::_Internal {
+ public:
+  static const ::sliverpb::Response& response(const ListTokens* msg);
+};
+
+const ::sliverpb::Response&
+ListTokens::_Internal::response(const ListTokens* msg) {
+  return *msg->_impl_.response_;
+}
+void ListTokens::clear_response() {
+  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
+    delete _impl_.response_;
+  }
+  _impl_.response_ = nullptr;
+}
+ListTokens::ListTokens(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:sliverpb.ListTokens)
+}
+ListTokens::ListTokens(const ListTokens& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ListTokens* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.tokens_){from._impl_.tokens_}
+    , decltype(_impl_.response_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_response()) {
+    _this->_impl_.response_ = new ::sliverpb::Response(*from._impl_.response_);
+  }
+  // @@protoc_insertion_point(copy_constructor:sliverpb.ListTokens)
+}
+
+inline void ListTokens::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.tokens_){arena}
+    , decltype(_impl_.response_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+ListTokens::~ListTokens() {
+  // @@protoc_insertion_point(destructor:sliverpb.ListTokens)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void ListTokens::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tokens_.~RepeatedPtrField();
+  if (this != internal_default_instance()) delete _impl_.response_;
+}
+
+void ListTokens::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void ListTokens::Clear() {
+// @@protoc_insertion_point(message_clear_start:sliverpb.ListTokens)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.tokens_.Clear();
+  if (GetArenaForAllocation() == nullptr && _impl_.response_ != nullptr) {
+    delete _impl_.response_;
+  }
+  _impl_.response_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ListTokens::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .sliverpb.Token Tokens = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_tokens(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // .sliverpb.Response Response = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr = ctx->ParseMessage(_internal_mutable_response(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* ListTokens::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:sliverpb.ListTokens)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .sliverpb.Token Tokens = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_tokens_size()); i < n; i++) {
+    const auto& repfield = this->_internal_tokens(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // .sliverpb.Response Response = 9;
+  if (this->_internal_has_response()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(9, _Internal::response(this),
+        _Internal::response(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:sliverpb.ListTokens)
+  return target;
+}
+
+size_t ListTokens::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:sliverpb.ListTokens)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .sliverpb.Token Tokens = 1;
+  total_size += 1UL * this->_internal_tokens_size();
+  for (const auto& msg : this->_impl_.tokens_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // .sliverpb.Response Response = 9;
+  if (this->_internal_has_response()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.response_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ListTokens::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ListTokens::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListTokens::GetClassData() const { return &_class_data_; }
+
+
+void ListTokens::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ListTokens*>(&to_msg);
+  auto& from = static_cast<const ListTokens&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:sliverpb.ListTokens)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.tokens_.MergeFrom(from._impl_.tokens_);
+  if (from._internal_has_response()) {
+    _this->_internal_mutable_response()->::sliverpb::Response::MergeFrom(
+        from._internal_response());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ListTokens::CopyFrom(const ListTokens& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:sliverpb.ListTokens)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ListTokens::IsInitialized() const {
+  return true;
+}
+
+void ListTokens::InternalSwap(ListTokens* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.tokens_.InternalSwap(&other->_impl_.tokens_);
+  swap(_impl_.response_, other->_impl_.response_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ListTokens::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
+      file_level_metadata_sliver_2eproto[48]);
+}
+
+// ===================================================================
+
 class TaskReq::_Internal {
  public:
   static const ::sliverpb::Request& request(const TaskReq* msg);
@@ -18141,7 +19046,7 @@ void TaskReq::InternalSwap(TaskReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TaskReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[46]);
+      file_level_metadata_sliver_2eproto[49]);
 }
 
 // ===================================================================
@@ -18340,7 +19245,7 @@ void Task::InternalSwap(Task* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Task::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[47]);
+      file_level_metadata_sliver_2eproto[50]);
 }
 
 // ===================================================================
@@ -19106,7 +20011,7 @@ void ExecuteAssemblyReq::InternalSwap(ExecuteAssemblyReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExecuteAssemblyReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[48]);
+      file_level_metadata_sliver_2eproto[51]);
 }
 
 // ===================================================================
@@ -19472,7 +20377,7 @@ void InvokeExecuteAssemblyReq::InternalSwap(InvokeExecuteAssemblyReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata InvokeExecuteAssemblyReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[49]);
+      file_level_metadata_sliver_2eproto[52]);
 }
 
 // ===================================================================
@@ -19866,7 +20771,7 @@ void InvokeInProcExecuteAssemblyReq::InternalSwap(InvokeInProcExecuteAssemblyReq
 ::PROTOBUF_NAMESPACE_ID::Metadata InvokeInProcExecuteAssemblyReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[50]);
+      file_level_metadata_sliver_2eproto[53]);
 }
 
 // ===================================================================
@@ -20112,7 +21017,7 @@ void ExecuteAssembly::InternalSwap(ExecuteAssembly* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExecuteAssembly::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[51]);
+      file_level_metadata_sliver_2eproto[54]);
 }
 
 // ===================================================================
@@ -20389,7 +21294,7 @@ void InvokeMigrateReq::InternalSwap(InvokeMigrateReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata InvokeMigrateReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[52]);
+      file_level_metadata_sliver_2eproto[55]);
 }
 
 // ===================================================================
@@ -20619,7 +21524,7 @@ void Migrate::InternalSwap(Migrate* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Migrate::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[53]);
+      file_level_metadata_sliver_2eproto[56]);
 }
 
 // ===================================================================
@@ -21068,7 +21973,7 @@ void ExecuteReq::InternalSwap(ExecuteReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExecuteReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[54]);
+      file_level_metadata_sliver_2eproto[57]);
 }
 
 // ===================================================================
@@ -21541,7 +22446,7 @@ void ExecuteWindowsReq::InternalSwap(ExecuteWindowsReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ExecuteWindowsReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[55]);
+      file_level_metadata_sliver_2eproto[58]);
 }
 
 // ===================================================================
@@ -21891,7 +22796,7 @@ void Execute::InternalSwap(Execute* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Execute::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[56]);
+      file_level_metadata_sliver_2eproto[59]);
 }
 
 // ===================================================================
@@ -22433,7 +23338,7 @@ void SideloadReq::InternalSwap(SideloadReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SideloadReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[57]);
+      file_level_metadata_sliver_2eproto[60]);
 }
 
 // ===================================================================
@@ -22684,7 +23589,7 @@ void Sideload::InternalSwap(Sideload* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Sideload::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[58]);
+      file_level_metadata_sliver_2eproto[61]);
 }
 
 // ===================================================================
@@ -23178,7 +24083,7 @@ void InvokeSpawnDllReq::InternalSwap(InvokeSpawnDllReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata InvokeSpawnDllReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[59]);
+      file_level_metadata_sliver_2eproto[62]);
 }
 
 // ===================================================================
@@ -23646,7 +24551,7 @@ void SpawnDllReq::InternalSwap(SpawnDllReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SpawnDllReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[60]);
+      file_level_metadata_sliver_2eproto[63]);
 }
 
 // ===================================================================
@@ -23897,7 +24802,7 @@ void SpawnDll::InternalSwap(SpawnDll* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SpawnDll::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[61]);
+      file_level_metadata_sliver_2eproto[64]);
 }
 
 // ===================================================================
@@ -24227,7 +25132,7 @@ void NetstatReq::InternalSwap(NetstatReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata NetstatReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[62]);
+      file_level_metadata_sliver_2eproto[65]);
 }
 
 // ===================================================================
@@ -24457,7 +25362,7 @@ void SockTabEntry_SockAddr::InternalSwap(SockTabEntry_SockAddr* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SockTabEntry_SockAddr::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[63]);
+      file_level_metadata_sliver_2eproto[66]);
 }
 
 // ===================================================================
@@ -24871,7 +25776,7 @@ void SockTabEntry::InternalSwap(SockTabEntry* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SockTabEntry::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[64]);
+      file_level_metadata_sliver_2eproto[67]);
 }
 
 // ===================================================================
@@ -25104,7 +26009,7 @@ void Netstat::InternalSwap(Netstat* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Netstat::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[65]);
+      file_level_metadata_sliver_2eproto[68]);
 }
 
 // ===================================================================
@@ -25355,7 +26260,7 @@ void EnvReq::InternalSwap(EnvReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EnvReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[66]);
+      file_level_metadata_sliver_2eproto[69]);
 }
 
 // ===================================================================
@@ -25591,7 +26496,7 @@ void EnvInfo::InternalSwap(EnvInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata EnvInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[67]);
+      file_level_metadata_sliver_2eproto[70]);
 }
 
 // ===================================================================
@@ -25842,7 +26747,7 @@ void SetEnvReq::InternalSwap(SetEnvReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SetEnvReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[68]);
+      file_level_metadata_sliver_2eproto[71]);
 }
 
 // ===================================================================
@@ -26041,7 +26946,7 @@ void SetEnv::InternalSwap(SetEnv* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SetEnv::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[69]);
+      file_level_metadata_sliver_2eproto[72]);
 }
 
 // ===================================================================
@@ -26292,7 +27197,7 @@ void UnsetEnvReq::InternalSwap(UnsetEnvReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UnsetEnvReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[70]);
+      file_level_metadata_sliver_2eproto[73]);
 }
 
 // ===================================================================
@@ -26491,7 +27396,7 @@ void UnsetEnv::InternalSwap(UnsetEnv* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata UnsetEnv::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[71]);
+      file_level_metadata_sliver_2eproto[74]);
 }
 
 // ===================================================================
@@ -26689,7 +27594,7 @@ void DNSSessionInit::InternalSwap(DNSSessionInit* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DNSSessionInit::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[72]);
+      file_level_metadata_sliver_2eproto[75]);
 }
 
 // ===================================================================
@@ -26874,7 +27779,7 @@ void DNSPoll::InternalSwap(DNSPoll* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DNSPoll::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[73]);
+      file_level_metadata_sliver_2eproto[76]);
 }
 
 // ===================================================================
@@ -27104,7 +28009,7 @@ void DNSBlockHeader::InternalSwap(DNSBlockHeader* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata DNSBlockHeader::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[74]);
+      file_level_metadata_sliver_2eproto[77]);
 }
 
 // ===================================================================
@@ -27302,7 +28207,7 @@ void HTTPSessionInit::InternalSwap(HTTPSessionInit* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata HTTPSessionInit::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[75]);
+      file_level_metadata_sliver_2eproto[78]);
 }
 
 // ===================================================================
@@ -27501,7 +28406,7 @@ void ScreenshotReq::InternalSwap(ScreenshotReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ScreenshotReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[76]);
+      file_level_metadata_sliver_2eproto[79]);
 }
 
 // ===================================================================
@@ -27747,7 +28652,7 @@ void Screenshot::InternalSwap(Screenshot* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Screenshot::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[77]);
+      file_level_metadata_sliver_2eproto[80]);
 }
 
 // ===================================================================
@@ -28198,7 +29103,7 @@ void StartServiceReq::InternalSwap(StartServiceReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StartServiceReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[78]);
+      file_level_metadata_sliver_2eproto[81]);
 }
 
 // ===================================================================
@@ -28397,7 +29302,7 @@ void ServiceInfo::InternalSwap(ServiceInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ServiceInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[79]);
+      file_level_metadata_sliver_2eproto[82]);
 }
 
 // ===================================================================
@@ -28650,7 +29555,7 @@ void ServiceInfoReq::InternalSwap(ServiceInfoReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ServiceInfoReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[80]);
+      file_level_metadata_sliver_2eproto[83]);
 }
 
 // ===================================================================
@@ -28895,7 +29800,7 @@ void StopServiceReq::InternalSwap(StopServiceReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata StopServiceReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[81]);
+      file_level_metadata_sliver_2eproto[84]);
 }
 
 // ===================================================================
@@ -29140,7 +30045,7 @@ void RemoveServiceReq::InternalSwap(RemoveServiceReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RemoveServiceReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[82]);
+      file_level_metadata_sliver_2eproto[85]);
 }
 
 // ===================================================================
@@ -29441,7 +30346,7 @@ void BackdoorReq::InternalSwap(BackdoorReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata BackdoorReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[83]);
+      file_level_metadata_sliver_2eproto[86]);
 }
 
 // ===================================================================
@@ -29640,7 +30545,7 @@ void Backdoor::InternalSwap(Backdoor* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Backdoor::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[84]);
+      file_level_metadata_sliver_2eproto[87]);
 }
 
 // ===================================================================
@@ -30041,7 +30946,7 @@ void RegistryReadReq::InternalSwap(RegistryReadReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryReadReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[85]);
+      file_level_metadata_sliver_2eproto[88]);
 }
 
 // ===================================================================
@@ -30292,7 +31197,7 @@ void RegistryRead::InternalSwap(RegistryRead* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryRead::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[86]);
+      file_level_metadata_sliver_2eproto[89]);
 }
 
 // ===================================================================
@@ -30871,7 +31776,7 @@ void RegistryWriteReq::InternalSwap(RegistryWriteReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryWriteReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[87]);
+      file_level_metadata_sliver_2eproto[90]);
 }
 
 // ===================================================================
@@ -31070,7 +31975,7 @@ void RegistryWrite::InternalSwap(RegistryWrite* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryWrite::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[88]);
+      file_level_metadata_sliver_2eproto[91]);
 }
 
 // ===================================================================
@@ -31471,7 +32376,7 @@ void RegistryCreateKeyReq::InternalSwap(RegistryCreateKeyReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryCreateKeyReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[89]);
+      file_level_metadata_sliver_2eproto[92]);
 }
 
 // ===================================================================
@@ -31670,7 +32575,7 @@ void RegistryCreateKey::InternalSwap(RegistryCreateKey* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryCreateKey::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[90]);
+      file_level_metadata_sliver_2eproto[93]);
 }
 
 // ===================================================================
@@ -32071,7 +32976,7 @@ void RegistryDeleteKeyReq::InternalSwap(RegistryDeleteKeyReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryDeleteKeyReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[91]);
+      file_level_metadata_sliver_2eproto[94]);
 }
 
 // ===================================================================
@@ -32270,7 +33175,7 @@ void RegistryDeleteKey::InternalSwap(RegistryDeleteKey* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryDeleteKey::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[92]);
+      file_level_metadata_sliver_2eproto[95]);
 }
 
 // ===================================================================
@@ -32621,7 +33526,7 @@ void RegistrySubKeyListReq::InternalSwap(RegistrySubKeyListReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistrySubKeyListReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[93]);
+      file_level_metadata_sliver_2eproto[96]);
 }
 
 // ===================================================================
@@ -32859,7 +33764,7 @@ void RegistrySubKeyList::InternalSwap(RegistrySubKeyList* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistrySubKeyList::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[94]);
+      file_level_metadata_sliver_2eproto[97]);
 }
 
 // ===================================================================
@@ -33210,7 +34115,7 @@ void RegistryListValuesReq::InternalSwap(RegistryListValuesReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryListValuesReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[95]);
+      file_level_metadata_sliver_2eproto[98]);
 }
 
 // ===================================================================
@@ -33448,7 +34353,7 @@ void RegistryValuesList::InternalSwap(RegistryValuesList* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegistryValuesList::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[96]);
+      file_level_metadata_sliver_2eproto[99]);
 }
 
 // ===================================================================
@@ -33678,7 +34583,7 @@ void Tunnel::InternalSwap(Tunnel* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Tunnel::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[97]);
+      file_level_metadata_sliver_2eproto[100]);
 }
 
 // ===================================================================
@@ -34123,7 +35028,7 @@ void TunnelData::InternalSwap(TunnelData* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TunnelData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[98]);
+      file_level_metadata_sliver_2eproto[101]);
 }
 
 // ===================================================================
@@ -34457,7 +35362,7 @@ void ShellReq::InternalSwap(ShellReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ShellReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[99]);
+      file_level_metadata_sliver_2eproto[102]);
 }
 
 // ===================================================================
@@ -34791,7 +35696,7 @@ void Shell::InternalSwap(Shell* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Shell::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[100]);
+      file_level_metadata_sliver_2eproto[103]);
 }
 
 // ===================================================================
@@ -35125,7 +36030,7 @@ void PortfwdReq::InternalSwap(PortfwdReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PortfwdReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[101]);
+      file_level_metadata_sliver_2eproto[104]);
 }
 
 // ===================================================================
@@ -35459,7 +36364,7 @@ void Portfwd::InternalSwap(Portfwd* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Portfwd::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[102]);
+      file_level_metadata_sliver_2eproto[105]);
 }
 
 // ===================================================================
@@ -35689,7 +36594,7 @@ void Socks::InternalSwap(Socks* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Socks::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[103]);
+      file_level_metadata_sliver_2eproto[106]);
 }
 
 // ===================================================================
@@ -36118,7 +37023,7 @@ void SocksData::InternalSwap(SocksData* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SocksData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[104]);
+      file_level_metadata_sliver_2eproto[107]);
 }
 
 // ===================================================================
@@ -36436,7 +37341,7 @@ void PivotStartListenerReq::InternalSwap(PivotStartListenerReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotStartListenerReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[105]);
+      file_level_metadata_sliver_2eproto[108]);
 }
 
 // ===================================================================
@@ -36666,7 +37571,7 @@ void PivotStopListenerReq::InternalSwap(PivotStopListenerReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotStopListenerReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[106]);
+      file_level_metadata_sliver_2eproto[109]);
 }
 
 // ===================================================================
@@ -37013,7 +37918,7 @@ void PivotListener::InternalSwap(PivotListener* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotListener::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[107]);
+      file_level_metadata_sliver_2eproto[110]);
 }
 
 // ===================================================================
@@ -37333,7 +38238,7 @@ void PivotHello::InternalSwap(PivotHello* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotHello::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[108]);
+      file_level_metadata_sliver_2eproto[111]);
 }
 
 // ===================================================================
@@ -37558,7 +38463,7 @@ void PivotServerKeyExchange::InternalSwap(PivotServerKeyExchange* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotServerKeyExchange::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[109]);
+      file_level_metadata_sliver_2eproto[112]);
 }
 
 // ===================================================================
@@ -37788,7 +38693,7 @@ void PivotPeer::InternalSwap(PivotPeer* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotPeer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[110]);
+      file_level_metadata_sliver_2eproto[113]);
 }
 
 // ===================================================================
@@ -38125,7 +39030,7 @@ void PivotPeerEnvelope::InternalSwap(PivotPeerEnvelope* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotPeerEnvelope::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[111]);
+      file_level_metadata_sliver_2eproto[114]);
 }
 
 // ===================================================================
@@ -38303,7 +39208,7 @@ void PivotPing::InternalSwap(PivotPing* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotPing::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[112]);
+      file_level_metadata_sliver_2eproto[115]);
 }
 
 // ===================================================================
@@ -38533,7 +39438,7 @@ void NetConnPivot::InternalSwap(NetConnPivot* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata NetConnPivot::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[113]);
+      file_level_metadata_sliver_2eproto[116]);
 }
 
 // ===================================================================
@@ -38799,7 +39704,7 @@ void PivotPeerFailure::InternalSwap(PivotPeerFailure* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotPeerFailure::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[114]);
+      file_level_metadata_sliver_2eproto[117]);
 }
 
 // ===================================================================
@@ -38998,7 +39903,7 @@ void PivotListenersReq::InternalSwap(PivotListenersReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotListenersReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[115]);
+      file_level_metadata_sliver_2eproto[118]);
 }
 
 // ===================================================================
@@ -39231,7 +40136,7 @@ void PivotListeners::InternalSwap(PivotListeners* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PivotListeners::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[116]);
+      file_level_metadata_sliver_2eproto[119]);
 }
 
 // ===================================================================
@@ -39513,7 +40418,7 @@ void WGPortForwardStartReq::InternalSwap(WGPortForwardStartReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGPortForwardStartReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[117]);
+      file_level_metadata_sliver_2eproto[120]);
 }
 
 // ===================================================================
@@ -39758,7 +40663,7 @@ void WGPortForward::InternalSwap(WGPortForward* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGPortForward::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[118]);
+      file_level_metadata_sliver_2eproto[121]);
 }
 
 // ===================================================================
@@ -39988,7 +40893,7 @@ void WGPortForwardStopReq::InternalSwap(WGPortForwardStopReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGPortForwardStopReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[119]);
+      file_level_metadata_sliver_2eproto[122]);
 }
 
 // ===================================================================
@@ -40218,7 +41123,7 @@ void WGSocksStartReq::InternalSwap(WGSocksStartReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGSocksStartReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[120]);
+      file_level_metadata_sliver_2eproto[123]);
 }
 
 // ===================================================================
@@ -40463,7 +41368,7 @@ void WGSocks::InternalSwap(WGSocks* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGSocks::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[121]);
+      file_level_metadata_sliver_2eproto[124]);
 }
 
 // ===================================================================
@@ -40693,7 +41598,7 @@ void WGSocksStopReq::InternalSwap(WGSocksStopReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGSocksStopReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[122]);
+      file_level_metadata_sliver_2eproto[125]);
 }
 
 // ===================================================================
@@ -40892,7 +41797,7 @@ void WGTCPForwardersReq::InternalSwap(WGTCPForwardersReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGTCPForwardersReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[123]);
+      file_level_metadata_sliver_2eproto[126]);
 }
 
 // ===================================================================
@@ -41091,7 +41996,7 @@ void WGSocksServersReq::InternalSwap(WGSocksServersReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGSocksServersReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[124]);
+      file_level_metadata_sliver_2eproto[127]);
 }
 
 // ===================================================================
@@ -41371,7 +42276,7 @@ void WGTCPForwarder::InternalSwap(WGTCPForwarder* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGTCPForwarder::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[125]);
+      file_level_metadata_sliver_2eproto[128]);
 }
 
 // ===================================================================
@@ -41601,7 +42506,7 @@ void WGSocksServer::InternalSwap(WGSocksServer* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGSocksServer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[126]);
+      file_level_metadata_sliver_2eproto[129]);
 }
 
 // ===================================================================
@@ -41834,7 +42739,7 @@ void WGSocksServers::InternalSwap(WGSocksServers* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGSocksServers::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[127]);
+      file_level_metadata_sliver_2eproto[130]);
 }
 
 // ===================================================================
@@ -42067,7 +42972,7 @@ void WGTCPForwarders::InternalSwap(WGTCPForwarders* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WGTCPForwarders::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[128]);
+      file_level_metadata_sliver_2eproto[131]);
 }
 
 // ===================================================================
@@ -42349,7 +43254,7 @@ void ReconfigureReq::InternalSwap(ReconfigureReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ReconfigureReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[129]);
+      file_level_metadata_sliver_2eproto[132]);
 }
 
 // ===================================================================
@@ -42548,7 +43453,7 @@ void Reconfigure::InternalSwap(Reconfigure* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Reconfigure::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[130]);
+      file_level_metadata_sliver_2eproto[133]);
 }
 
 // ===================================================================
@@ -42778,7 +43683,7 @@ void PollIntervalReq::InternalSwap(PollIntervalReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PollIntervalReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[131]);
+      file_level_metadata_sliver_2eproto[134]);
 }
 
 // ===================================================================
@@ -42977,7 +43882,7 @@ void PollInterval::InternalSwap(PollInterval* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PollInterval::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[132]);
+      file_level_metadata_sliver_2eproto[135]);
 }
 
 // ===================================================================
@@ -43599,7 +44504,7 @@ void SSHCommandReq::InternalSwap(SSHCommandReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SSHCommandReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[133]);
+      file_level_metadata_sliver_2eproto[136]);
 }
 
 // ===================================================================
@@ -43900,7 +44805,7 @@ void SSHCommand::InternalSwap(SSHCommand* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SSHCommand::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[134]);
+      file_level_metadata_sliver_2eproto[137]);
 }
 
 // ===================================================================
@@ -44099,7 +45004,7 @@ void GetPrivsReq::InternalSwap(GetPrivsReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetPrivsReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[135]);
+      file_level_metadata_sliver_2eproto[138]);
 }
 
 // ===================================================================
@@ -44460,7 +45365,7 @@ void WindowsPrivilegeEntry::InternalSwap(WindowsPrivilegeEntry* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata WindowsPrivilegeEntry::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[136]);
+      file_level_metadata_sliver_2eproto[139]);
 }
 
 // ===================================================================
@@ -44795,7 +45700,7 @@ void GetPrivs::InternalSwap(GetPrivs* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GetPrivs::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[137]);
+      file_level_metadata_sliver_2eproto[140]);
 }
 
 // ===================================================================
@@ -45191,7 +46096,7 @@ void RegisterExtensionReq::InternalSwap(RegisterExtensionReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegisterExtensionReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[138]);
+      file_level_metadata_sliver_2eproto[141]);
 }
 
 // ===================================================================
@@ -45390,7 +46295,7 @@ void RegisterExtension::InternalSwap(RegisterExtension* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RegisterExtension::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[139]);
+      file_level_metadata_sliver_2eproto[142]);
 }
 
 // ===================================================================
@@ -45767,7 +46672,7 @@ void CallExtensionReq::InternalSwap(CallExtensionReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallExtensionReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[140]);
+      file_level_metadata_sliver_2eproto[143]);
 }
 
 // ===================================================================
@@ -46044,7 +46949,7 @@ void CallExtension::InternalSwap(CallExtension* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CallExtension::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[141]);
+      file_level_metadata_sliver_2eproto[144]);
 }
 
 // ===================================================================
@@ -46243,7 +47148,7 @@ void ListExtensionsReq::InternalSwap(ListExtensionsReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListExtensionsReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[142]);
+      file_level_metadata_sliver_2eproto[145]);
 }
 
 // ===================================================================
@@ -46481,7 +47386,7 @@ void ListExtensions::InternalSwap(ListExtensions* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ListExtensions::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[143]);
+      file_level_metadata_sliver_2eproto[146]);
 }
 
 // ===================================================================
@@ -46711,7 +47616,7 @@ void RportFwdStopListenerReq::InternalSwap(RportFwdStopListenerReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RportFwdStopListenerReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[144]);
+      file_level_metadata_sliver_2eproto[147]);
 }
 
 // ===================================================================
@@ -47071,7 +47976,7 @@ void RportFwdStartListenerReq::InternalSwap(RportFwdStartListenerReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RportFwdStartListenerReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[145]);
+      file_level_metadata_sliver_2eproto[148]);
 }
 
 // ===================================================================
@@ -47455,7 +48360,7 @@ void RportFwdListener::InternalSwap(RportFwdListener* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RportFwdListener::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[146]);
+      file_level_metadata_sliver_2eproto[149]);
 }
 
 // ===================================================================
@@ -47688,7 +48593,7 @@ void RportFwdListeners::InternalSwap(RportFwdListeners* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RportFwdListeners::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[147]);
+      file_level_metadata_sliver_2eproto[150]);
 }
 
 // ===================================================================
@@ -47887,7 +48792,7 @@ void RportFwdListenersReq::InternalSwap(RportFwdListenersReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RportFwdListenersReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[148]);
+      file_level_metadata_sliver_2eproto[151]);
 }
 
 // ===================================================================
@@ -48221,7 +49126,7 @@ void RPortfwd::InternalSwap(RPortfwd* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RPortfwd::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[149]);
+      file_level_metadata_sliver_2eproto[152]);
 }
 
 // ===================================================================
@@ -48555,7 +49460,7 @@ void RPortfwdReq::InternalSwap(RPortfwdReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata RPortfwdReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_sliver_2eproto_getter, &descriptor_table_sliver_2eproto_once,
-      file_level_metadata_sliver_2eproto[150]);
+      file_level_metadata_sliver_2eproto[153]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -48744,6 +49649,18 @@ Arena::CreateMaybeMessage< ::sliverpb::MakeTokenReq >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::sliverpb::MakeToken*
 Arena::CreateMaybeMessage< ::sliverpb::MakeToken >(Arena* arena) {
   return Arena::CreateMessageInternal< ::sliverpb::MakeToken >(arena);
+}
+template<> PROTOBUF_NOINLINE ::sliverpb::Token*
+Arena::CreateMaybeMessage< ::sliverpb::Token >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::sliverpb::Token >(arena);
+}
+template<> PROTOBUF_NOINLINE ::sliverpb::ListTokensReq*
+Arena::CreateMaybeMessage< ::sliverpb::ListTokensReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::sliverpb::ListTokensReq >(arena);
+}
+template<> PROTOBUF_NOINLINE ::sliverpb::ListTokens*
+Arena::CreateMaybeMessage< ::sliverpb::ListTokens >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::sliverpb::ListTokens >(arena);
 }
 template<> PROTOBUF_NOINLINE ::sliverpb::TaskReq*
 Arena::CreateMaybeMessage< ::sliverpb::TaskReq >(Arena* arena) {

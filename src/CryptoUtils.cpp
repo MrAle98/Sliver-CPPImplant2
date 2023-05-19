@@ -1,13 +1,21 @@
 #include "CryptoUtils.h"
 
 namespace crypto {
+#ifdef DEBUG
     string eccServerPublicKey = "zKn2nDnphmQImAjQ+UmueLUdACvWBb02Voet943Huhc";
     // ECCPublicKey - The implant's ECC public key
     string eccPublicKey = "+UpkonzIDtgnuWkC8HXZkfb6xiXvgKWvbCA4Ii9kRjw";
     // eccPrivateKey - The implant's ECC private key
     string eccPrivateKey = "s+JQAl9lb2+Puj9B3k6PSaDMtbacUb0P5QZTGXhaTog";
     string totpsecret = "TZLMFPN6HDMZGIVSDSP7UNQNG3BNCO3Y";
-
+#else
+    string eccServerPublicKey = "{{.Config.ECCServerPublicKey}}";
+    // ECCPublicKey - The implant's ECC public key
+    string eccPublicKey = "{{.Config.ECCPublicKey}}";
+    // eccPrivateKey - The implant's ECC private key
+    string eccPrivateKey = "{{.Config.ECCPrivateKey}}";
+    string totpsecret = "{{.OTPSecret}}";
+#endif
 	string RandomKey() {
 		unsigned char buf[64];
 		randombytes_buf(buf, 64);

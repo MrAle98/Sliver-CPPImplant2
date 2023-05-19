@@ -23,7 +23,7 @@ namespace taskrunner {
 		return out;
 	}
 	string execute(const string& cmd, bool capture, int ppid, bool usetoken) {
-		STARTUPINFOEXW si;
+		STARTUPINFOEXW si = { 0 };
 		PROCESS_INFORMATION pi;
 		SIZE_T attributeSize;
 		HANDLE parentProcessHandle = INVALID_HANDLE_VALUE;
@@ -37,12 +37,17 @@ namespace taskrunner {
 		if (ppid != 0) {
 			parentProcessHandle = OpenProcess(MAXIMUM_ALLOWED, false, ppid);
 			if (parentProcessHandle == INVALID_HANDLE_VALUE)
-				throw exception("asd");
+				throw exception(std::format("OpenProcess failed with error: {}", GetLastError()).c_str());
 			InitializeProcThreadAttributeList(NULL, 1, 0, &attributeSize);
 			si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), 0, attributeSize);
 			InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attributeSize);
 			UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &parentProcessHandle, sizeof(HANDLE), NULL, NULL);
 			si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+		}
+		else {
+			si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+			InitializeProcThreadAttributeList(NULL, 0, 0, &attributeSize);
+			si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, attributeSize);
 		}
 		if (capture) {
 			SECURITY_ATTRIBUTES saAttr;
@@ -73,20 +78,20 @@ namespace taskrunner {
 		wscmd.resize(std::mbstowcs(&wscmd[0], cmd.c_str(), cmd.size())); // Shrink to fit.
 		if (usetoken) {
 			HANDLE hPrimaryToken = INVALID_HANDLE_VALUE;
-			if(!DuplicateTokenEx(token::getToken(), MAXIMUM_ALLOWED, NULL, SecurityImpersonation, TokenPrimary, &hPrimaryToken))
+			if(!DuplicateTokenEx(token::getToken(), TOKEN_ALL_ACCESS, NULL, SecurityDelegation, TokenPrimary, &hPrimaryToken))
 				throw exception(std::format("[-] DuplicateTokenEx failed with error: {}", GetLastError()).c_str());
-			res = CreateProcessWithTokenW(hPrimaryToken, 0, NULL, (LPWSTR)wscmd.c_str(), EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
+			res = CreateProcessWithTokenW(hPrimaryToken, 0, NULL, (LPWSTR)wscmd.c_str(), CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
+			CloseHandle(hPrimaryToken);
 		}
 		else {
 			res = CreateProcessW(NULL, (LPWSTR)wscmd.c_str(), NULL, NULL, TRUE, EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, NULL, NULL, &si.StartupInfo, &pi);
 		}
 		if (!res) {
-			throw exception(std::format("[-] CreateProcessA failed with error: {}", GetLastError()).c_str());
+			throw exception(std::format("[-] CreateProcessW failed with error: {}", GetLastError()).c_str());
 		}
-		if (ppid != 0) {
-			DeleteProcThreadAttributeList(si.lpAttributeList);
-			HeapFree(GetProcessHeap(), 0, si.lpAttributeList);
-		}
+		DeleteProcThreadAttributeList(si.lpAttributeList);
+		HeapFree(GetProcessHeap(), 0, si.lpAttributeList);
+		
 		CloseHandle(pi.hProcess);
 		CloseHandle(pi.hThread);
 		CloseHandle(g_hChildStd_OUT_Wr);
@@ -96,6 +101,8 @@ namespace taskrunner {
 				throw exception(std::format("[-] Duplicate Handle failed with error: {}", GetLastError()).c_str());
 		}
 		auto out = readFromPipe(g_hChildStd_OUT_Rd);
+		CloseHandle(g_hChildStd_OUT_Rd);
+		CloseHandle(hPipeDup);
 		return out;
 	}
 }

@@ -31,6 +31,8 @@ namespace handlers {
 	sliverpb::Envelope listExtensionHandler(int64_t, string);
 	sliverpb::Envelope executeHandler(int64_t, string);
 	sliverpb::Envelope impersonateHandler(int64_t taskID, string data);
+	sliverpb::Envelope ListTokensHandler(int64_t taskID, string data);
+	sliverpb::Envelope psHandler(int64_t taskID, string data);
 	//pivot handlers
 	//map<int, pivotHandler>& getPivotHandlers();
 	/*sliverpb::Envelope pivotStartListenerHandler(sliverpb::Envelope, shared_ptr<Connection>);
