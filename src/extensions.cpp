@@ -2,6 +2,7 @@
 #include <string>
 #include<map>
 #include <mutex>
+#include <format>
 #include <vector>
 using namespace std;
 
@@ -26,7 +27,12 @@ namespace extensions {
 	string WindowsExtension::Call(const string& func_name, const string& arguments) {
 		go proc = (go)MemoryGetProcAddress(this->module, func_name.c_str());
 		unique_lock lk{ mut_buffer };
-		proc((char*)arguments.c_str(), arguments.size(), goCallback_impl);
+		try {
+			proc((char*)arguments.c_str(), arguments.size(), goCallback_impl);
+		}
+		catch (exception& e) {
+			return std::format("Triggered the following exception: {}", e.what());
+		}
 		string ret = buffer;
 		return ret;
 	}
