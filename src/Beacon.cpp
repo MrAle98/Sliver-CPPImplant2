@@ -17,7 +17,9 @@ namespace transports {
 			return this->client->SessionInit();
 		}
 		catch (std::exception& e) {
+#ifdef DEBUG
 			cout << e.what() << endl;
+#endif
 			std::unique_lock lk{ this->m };
 			this->connectionErrors += 1;
 		}

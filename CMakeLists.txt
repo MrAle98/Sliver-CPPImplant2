@@ -12,7 +12,7 @@ endforeach()
 ]]
 project ("Sliver-CPPImplant2")
 set(CMAKE_CXX_STANDARD 20)
-cmake_policy(SET CMP0091 NEW)
+
 add_compile_definitions("NOMINMAX" "SODIUM_STATIC" "_CRT_SECURE_NO_WARNINGS" "CURL_STATICLIB" "SECURITY_WIN32")
 
 include_directories(Include)

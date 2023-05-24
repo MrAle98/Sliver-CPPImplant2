@@ -172,7 +172,9 @@ bool HttpClient::SessionInit() {
 		session->SetBody(cpr::Body{ encoded });
 		cpr::Response resp = session->Post();
 		if (resp.status_code == 0) {
+#ifdef DEBUG
 			cout << "[-] Unable to connect" << endl;
+#endif
 			throw exception();
 		}
 		if (resp.status_code != 200) {
@@ -209,11 +211,15 @@ bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::En
 	auto resp = this->session->Post();
 	this->pollMutex.unlock();
 	if (resp.status_code == 0) {
+#ifdef DEBUG
 		cout << "[-] Unable to connect" << endl;
+#endif
 		throw exception();
 	}
 	if (resp.status_code == 404) {
+#ifdef DEBUG
 		cout << "[-] http 404 response " << std::endl;
+#endif
 		throw exception();
 	}
 	if (resp.text.empty()) {
@@ -243,11 +249,15 @@ bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope) {
 	auto resp = this->session->Post();
 	this->pollMutex.unlock();
 	if (resp.status_code == 0) {
+#ifdef DEBUG
 		cout << "[-] Unable to connect" << endl;
+#endif
 		throw exception();
 	}
 	if (resp.status_code == 404) {
+#ifdef DEBUG
 		cout << "[-] http 404 response " << std::endl;
+#endif
 		throw exception();
 	}
 	else {
@@ -280,11 +290,15 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 	auto resp = this->session->Get();
 	this->pollMutex.unlock();
 	if (resp.status_code == 0) {
+#ifdef DEBUG
 		cout << "[-] Unable to connect" << endl;
+#endif
 		throw exception();
 	}
 	if (resp.status_code == 403 || resp.status_code == 204) {
+#ifdef DEBUG
 		cout << "got "<< resp.status_code << " from for " << this->sessionID << endl;
+#endif
 		return nullptr;
 	}
 	else if(resp.status_code == 200){

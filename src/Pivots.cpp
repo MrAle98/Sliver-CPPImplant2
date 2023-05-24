@@ -141,7 +141,9 @@ namespace pivots {
 		auto peers = env.peers();
 		for (auto it = peers.begin(); it != peers.end();++it) {
 			auto a = it->peerid();
+#ifdef DEBUG
 			cout << "my peer id: " << MyPeerID << endl << "it->peerid: " << it->peerid() << endl;
+#endif
 			if (it->peerid() == MyPeerID && it != peers.begin()) {
 				return (it - 1)->peerid();
 			}

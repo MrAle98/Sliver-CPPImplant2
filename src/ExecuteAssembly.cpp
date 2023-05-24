@@ -332,13 +332,17 @@ namespace taskrunner {
 			try {
 				hr = pMethodInfo->lpVtbl->Invoke_3(pMethodInfo, obj, psaArguments, &retVal);
 			}
-			catch (exception e) {
+			catch (exception& e) {
+#ifdef 
 				cout << "catched exceptions from assembly: " << e.what() << endl;
+#endif
 			}
 			GetErrorInfo(0, &pErrorInfo);
 			if (pErrorInfo != NULL) {
 				pErrorInfo->GetDescription(&description);
+#ifdef
 				wprintf(L"Error with %d description: %s\n", hr, description);
+#endif
 			}
 			//Reset our Output handles (the error message won't show up if they fail, just for debugging purposes)
 			if (!SetStdHandle(STD_OUTPUT_HANDLE, g_OrigninalStdOut))

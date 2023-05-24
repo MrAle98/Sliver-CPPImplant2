@@ -124,7 +124,9 @@ namespace handlers {
 		req.ParseFromString(env.data());
 		auto nextPeerID = pivots::findNextPeerID(req);
 		if (nextPeerID == 0) {
+#ifdef DEBUG
 			cout << "not found next peer id" << endl;
+#endif
 		}
 		for (auto it = pivotListeners.begin();it != pivotListeners.end();++it) {
 			if (it->second->connections.count(nextPeerID)) {

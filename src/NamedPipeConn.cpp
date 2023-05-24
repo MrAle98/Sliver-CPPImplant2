@@ -68,7 +68,9 @@ namespace pivots {
 						}
 					}
 					catch (exception &e) {
+#ifdef DEBUG
 						cout << std::format("NamedPipe Conn catched exception: {}", e.what())<< endl;
+#endif
 						stop = true;
 					}
 				}
