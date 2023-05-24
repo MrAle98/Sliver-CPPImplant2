@@ -73,7 +73,7 @@ namespace pivots {
 				while (1) {
 					auto conn = this->ln->Accept();
 					if (conn->peerKeyExchange()) {
-						conn->upstream = this->upstream;
+						//conn->upstream = this->upstream;
 						this->connections.insert(std::pair(conn->downstreamPeerID, conn));
 						conn->Start();
 					}
@@ -85,7 +85,7 @@ namespace pivots {
 	void PivotListener::Accept() {
 		auto conn = this->ln->Accept();
 		conn->peerKeyExchange();
-		conn->upstream = this->upstream;
+		//conn->upstream = this->upstream;
 		this->connections.insert(std::pair(conn->downstreamPeerID, conn));
 	}
 	void StartConnection(shared_ptr<PivotConn> conn) {
@@ -105,7 +105,7 @@ namespace pivots {
 						string serialized;
 						peer_env.SerializeToString(&serialized);
 						env.set_data(serialized);
-						conn->upstream->push(std::move(env));
+						//conn->upstream->push(std::move(env));
 					}
 				}
 			}
@@ -115,9 +115,9 @@ namespace pivots {
 			[conn] {
 				while (1) {
 					sliverpb::Envelope env;
-					if (conn->downstream->try_pop(env)) {
+					/*if (conn->downstream->try_pop(env)) {
 						conn->WriteEnvelope(env);
-					}
+					}*/
 				}
 			}
 		};
@@ -129,7 +129,7 @@ namespace pivots {
 				while (1) {
 					auto conn = listener->ln->Accept();
 					conn->peerKeyExchange();
-					conn->upstream = listener->upstream;
+					//conn->upstream = listener->upstream;
 					listener->connections.insert(std::pair(conn->downstreamPeerID, conn));
 					StartConnection(conn);
 				}
@@ -141,7 +141,9 @@ namespace pivots {
 		auto peers = env.peers();
 		for (auto it = peers.begin(); it != peers.end();++it) {
 			auto a = it->peerid();
+#ifdef DEBUG
 			cout << "my peer id: " << MyPeerID << endl << "it->peerid: " << it->peerid() << endl;
+#endif
 			if (it->peerid() == MyPeerID && it != peers.begin()) {
 				return (it - 1)->peerid();
 			}

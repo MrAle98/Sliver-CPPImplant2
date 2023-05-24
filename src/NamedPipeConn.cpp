@@ -4,7 +4,7 @@
 #include <future>
 #include "constants.h"
 #include "pivots.h"
-#include "concurrent_queue.h"
+//#include "concurrent_queue.h"
 #include "Beacon.h"
 #define BUF_SIZE 32768
 using namespace std;
@@ -68,7 +68,9 @@ namespace pivots {
 						}
 					}
 					catch (exception &e) {
+#ifdef DEBUG
 						cout << std::format("NamedPipe Conn catched exception: {}", e.what())<< endl;
+#endif
 						stop = true;
 					}
 				}
@@ -94,7 +96,7 @@ namespace pivots {
 			this->t.join();
 	}
 	NamedPipeConn::NamedPipeConn(HANDLE _hRead,HANDLE _hWrite) : hRead(_hRead), hWrite(_hWrite) {
-		this->downstream = make_shared<concurrency::concurrent_queue<sliverpb::Envelope>>();
+		//this->downstream = make_shared<concurrency::concurrent_queue<sliverpb::Envelope>>();
 	}
 	sliverpb::Envelope NamedPipeConn::ReadEnvelope() {
 		auto data = read();

@@ -2,7 +2,7 @@
 #include <windows.h>
 #include <string>
 #include "PivotConn.h"
-#include "concurrent_vector.h"
+//#include "concurrent_vector.h"
 
 
 namespace pivots {
