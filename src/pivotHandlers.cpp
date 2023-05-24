@@ -71,10 +71,22 @@ namespace handlers {
 			l->set_bindaddress(it->second->bindAddress);
 			l->set_id(it->second->id);
 			l->set_type(it->second->type);
+
+			std::vector<uint64_t> to_remove;
+
 			for (auto pivots_it = it->second->connections.begin();pivots_it != it->second->connections.end();++pivots_it) {
-				auto p = l->add_pivots();
-				p->set_peerid(pivots_it->second->downstreamPeerID);
-				p->set_remoteaddress(it->second->bindAddress);
+				if (pivots_it->second->stop == false) {
+					auto p = l->add_pivots();
+					p->set_peerid(pivots_it->second->downstreamPeerID);
+					p->set_remoteaddress(it->second->bindAddress);
+				}
+				else {
+					to_remove.push_back(pivots_it->first);
+				}
+			}
+
+			for (const auto& i : to_remove) {
+				it->second->connections.erase(i);
 			}
 		}
 		return wrapResponse(env.id(), resp);
@@ -128,7 +140,8 @@ namespace handlers {
 		}
 		for (auto it = pivotListeners.begin();it != pivotListeners.end();++it) {
 			if (it->second->connections.count(nextPeerID)) {
-				while (!it->second->connections.find(nextPeerID)->second->WriteEnvelope(env)) {
+				string error = "";
+				while (!it->second->connections.find(nextPeerID)->second->WriteEnvelope(env,error)) {
 				}
 			}
 		}
@@ -138,7 +151,8 @@ namespace handlers {
 
 	vector<sliverpb::Envelope> collectPivotEnvelopes() {
 		vector<sliverpb::Envelope> vec;
-		for (auto it = pivotListeners.begin();it != pivotListeners.end();++it) {
+		return vec;
+		/*for (auto it = pivotListeners.begin();it != pivotListeners.end();++it) {
 			for (auto it_2 = it->second->connections.begin();it_2 != it->second->connections.end();++it_2) {
 				if (it_2->second->Check()) {
 					auto env = it_2->second->ReadEnvelope();
@@ -163,6 +177,6 @@ namespace handlers {
 				}
 			}
 		}
-		return vec;
+		return vec;*/
 	}
 }

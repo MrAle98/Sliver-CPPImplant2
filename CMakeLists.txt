@@ -12,10 +12,14 @@ endforeach()
 ]]
 project ("Sliver-CPPImplant2")
 set(CMAKE_CXX_STANDARD 20)
-cmake_policy(SET CMP0091 NEW)
 add_compile_definitions("NOMINMAX" "SODIUM_STATIC" "_CRT_SECURE_NO_WARNINGS" "CURL_STATICLIB" "SECURITY_WIN32")
 
 include_directories(Include)
+
+MESSAGE( STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS} )
+MESSAGE( STATUS "CMAKE_CXX_FLAGS_RELEASE: " ${CMAKE_CXX_FLAGS_RELEASE} )
+MESSAGE( STATUS "CMAKE_CXX_FLAGS_MINSIZEREL: " ${CMAKE_CXX_FLAGS_MINSIZEREL} )
+MESSAGE( STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: " ${CMAKE_CXX_FLAGS_RELWITHDEBINFO} )
 
 ###protobuf
 find_package(Protobuf REQUIRED)
@@ -43,7 +47,7 @@ endif()
 set_property(TARGET Sliver-CPPImplant2 PROPERTY
              MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
-target_link_libraries(Sliver-CPPImplant2 ${Protobuf_LIBRARIES} ${LIBSODIUM} ${BOTAN} cpr::cpr Ws2_32.lib Wldap32.lib Normaliz.lib Crypt32.lib Secur32.lib Ntdll.dll netapi32.lib)
+target_link_libraries(Sliver-CPPImplant2 ${Protobuf_LIBRARIES} ${LIBSODIUM} ${BOTAN} cpr::cpr Ws2_32.lib Wldap32.lib Normaliz.lib Crypt32.lib Secur32.lib Ntdll.dll netapi32.lib onecore.lib)
 
 # Include sub-projects.
 

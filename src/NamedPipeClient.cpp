@@ -11,7 +11,7 @@ namespace transports {
 		this->hPipeRead = INVALID_HANDLE_VALUE;
 		this->hPipeWrite = INVALID_HANDLE_VALUE;
 	}
-	bool NamedPipeClient::SessionInit() {
+	bool NamedPipeClient::SessionInit(string& error) {
 		if (this->hPipeRead != INVALID_HANDLE_VALUE) {
 			CloseHandle(this->hPipeRead);
 			this->hPipeRead = INVALID_HANDLE_VALUE;
@@ -61,8 +61,11 @@ namespace transports {
 		req.set_peerid(id);
 		string serialized;
 		req.SerializeToString(&serialized);
-		this->write(serialized);
-		auto received = this->read();
+		if (!this->write(serialized, error))
+			return false;
+		auto received = this->read(error);
+		if (error != "")
+			return false;
 		sliverpb::PivotHello resp;
 		resp.ParseFromString(received);
 		this->peer_ctx.SetKey(resp.sessionkey());
@@ -90,20 +93,24 @@ namespace transports {
 		string final_serialized;
 		serverkeyex_envelope.SerializeToString(&final_serialized);
 		auto enc2 = this->peer_ctx.Encrypt(final_serialized);
-		this->write(enc2);
-		auto resp_from_server = this->ReadEnvelopeBlocking();
+		if (!this->write(enc2, error))
+			return false;
+		auto resp_from_server = this->ReadEnvelopeBlocking(error);
+		if (resp_from_server == nullptr)
+			return false;
 		sliverpb::PivotServerKeyExchange keyex_resp;
 		keyex_resp.ParseFromString(resp_from_server->data());
 		this->pivotSessionID = keyex_resp.sessionkey();
 		return true;
 	}
-	string NamedPipeClient::read() {
+	string NamedPipeClient::read(string& error) {
 		DWORD n = 0;
 		DWORD read = 0;
 		BOOL res = false;
 		res = ReadFile(this->hPipeRead, &n, sizeof(uint32_t), &read, NULL);
 		if (!res) {
-			throw exception(std::format("ReadFile returned error {}", GetLastError()).c_str());
+			error = std::format("ReadFile returned error {}", GetLastError());
+			return "";
 		}
 		string out;
 		out.resize(n);
@@ -114,7 +121,7 @@ namespace transports {
 				DWORD read_bytes = 0;
 				res = ReadFile(this->hPipeRead, (LPVOID)ptr, BUF_SIZE, &read_bytes, NULL);
 				if (!res) {
-					throw exception(std::format("ReadFile returned error {}", GetLastError()).c_str());
+					error = std::format("ReadFile returned error {}", GetLastError());
 				}
 				ptr += read_bytes;
 				read += read_bytes;
@@ -123,7 +130,7 @@ namespace transports {
 				DWORD read_bytes = 0;
 				res = ReadFile(this->hPipeRead, (LPVOID)ptr, n-read, &read_bytes, NULL);
 				if (!res) {
-					throw exception(std::format("ReadFile returned error {}", GetLastError()).c_str());
+					error = std::format("ReadFile returned error {}", GetLastError());
 				}
 				ptr += read_bytes;
 				read += read_bytes;
@@ -169,13 +176,13 @@ namespace transports {
 		}
 		return out;*/
 	}
-	bool NamedPipeClient::write(const string& in) {
+	bool NamedPipeClient::write(const string& in,string& error) {
 		auto size = static_cast<uint32_t>(in.size());
 		DWORD written = 0;
 		BOOL res = false;
 		res = WriteFile(this->hPipeWrite, &size, sizeof uint32_t, &written, NULL);
 		if (!res) {
-			throw exception(std::format("WriteFile returned error {}", GetLastError()).c_str());
+			error = std::format("WriteFile returned error {}", GetLastError());
 		}
 		DWORD tot_written = 0;
 		auto buff_ptr = (char*)in.c_str();
@@ -183,7 +190,7 @@ namespace transports {
 			if (size - tot_written >= BUF_SIZE) {
 				res = WriteFile(this->hPipeWrite, buff_ptr, BUF_SIZE, &written, NULL);
 				if (!res) {
-					throw exception(std::format("WriteFile returned error {}", GetLastError()).c_str());
+					error = std::format("WriteFile returned error {}", GetLastError());
 				}
 				tot_written += written;
 				buff_ptr += written;
@@ -191,7 +198,7 @@ namespace transports {
 			else {
 				res = WriteFile(this->hPipeWrite, buff_ptr, size - tot_written, &written, NULL);
 				if (!res) {
-					throw exception(std::format("WriteFile returned error {}", GetLastError()).c_str());
+					error = std::format("WriteFile returned error {}", GetLastError());
 				}
 				tot_written += written;
 				buff_ptr += written;
@@ -219,11 +226,11 @@ namespace transports {
 		//}
 		return true;
 	}
-	bool NamedPipeClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv) {
+	bool NamedPipeClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv,string& error) {
 		unique_lock<std::mutex> lk{ pollMutex };
 		sliverpb::Envelope env = to_send;
-		if (this->WriteEnvelope(env)) {
-			auto resp = this->ReadEnvelopeBlocking();
+		if (this->WriteEnvelope(env, error)) {
+			auto resp = this->ReadEnvelopeBlocking(error);
 			if (resp != nullptr) {
 				recv = *(resp.get());
 				return true;
@@ -231,8 +238,10 @@ namespace transports {
 		}
 		return false;
 	}
-	unique_ptr<sliverpb::Envelope> NamedPipeClient::ReadEnvelopeBlocking() {
-		auto data = this->read();
+	unique_ptr<sliverpb::Envelope> NamedPipeClient::ReadEnvelopeBlocking(string& error) {
+		auto data = this->read(error);
+		if (error != "")
+			return nullptr;
 		auto plain = this->peer_ctx.Decrypt(data);
 		unique_ptr<sliverpb::Envelope> incomingEnvelope = make_unique<sliverpb::Envelope>();
 		incomingEnvelope->ParseFromString(plain);
@@ -249,11 +258,13 @@ namespace transports {
 		env->ParseFromString(plain);
 		return env;
 	}
-	unique_ptr<sliverpb::Envelope> NamedPipeClient::ReadEnvelope() {
+	unique_ptr<sliverpb::Envelope> NamedPipeClient::ReadEnvelope(string& error) {
 		if (!this->Check()) {
 			return nullptr;
 		}
-		auto data = this->read();
+		auto data = this->read(error);
+		if (error != "")
+			return nullptr;
 		auto plain = this->peer_ctx.Decrypt(data);
 		unique_ptr<sliverpb::Envelope> incomingEnvelope = make_unique<sliverpb::Envelope>();
 		incomingEnvelope->ParseFromString(plain);
@@ -280,7 +291,7 @@ namespace transports {
 			return false;
 		}
 	}
-	bool NamedPipeClient::WriteEnvelope_nolock(sliverpb::Envelope& env) {
+	bool NamedPipeClient::WriteEnvelope_nolock(sliverpb::Envelope& env,string& error) {
 		string serialized;
 		env.SerializeToString(&serialized);
 		string finalSerialized;
@@ -305,11 +316,11 @@ namespace transports {
 			finalSerialized = serialized;
 		}
 		auto enc = this->peer_ctx.Encrypt(finalSerialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 
 
-	bool NamedPipeClient::WriteEnvelope(sliverpb::Envelope& env) {
+	bool NamedPipeClient::WriteEnvelope(sliverpb::Envelope& env, string& error) {
 		string serialized;
 		env.SerializeToString(&serialized);
 		string finalSerialized;
@@ -333,10 +344,10 @@ namespace transports {
 			finalSerialized = serialized;
 		}
 		auto enc = this->peer_ctx.Encrypt(finalSerialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 
-	bool NamedPipeClient::WriteEnvelopeNoResp(sliverpb::Envelope& env) {
+	bool NamedPipeClient::WriteEnvelopeNoResp(sliverpb::Envelope& env, string& error) {
 		unique_lock<std::mutex> lk{ pollMutex };
 		string serialized;
 		env.SerializeToString(&serialized);
@@ -361,7 +372,7 @@ namespace transports {
 			finalSerialized = serialized;
 		}
 		auto enc = this->peer_ctx.Encrypt(finalSerialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 }
 

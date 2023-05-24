@@ -22,7 +22,7 @@ namespace taskrunner {
 		}
 		return out;
 	}
-	string execute(const string& cmd, bool capture, int ppid, bool usetoken) {
+	string execute(string& error,const string& cmd, bool capture, int ppid, bool usetoken) {
 		STARTUPINFOEXW si = { 0 };
 		PROCESS_INFORMATION pi;
 		SIZE_T attributeSize;
@@ -36,8 +36,10 @@ namespace taskrunner {
 
 		if (ppid != 0) {
 			parentProcessHandle = OpenProcess(MAXIMUM_ALLOWED, false, ppid);
-			if (parentProcessHandle == INVALID_HANDLE_VALUE)
-				throw exception(std::format("OpenProcess failed with error: {}", GetLastError()).c_str());
+			if (parentProcessHandle == INVALID_HANDLE_VALUE) {
+				error = std::format("OpenProcess failed with error: {}", GetLastError());
+				return "";
+			}
 			InitializeProcThreadAttributeList(NULL, 1, 0, &attributeSize);
 			si.lpAttributeList = (LPPROC_THREAD_ATTRIBUTE_LIST)HeapAlloc(GetProcessHeap(), 0, attributeSize);
 			InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attributeSize);
@@ -56,10 +58,14 @@ namespace taskrunner {
 			saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
 			saAttr.bInheritHandle = TRUE;
 			saAttr.lpSecurityDescriptor = NULL;
-			if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0))
-				throw exception("StdoutRd CreatePipe");
-			if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0))
-				throw exception("StdoutRd CreatePipe");
+			if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+				error = "StdoutRd CreatePipe";
+				return "";
+			}
+			if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
+				error = "StdoutRd CreatePipe";
+				return "";
+			}
 			if (ppid) {
 				if (!DuplicateHandle(GetCurrentProcess(), g_hChildStd_OUT_Wr, parentProcessHandle, &hPipeDup, 0, true, DUPLICATE_SAME_ACCESS)) {
 					throw exception(std::format("duplicate Handle failed with error: {}", GetLastError()).c_str());

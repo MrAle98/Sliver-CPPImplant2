@@ -10,6 +10,7 @@
 #include "pivots.h"
 #include "CryptoUtils.h"
 #include "constants.h"
+#include <format>
 
 using namespace std;
 
@@ -53,14 +54,14 @@ namespace transports {
 
     }
 
-    bool TCPClient::SessionInit() {
+    bool TCPClient::SessionInit(string& error) {
 		if (this->connect_socket != INVALID_SOCKET) {
 			closesocket(this->connect_socket);
 		}
 		this->connect_socket = socket(this->addr_info->ai_family, this->addr_info->ai_socktype,
 			this->addr_info->ai_protocol);
 		if (this->connect_socket == INVALID_SOCKET) {
-			printf("socket failed with error: %ld\n", WSAGetLastError());
+			error = std::format("socket failed with error: {}", WSAGetLastError());
 			return false;
 		}
 		auto iResult = connect(this->connect_socket, this->addr_info->ai_addr, (int)(this->addr_info->ai_addrlen));
@@ -74,8 +75,11 @@ namespace transports {
 		req.set_peerid(id);
 		string serialized;
 		req.SerializeToString(&serialized);
-		this->write(serialized);
-		auto received = this->read();
+		if (!this->write(serialized, error))
+			return false;
+		auto received = this->read(error);
+		if (error != "")
+			return false;
 		sliverpb::PivotHello resp;
 		resp.ParseFromString(received);
 		this->peer_ctx.SetKey(resp.sessionkey());
@@ -103,15 +107,18 @@ namespace transports {
 		string final_serialized;
 		serverkeyex_envelope.SerializeToString(&final_serialized);
 		auto enc2 = this->peer_ctx.Encrypt(final_serialized);
-		this->write(enc2);
-		auto resp_from_server = this->ReadEnvelopeBlocking();
+		if (!this->write(enc2, error))
+			return false;
+		auto resp_from_server = this->ReadEnvelopeBlocking(error);
+		if (resp_from_server == nullptr)
+			return false;
 		sliverpb::PivotServerKeyExchange keyex_resp;
 		keyex_resp.ParseFromString(resp_from_server->data());
 		this->pivotSessionID = keyex_resp.sessionkey();
 		return true;
 	}
 
-	string TCPClient::read() {
+	string TCPClient::read(string& error) {
 		fd_set fds;
 		FD_ZERO(&fds);
 		FD_SET(this->connect_socket, &fds);
@@ -121,22 +128,25 @@ namespace transports {
 			SIZE_T len = 0;
 			res = recv(this->connect_socket, (char*)&len, sizeof(SIZE_T), 0);
 			if (res == 0 || res == SOCKET_ERROR) {
-				throw exception("read failed");
+				error = "read failed";
+				return "";
 			}
 			std::string out;
 			out.resize(len);
 			res = recv(this->connect_socket, (char*)out.c_str(), len, 0);
 			if (res == 0 || res == SOCKET_ERROR) {
-				throw exception("read failed");
+				error = "read failed";
+				return "";
 			}
 			return out;
 		}
 		else {
-			throw exception("read failed");
+			error = "read failed";
+			return "";
 		}
 	}
 
-	bool TCPClient::write(const string& in) {
+	bool TCPClient::write(const string& in,string& error) {
 		DWORD written = 0;
 		fd_set fds;
 		FD_ZERO(&fds);
@@ -145,21 +155,27 @@ namespace transports {
 		if (ret) {
 			SIZE_T len = in.size();
 			written = send(this->connect_socket, (char*)&len, sizeof len, 0);
-			if (written != sizeof len)
-				throw exception("send failed");
+			if (written != sizeof len) {
+				error = "send failed";
+				return false;
+			}
 			written = send(this->connect_socket, (char*)in.c_str(), len, 0);
-			if (written != len)
-				throw exception("send failed");
+			if (written != len) {
+				auto err = WSAGetLastError();
+				error = "send failed";
+				return false;
+			}
 			return true;
 		}
-		throw exception("send failed");
+		error = "send failed";
+		return false;
 	}
 
-	bool TCPClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv) {
+	bool TCPClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv, string& error) {
 		unique_lock<std::mutex> lk{ pollMutex };
 		sliverpb::Envelope env = to_send;
-		if (this->WriteEnvelope(env)) {
-			auto resp = this->ReadEnvelopeBlocking();
+		if (this->WriteEnvelope(env,error)) {
+			auto resp = this->ReadEnvelopeBlocking(error);
 			if (resp != nullptr) {
 				recv = *(resp.get());
 				return true;
@@ -167,8 +183,10 @@ namespace transports {
 		}
 		return false;
 	}
-	unique_ptr<sliverpb::Envelope> TCPClient::ReadEnvelopeBlocking() {
-		auto data = this->read();
+	unique_ptr<sliverpb::Envelope> TCPClient::ReadEnvelopeBlocking(string& error) {
+		auto data = this->read(error);
+		if (error != "")
+			return nullptr;
 		auto plain = this->peer_ctx.Decrypt(data);
 		unique_ptr<sliverpb::Envelope> incomingEnvelope = make_unique<sliverpb::Envelope>();
 		incomingEnvelope->ParseFromString(plain);
@@ -185,11 +203,13 @@ namespace transports {
 		env->ParseFromString(plain);
 		return env;
 	}
-	unique_ptr<sliverpb::Envelope> TCPClient::ReadEnvelope() {
+	unique_ptr<sliverpb::Envelope> TCPClient::ReadEnvelope(string& error) {
 		if (!this->Check()) {
 			return nullptr;
 		}
-		auto data = this->read();
+		auto data = this->read(error);
+		if (error != "")
+			return nullptr;
 		auto plain = this->peer_ctx.Decrypt(data);
 		unique_ptr<sliverpb::Envelope> incomingEnvelope = make_unique<sliverpb::Envelope>();
 		incomingEnvelope->ParseFromString(plain);
@@ -209,7 +229,7 @@ namespace transports {
 	bool TCPClient::Check() {
 		return true;
 	}
-	bool TCPClient::WriteEnvelope_nolock(sliverpb::Envelope& env) {
+	bool TCPClient::WriteEnvelope_nolock(sliverpb::Envelope& env, string& error) {
 		string serialized;
 		env.SerializeToString(&serialized);
 		string finalSerialized;
@@ -234,11 +254,11 @@ namespace transports {
 			finalSerialized = serialized;
 		}
 		auto enc = this->peer_ctx.Encrypt(finalSerialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 
 
-	bool TCPClient::WriteEnvelope(sliverpb::Envelope& env) {
+	bool TCPClient::WriteEnvelope(sliverpb::Envelope& env,string& error) {
 		string serialized;
 		env.SerializeToString(&serialized);
 		string finalSerialized;
@@ -262,10 +282,10 @@ namespace transports {
 			finalSerialized = serialized;
 		}
 		auto enc = this->peer_ctx.Encrypt(finalSerialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 
-	bool TCPClient::WriteEnvelopeNoResp(sliverpb::Envelope& env) {
+	bool TCPClient::WriteEnvelopeNoResp(sliverpb::Envelope& env,string& error) {
 		unique_lock<std::mutex> lk{ pollMutex };
 		string serialized;
 		env.SerializeToString(&serialized);
@@ -290,7 +310,7 @@ namespace transports {
 			finalSerialized = serialized;
 		}
 		auto enc = this->peer_ctx.Encrypt(finalSerialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 }
 

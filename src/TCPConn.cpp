@@ -26,6 +26,7 @@ namespace pivots {
 		this->stop = true;
 		if (t.joinable())
 			t.join();
+		this->closed = true;
 	}
 	void TCPConn::Start() {
 		std::thread t1{
@@ -36,7 +37,15 @@ namespace pivots {
 						return;
 					}
 					try {
-						auto env = ReadEnvelope();
+						string error = "";
+						auto env = ReadEnvelope(error);
+						if (error != "") {
+#ifdef DEBUG
+							cout << error << endl;
+#endif
+							stop = true;
+							continue;
+						}
 						if (env.type() == sliverpb::MsgPivotPeerEnvelope || env.type() == sliverpb::MsgPivotPeerEnvelopeNoResponse) {
 							sliverpb::PivotPeerEnvelope peer_env;
 							peer_env.ParseFromString(env.data());
@@ -58,20 +67,36 @@ namespace pivots {
 							sliverpb::Envelope resp;
 							if (env.type() == sliverpb::MsgPivotPeerEnvelope) {
 								if (beacon->BeaconRecv(env, resp)) {
-									WriteEnvelope(resp);
+									string error = "";
+									if (!WriteEnvelope(resp, error)) {
+#ifdef DEBUG
+										cout << error << endl;
+#endif
+										stop = true;
+										continue;
+									}
 								}
 								else {
-									throw exception("BeaconRecv returned false");
+#ifdef DEBUG
+									cout << "BeaconRecv returned false" << endl;
+#endif
+									stop = true;
+									continue;
 								}
 							}
 							else if (env.type() == sliverpb::MsgPivotPeerEnvelopeNoResponse) {
-								if (!beacon->BeaconSend(env))
-									throw exception("BeaconSend returned false");
+								if (!beacon->BeaconSend(env)) {
+#ifdef DEBUG
+									cout << "BeaconSend returned false" << endl;
+#endif
+									stop = true;
+									continue;
+								}
 							}
 						}
 					}
 					catch(exception &e){
-						cout << std::format("NamedPipe Conn catched exception: {}", e.what()) << endl;
+						cout << std::format("TCPConn Conn catched exception: {}", e.what()) << endl;
 						stop = true;
 					}
 				}
@@ -79,22 +104,24 @@ namespace pivots {
 		};
 		this->t = std::move(t1);
 	}
-	sliverpb::Envelope TCPConn::ReadEnvelope() {
-		auto data = read();
+	sliverpb::Envelope TCPConn::ReadEnvelope(string& error) {
+		auto data = read(error);
+		if (error != "")
+			return sliverpb::Envelope{};
 		auto plain = ctx.Decrypt(data);
 		sliverpb::Envelope env;
 		env.ParseFromString(plain);
 		return env;
 	}
 
-	bool TCPConn::WriteEnvelope(const sliverpb::Envelope& env) {
+	bool TCPConn::WriteEnvelope(const sliverpb::Envelope& env, string& error) {
 		string serialized;
 		env.SerializeToString(&serialized);
 		auto enc = this->ctx.Encrypt(serialized);
-		return this->write(enc);
+		return this->write(enc,error);
 	}
 
-	string TCPConn::read() {
+	string TCPConn::read(string& error) {
 		int res = 0;
 		fd_set fds;
 		FD_ZERO(&fds);
@@ -104,20 +131,23 @@ namespace pivots {
 			SIZE_T len = 0;
 			res = recv(this->client_socket, (char*)&len, sizeof(SIZE_T), 0);
 			if (res == 0 || res == SOCKET_ERROR) {
-				throw exception{ std::format("recv failed with error {}",GetLastError()).c_str() };
+				error = std::format("recv failed with error {}",GetLastError());
+				return "";
 			}
 			std::string out;
 			out.resize(len);
 			res = recv(this->client_socket, (char*)out.c_str(), len, 0);
 			if (res == 0 || res == SOCKET_ERROR) {
-				throw exception{ std::format("recv failed with error {}",GetLastError()).c_str() };
+				error = std::format("recv failed with error {}",GetLastError());
+				return "";
 			}
 			return out;
 		}
-		throw exception{ std::format("select failed with error {}",GetLastError()).c_str() };
+		error = std::format("select failed with error {}",GetLastError());
+		return "";
 	}
 
-	bool TCPConn::write(const string& in) {
+	bool TCPConn::write(const string& in, string& error) {
 		DWORD written = 0;
 		fd_set fds;
 		FD_ZERO(&fds);
@@ -126,32 +156,35 @@ namespace pivots {
 		if (ret) {
 			SIZE_T len = in.size();
 			written = send(this->client_socket, (char*)&len, sizeof len, 0);
-			if (written != sizeof len)
-				throw exception{ std::format("send failed with error {}",GetLastError()).c_str() };
+			if (written != sizeof len) {
+				error = std::format("send failed with error {}", GetLastError());
+				return false;
+			}
 			written = send(this->client_socket, (char*)in.c_str(), len, 0);
-			if (written != len)
-				throw exception{ std::format("send failed with error {}",GetLastError()).c_str() };
+			if (written != len) {
+				error = std::format("send failed with error {}", GetLastError());
+				return false;
+			}
+
 			return true;
 		}
-		throw exception{ std::format("select failed with error {}",GetLastError()).c_str() };
+		error = std::format("select failed with error {}",GetLastError());
+		return false;
 	}
 	bool TCPConn::peerKeyExchange() {
-		try {
-			auto s = this->read();
-			sliverpb::PivotHello hello;
-			hello.ParseFromString(s);
-			this->downstreamPeerID = hello.peerid();
-			auto key = crypto::RandomKey();
-			this->ctx.SetKey(key);
-			sliverpb::PivotHello resp;
-			resp.set_sessionkey(key);
-			string serialized_resp;
-			resp.SerializeToString(&serialized_resp);
-			this->write(serialized_resp);
-			return true;
-		}
-		catch (exception& e) {
+		string error = "";
+		auto s = this->read(error);
+		if (error != "")
 			return false;
-		}
+		sliverpb::PivotHello hello;
+		hello.ParseFromString(s);
+		this->downstreamPeerID = hello.peerid();
+		auto key = crypto::RandomKey();
+		this->ctx.SetKey(key);
+		sliverpb::PivotHello resp;
+		resp.set_sessionkey(key);
+		string serialized_resp;
+		resp.SerializeToString(&serialized_resp);
+		return this->write(serialized_resp,error);
 	}
 }

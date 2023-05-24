@@ -28,7 +28,7 @@
         "strategy": "external"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_BUILD_TYPE": "MinSizeRel",
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
         "CMAKE_TOOLCHAIN_FILE": {
           "type": "FILEPATH",
@@ -47,7 +47,7 @@
         "strategy": "external"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_BUILD_TYPE": "MinSizeRel",
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
         "CMAKE_TOOLCHAIN_FILE": {
           "type": "FILEPATH",
@@ -169,7 +169,7 @@
       "description": "TemplateDescription_Localize_x64Release",
       "inherits": "x64-debug",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-DHTTP -DDEBUG -DEXE /EHsc"
+        "CMAKE_CXX_FLAGS": "-DHTTP -DDEBUG -DEXE /EHsc /Gd"
       }
     },
     {
@@ -178,7 +178,8 @@
       "description": "TemplateDescription_Localize_x64Release",
       "inherits": "x64-release-dll",
       "cacheVariables": {
-        "CMAKE_CXX_FLAGS": "-DHTTP -DSHARED /EHsc"
+        "CMAKE_CXX_FLAGS": "-DHTTP -DSHARED /EHsc",
+        "CMAKE_EXE_LINKER_FLAGS": "/SUBSYSTEM:WINDOWS"
       }
     },
     {

@@ -39,8 +39,8 @@ namespace pivots {
 					if (conn != nullptr){
 						conn->peerKeyExchange();
 						conn->beacon = this->beacon;
-						//this->connections.insert(std::pair(conn->downstreamPeerID, conn));
-						this->connections[conn->downstreamPeerID] = conn;
+						this->connections.insert(std::pair(conn->downstreamPeerID, conn));
+						//this->connections[conn->downstreamPeerID] = conn;
 						conn->Start();
 					}
 				}
@@ -92,7 +92,8 @@ namespace pivots {
 		std::thread t1{
 			[conn] {
 				while (1) {
-					auto env = conn->ReadEnvelope();
+					string error = "";
+					auto env = conn->ReadEnvelope(error);
 					if (env.type() == sliverpb::MsgPivotPeerEnvelope) {
 						sliverpb::PivotPeerEnvelope peer_env;
 						peer_env.ParseFromString(env.data());
@@ -116,7 +117,8 @@ namespace pivots {
 				while (1) {
 					sliverpb::Envelope env;
 					if (conn->downstream->try_pop(env)) {
-						conn->WriteEnvelope(env);
+						string error = "";
+						conn->WriteEnvelope(env,error);
 					}
 				}
 			}
