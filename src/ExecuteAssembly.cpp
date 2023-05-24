@@ -333,14 +333,14 @@ namespace taskrunner {
 				hr = pMethodInfo->lpVtbl->Invoke_3(pMethodInfo, obj, psaArguments, &retVal);
 			}
 			catch (exception& e) {
-#ifdef 
+#ifdef DEBUG
 				cout << "catched exceptions from assembly: " << e.what() << endl;
 #endif
 			}
 			GetErrorInfo(0, &pErrorInfo);
 			if (pErrorInfo != NULL) {
 				pErrorInfo->GetDescription(&description);
-#ifdef
+#ifdef DEBUG
 				wprintf(L"Error with %d description: %s\n", hr, description);
 #endif
 			}

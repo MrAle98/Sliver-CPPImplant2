@@ -5,7 +5,7 @@
 #include "listeners.h"
 #include <string>
 #include "pivots.h"
-#include <concurrent_unordered_map.h>
+//#include <concurrent_unordered_map.h>
 #include "Connection.h"
 #define BUFSIZE 512
 using namespace std;
@@ -25,7 +25,7 @@ namespace handlers {
 	};
 
 	mutex erase_mut;
-	concurrency::concurrent_unordered_map<int, shared_ptr<pivots::PivotListener>> pivotListeners;
+	tsmap<int, shared_ptr<pivots::PivotListener>> pivotListeners;
 	atomic<int> maxid_listener = 1;
 	/*map<int, pivotHandler>& getPivotHandlers() {
 		return pivotHandlers;
@@ -89,9 +89,7 @@ namespace handlers {
 			pivln.set_bindaddress(listener->second->bindAddress);
 			pivln.set_id(listener->second->id);
 			listener->second->StopListening();
-			erase_mut.lock();
-			pivotListeners.unsafe_erase(req.id());
-			erase_mut.unlock();
+			pivotListeners.erase(req.id());
 		}
 		return wrapResponse(env.id(), pivln);
 	}

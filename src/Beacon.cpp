@@ -7,7 +7,7 @@ namespace transports {
 		this->jitter = std::chrono::seconds(jitter);
 		this->reconnectInterval = std::chrono::seconds(reconnectInterval);
 		this->client = std::move(cli);
-		this->pivotEnvelope_queue = make_shared<concurrency::concurrent_queue<sliverpb::Envelope>>();
+		//this->pivotEnvelope_queue = make_shared<concurrency::concurrent_queue<sliverpb::Envelope>>();
 	}
 	void Beacon::BeaconStart() {
 		return;

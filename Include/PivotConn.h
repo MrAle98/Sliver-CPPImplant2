@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "sliver.pb.h"
 #include "CipherContext.h"
-#include <concurrent_queue.h>
+//#include <concurrent_queue.h>
 #include <atomic>
 #include "Beacon.h"
 
@@ -23,8 +23,8 @@ namespace pivots {
 		virtual bool write(const string&) = 0;
 		uint64_t downstreamPeerID;
 		crypto::CipherContext ctx;
-		shared_ptr<concurrency::concurrent_queue<sliverpb::Envelope>> upstream;
-		shared_ptr<concurrency::concurrent_queue<sliverpb::Envelope>> downstream;
+		/*shared_ptr<concurrency::concurrent_queue<sliverpb::Envelope>> upstream;
+		shared_ptr<concurrency::concurrent_queue<sliverpb::Envelope>> downstream;*/
 		shared_ptr<Beacon> beacon;
 		thread t;
 		atomic<bool> stop;
