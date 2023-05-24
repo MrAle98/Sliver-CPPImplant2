@@ -16,11 +16,11 @@ namespace pivots {
 		virtual void Start() = 0;
 		virtual bool Check() = 0;
 		virtual void Stop() = 0;
-		virtual sliverpb::Envelope ReadEnvelope(string&) = 0;
-		virtual bool WriteEnvelope(const sliverpb::Envelope&, string&) = 0;
+		virtual sliverpb::Envelope ReadEnvelope() = 0;
+		virtual bool WriteEnvelope(const sliverpb::Envelope&) = 0;
 		virtual bool peerKeyExchange() = 0;
-		virtual string read(string&) = 0;
-		virtual bool write(const string&, string&) = 0;
+		virtual string read() = 0;
+		virtual bool write(const string&) = 0;
 		uint64_t downstreamPeerID;
 		crypto::CipherContext ctx;
 		shared_ptr<concurrency::concurrent_queue<sliverpb::Envelope>> upstream;
@@ -28,7 +28,6 @@ namespace pivots {
 		shared_ptr<Beacon> beacon;
 		thread t;
 		atomic<bool> stop;
-		atomic<bool> closed;
 	};
 	class NamedPipeConn : public PivotConn {
 	public:
@@ -36,10 +35,10 @@ namespace pivots {
 		bool Check() override;
 		void Stop() override;
 		NamedPipeConn(HANDLE,HANDLE);
-		string read(string&) override;
-		bool write(const string&, string&) override;
-		sliverpb::Envelope ReadEnvelope(string&) override;
-		bool WriteEnvelope(const sliverpb::Envelope&, string&) override;
+		string read() override;
+		bool write(const string&) override;
+		sliverpb::Envelope ReadEnvelope() override;
+		bool WriteEnvelope(const sliverpb::Envelope&) override;
 		bool peerKeyExchange() override;
 	private:
 		HANDLE hRead, hWrite;
@@ -52,10 +51,10 @@ namespace pivots {
 		void Stop() override;
 		TCPConn(SOCKET);
 		~TCPConn();
-		string read(string&) override;
-		bool write(const string&, string&) override;
-		sliverpb::Envelope ReadEnvelope(string&) override;
-		bool WriteEnvelope(const sliverpb::Envelope&, string&) override;
+		string read() override;
+		bool write(const string&) override;
+		sliverpb::Envelope ReadEnvelope() override;
+		bool WriteEnvelope(const sliverpb::Envelope&) override;
 		bool peerKeyExchange() override;
 	private:
 		SOCKET client_socket;

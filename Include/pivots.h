@@ -20,7 +20,7 @@ namespace pivots {
 		unique_ptr<vector<sliverpb::NetConnPivot>> GetNetConnPivots();
 		uint32_t id;
 		unique_ptr<Listener> ln;
-		tsmap<uint64_t, shared_ptr<PivotConn>> connections;
+		concurrency::concurrent_unordered_map<uint64_t, shared_ptr<PivotConn>> connections;
 		string bindAddress;
 		shared_ptr<concurrency::concurrent_queue<sliverpb::Envelope>> upstream;
 		atomic<bool> stop;

