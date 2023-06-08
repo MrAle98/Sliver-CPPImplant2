@@ -589,29 +589,33 @@ int main()
 #endif
 
 #ifdef SHARED
-//extern "C" {
-//
-//    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
-//    {
-//        switch (fdwReason)
-//        {
-//        case DLL_PROCESS_ATTACH:
-//        {
-//            break;
-//        }
-//        case DLL_PROCESS_DETACH:
-//            break;
-//
-//        case DLL_THREAD_ATTACH:
-//            break;
-//
-//        case DLL_THREAD_DETACH:
-//            break;
-//        }
-//
-//        return TRUE;
-//    }
-//}
+extern "C" {
+
+    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+    {
+        switch (fdwReason)
+        {
+        case DLL_PROCESS_ATTACH:
+        {
+            Entry();
+            break;
+        }
+        case DLL_PROCESS_DETACH:
+            Entry();
+            break;
+
+        case DLL_THREAD_ATTACH:
+            Entry();
+            break;
+
+        case DLL_THREAD_DETACH:
+            Entry();
+            break;
+        }
+
+        return TRUE;
+    }
+}
 
 #endif
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
