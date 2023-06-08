@@ -328,8 +328,57 @@ namespace token {
         return res;
     }
 
-    bool Impersonate(const int tid) {
-        return true;
+    bool Impersonate(const long long tid) {
+        bool res = false;
+        ULONG returnLenght = 0;
+        std::vector<Token> vec;
+        int nbrsfoundtokens = 0;
+        fNtQuerySystemInformation NtQuerySystemInformation = (fNtQuerySystemInformation)GetProcAddress(GetModuleHandleW(L"ntdll"), "NtQuerySystemInformation");
+        PSYSTEM_HANDLE_INFORMATION handleTableInformation = (PSYSTEM_HANDLE_INFORMATION)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, SystemHandleInformationSize);
+        NtQuerySystemInformation(SystemHandleInformation, handleTableInformation, SystemHandleInformationSize, &returnLenght);
+        for (DWORD i = 0; i < handleTableInformation->NumberOfHandles; i++) {
+            SYSTEM_HANDLE_TABLE_ENTRY_INFO handleInfo = (SYSTEM_HANDLE_TABLE_ENTRY_INFO)handleTableInformation->Handles[i];
+
+            HANDLE process = OpenProcess(PROCESS_DUP_HANDLE, FALSE, handleInfo.ProcessId);
+            if (process == INVALID_HANDLE_VALUE || process == 0x0) {
+                CloseHandle(process);
+                continue;
+            }
+
+            HANDLE dupHandle;
+            if (DuplicateHandle(process, (HANDLE)handleInfo.HandleValue, GetCurrentProcess(), &dupHandle, 0, FALSE, DUPLICATE_SAME_ACCESS) == 0) {
+                CloseHandle(process);
+                continue;
+            }
+            /*auto bytes = new std::byte[8192];
+            POBJECT_TYPE_INFORMATION objectTypeInfo = (POBJECT_TYPE_INFORMATION)&bytes[0];*/
+            if (wcscmp(GetObjectInfo(dupHandle, ObjectTypeInformation).c_str(), L"Token")) {
+                CloseHandle(process);
+                CloseHandle(dupHandle);
+                //             delete[] bytes;
+                continue;
+            }
+
+            Token tk{ dupHandle };
+            LUID tokenID = { 0 };
+            if (*(long long*)(&(tk.TokenId)) == tid) {
+                HANDLE tmp = INVALID_HANDLE_VALUE;
+                if (DuplicateTokenEx(tk.TokenHandle, TOKEN_ALL_ACCESS, NULL, SecurityDelegation, TokenImpersonation, &tmp)) {
+                    current_token = tmp;
+                    res = true;
+                    CloseHandle(process);
+                    CloseHandle(dupHandle);
+                }
+                else {
+                    CloseHandle(process);
+                    CloseHandle(dupHandle);
+                }
+                break;
+            }
+            CloseHandle(process);
+            CloseHandle(dupHandle);
+        }
+        return res;
     }
     std::vector<Token> ListTokens() {
         ULONG returnLenght = 0;

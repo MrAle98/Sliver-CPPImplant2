@@ -125,6 +125,6 @@ namespace token {
     bool makeToken(const string&, const string&, const string&, uint32_t);
     bool revertToken();
     bool Impersonate(const std::string& username);
-    bool Impersonate(const int tid);
+    bool Impersonate(const long long tid);
     vector<Token> ListTokens();
 }
