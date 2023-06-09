@@ -1,8 +1,15 @@
 #include "Beacon.h"
-
+#include <regex>
 
 namespace transports {
 	Beacon::Beacon(const string& _activeC2, unique_ptr<IClient>& cli,const string& _proxyURL,int interval,int jitter,int reconnectInterval) : activeC2(_activeC2),proxyURL(_proxyURL) {
+		if (activeC2.find("namedpipe") != string::npos) {
+			//activeC2 = std::regex_replace(activeC2, std::regex("\\"), "/");
+			activeC2 = std::regex_replace(activeC2, std::regex("namedpipe:"), "");
+		}
+		else if (activeC2.find("tcppivot") != string::npos) {
+			activeC2 = std::regex_replace(activeC2, std::regex("tcppivot://"), "");
+		}
 		this->interval = std::chrono::seconds(interval);
 		this->jitter = std::chrono::seconds(jitter);
 		this->reconnectInterval = std::chrono::seconds(reconnectInterval);

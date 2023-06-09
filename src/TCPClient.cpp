@@ -10,12 +10,14 @@
 #include "pivots.h"
 #include "CryptoUtils.h"
 #include "constants.h"
+#include <regex>
 
 using namespace std;
 
 namespace transports {
 
 	TCPClient::TCPClient(const string& _bind_address) : bind_address(_bind_address){
+		bind_address = regex_replace(bind_address, std::regex("tcppivot://"), "");
         WSADATA wsaData;
         this->connect_socket = INVALID_SOCKET;
 		this->addr_info = NULL;
