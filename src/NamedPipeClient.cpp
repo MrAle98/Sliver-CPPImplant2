@@ -11,6 +11,7 @@ namespace transports {
 	NamedPipeClient::NamedPipeClient(const string& _pipe_name) : pipe_name(_pipe_name) {
 		
 		//pipe_name = regex_replace(_pipe_name, std::regex("\\"), "/");
+		std::replace(pipe_name.begin(), pipe_name.end(), '/', '\\');
 		pipe_name = regex_replace(pipe_name, std::regex("namedpipe:"), "");
 		this->hPipeRead = INVALID_HANDLE_VALUE;
 		this->hPipeWrite = INVALID_HANDLE_VALUE;
@@ -26,7 +27,7 @@ namespace transports {
 		}
 		string tmp = this->pipe_name;
 		this->hPipeWrite = CreateFileA(
-			tmp.append("_readserver").c_str(),             // pipe name 
+			tmp.append("readserver").c_str(),             // pipe name 
 			GENERIC_READ |  // read and write access 
 			GENERIC_WRITE,       // read/write access 
 			0,
@@ -34,11 +35,16 @@ namespace transports {
 			OPEN_EXISTING,
 			0,
 			NULL);
-		if (this->hPipeWrite == INVALID_HANDLE_VALUE)
-			return false;
+		if (this->hPipeWrite == INVALID_HANDLE_VALUE) {
+			int error = GetLastError();
+#ifdef DEBUG
+		std::cout << std::format("error connecting to pipe {} with error: {}",tmp,error) << std::endl;
+#endif
+		return false;
+		}
 		tmp = this->pipe_name;
 		this->hPipeRead = CreateFileA(
-			tmp.append("_writeserver").c_str(),             // pipe name 
+			tmp.append("writeserver").c_str(),             // pipe name 
 			GENERIC_READ |  // read and write access 
 			GENERIC_WRITE,       // read/write access 
 			0,
@@ -46,8 +52,13 @@ namespace transports {
 			OPEN_EXISTING,
 			0,
 			NULL);
-		if (this->hPipeRead == INVALID_HANDLE_VALUE)
+		if (this->hPipeRead == INVALID_HANDLE_VALUE) {
+			int error = GetLastError();
+#ifdef DEBUG
+			std::cout << std::format("error connecting to pipe {} with error: {}", tmp, error) << std::endl;
+#endif
 			return false;
+		}
 		DWORD dwMode = PIPE_READMODE_BYTE;
 		auto fSuccess = SetNamedPipeHandleState(
 			this->hPipeRead,    // pipe handle 

