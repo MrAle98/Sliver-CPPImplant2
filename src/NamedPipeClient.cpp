@@ -34,8 +34,14 @@ namespace transports {
 			OPEN_EXISTING,
 			0,
 			NULL);
-		if (this->hPipeWrite == INVALID_HANDLE_VALUE)
+		if (this->hPipeWrite == INVALID_HANDLE_VALUE) {
+#ifdef DEBUG
+			int error = GetLastError();
+			std::cout << std::format("createfileA on {} failed with error: {}", tmp, error) << std::endl;
+#endif
 			return false;
+		}
+			
 		tmp = this->pipe_name;
 		this->hPipeRead = CreateFileA(
 			tmp.append("_writeserver").c_str(),             // pipe name 
@@ -46,8 +52,13 @@ namespace transports {
 			OPEN_EXISTING,
 			0,
 			NULL);
-		if (this->hPipeRead == INVALID_HANDLE_VALUE)
+		if (this->hPipeRead == INVALID_HANDLE_VALUE) {
+#ifdef DEBUG
+			int error = GetLastError();
+			std::cout << std::format("createfileA on {} failed with error: {}", tmp,error) << std::endl;
+#endif
 			return false;
+		}
 		DWORD dwMode = PIPE_READMODE_BYTE;
 		auto fSuccess = SetNamedPipeHandleState(
 			this->hPipeRead,    // pipe handle 
