@@ -115,6 +115,13 @@ namespace pivots {
     }
 	NamedPipeListener::NamedPipeListener(string _pipe_name) : pipe_name(_pipe_name){}
 	shared_ptr<PivotConn> NamedPipeListener::Accept() {
+
+		SMB_PIPE_SEC_ATTR   SmbSecAttr = { 0 };
+		SECURITY_ATTRIBUTES SecurityAttr = { 0 };
+        SECURITY_ATTRIBUTES SecurityAttr2 = { 0 };
+		/* Setup attributes to allow "anyone" to connect to our pipe */
+		SmbSecurityAttrOpen(&SmbSecAttr, &SecurityAttr);
+
 		string tmp = this->pipe_name;
 		/*string stdstring{ "D:(A;;0x1f019f;;;WD)" };
 		PSECURITY_DESCRIPTOR psd;

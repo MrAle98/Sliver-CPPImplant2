@@ -11,6 +11,7 @@ namespace transports {
 	NamedPipeClient::NamedPipeClient(const string& _pipe_name) : pipe_name(_pipe_name) {
 		
 		//pipe_name = regex_replace(_pipe_name, std::regex("\\"), "/");
+		std::replace(pipe_name.begin(), pipe_name.end(), '/', '\\');
 		pipe_name = regex_replace(pipe_name, std::regex("namedpipe:"), "");
 		this->hPipeRead = INVALID_HANDLE_VALUE;
 		this->hPipeWrite = INVALID_HANDLE_VALUE;
