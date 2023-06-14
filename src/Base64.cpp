@@ -4,14 +4,17 @@ namespace encoders {
     Base64::Base64(const string& chars) : base64_chars(chars){
 
     }
-	string Base64::Decode(const string& enc) {
-		return this->from_base64(enc);
+	string Base64::Decode(string&& in) {
+        auto enc = std::move(in);
+		return this->from_base64(std::move(enc));
 	}
-	string  Base64::Encode(const string& dec) {
-		return this->to_base64(dec);
+	string  Base64::Encode(string&& in) {
+        auto dec = in;
+		return this->to_base64(std::move(dec));
 	}
 
-	string Base64::to_base64(const string&data) {
+	string Base64::to_base64(string&&in) {
+        auto data = std::move(in);
         int counter = 0;
         uint32_t bit_stream = 0;
         std::string encoded;
@@ -33,6 +36,7 @@ namespace encoders {
             }
             counter++;
         }
+        data.clear();
         if (offset == 16) {
             encoded += base64_chars.at(bit_stream >> 12 & 0x3f);
             encoded += "==";
@@ -46,7 +50,8 @@ namespace encoders {
         return encoded;
 	}
 
-    string Base64::from_base64(string const& data) {
+    string Base64::from_base64(string&& in) {
+        auto data = std::move(in);
         int counter = 0;
         uint32_t bit_stream = 0;
         std::string decoded;
@@ -68,10 +73,12 @@ namespace encoders {
                 }
             }
             else if (c != '=') {
+                data.clear();
                 return std::string();
             }
             counter++;
         }
+        data.clear();
         return decoded;
     }
 }

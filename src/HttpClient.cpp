@@ -155,12 +155,12 @@ bool HttpClient::SessionInit() {
 		pb_req.set_key(key.c_str(), key.size());
 		string serialized;
 		pb_req.SerializeToString(&serialized);
-		auto encrypted = crypto::ECCEncryptToServer(serialized);
+		auto encrypted = crypto::ECCEncryptToServer(std::move(serialized));
 			
 		auto tp = encoders::GetRandomEncoder();
 		unique_ptr<encoders::Encoder> encoder{ std::move(std::get<1>(tp)) };
 		auto nonce = std::get<0>(tp);
-		auto encoded = encoder->Encode(encrypted);
+		auto encoded = encoder->Encode(std::move(encrypted));
 
 		auto now_utc = toUTC(std::chrono::system_clock::now());
 		auto totp = crypto::GetTOTP(now_utc+this->timeDelta);		
@@ -186,9 +186,9 @@ bool HttpClient::SessionInit() {
 			return false;
 		}
 		session->SetCookies(resp.cookies);
-		auto decoded = encoder->Decode(resp.text);
+		auto decoded = encoder->Decode(std::move(resp.text));
 
-		auto plaintext = this->context.Decrypt(decoded);
+		auto plaintext = this->context.Decrypt(std::move(decoded));
 		this->sessionID = plaintext;
 		return true;
 	}
@@ -196,13 +196,13 @@ bool HttpClient::SessionInit() {
 bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::Envelope& recv) {
 	string data;
 	to_send.SerializeToString(&data);
-	auto reqData = this->context.Encrypt(data);
+	auto reqData = this->context.Encrypt(std::move(data));
 
 	auto tp = encoders::GetRandomEncoder();
 	unique_ptr<encoders::Encoder> encoder{ std::move(std::get<1>(tp)) };
 	auto nonce = std::get<0>(tp);
 
-	auto encoded = encoder->Encode(reqData);
+	auto encoded = encoder->Encode(std::move(reqData));
 	auto URI = this->SessionURL();
 	this->pollMutex.lock();
 	this->session->SetUrl(cpr::Url{ URI });
@@ -225,20 +225,20 @@ bool HttpClient::WriteAndReceive(const sliverpb::Envelope& to_send, sliverpb::En
 	if (resp.text.empty()) {
 		return false;
 	}
-	auto decoded = encoder->Decode(resp.text);
-	auto plain = this->context.Decrypt(decoded);
+	auto decoded = encoder->Decode(std::move(resp.text));
+	auto plain = this->context.Decrypt(std::move(decoded));
 	return recv.ParseFromString(plain);
 }
 bool HttpClient::WriteEnvelope(sliverpb::Envelope& envelope) {
 	string data;
 	envelope.SerializeToString(&data);
-	auto reqData = this->context.Encrypt(data);
+	auto reqData = this->context.Encrypt(std::move(data));
 
 	auto tp = encoders::GetRandomEncoder();
 	unique_ptr<encoders::Encoder> encoder{ std::move(std::get<1>(tp)) };
 	auto nonce = std::get<0>(tp);
 
-	auto encoded = encoder->Encode(reqData);
+	auto encoded = encoder->Encode(std::move(reqData));
 
 	auto URI = this->SessionURL();
 
@@ -303,8 +303,8 @@ unique_ptr<sliverpb::Envelope> HttpClient::ReadEnvelope() {
 	}
 	else if(resp.status_code == 200){
 		unique_ptr<encoders::Encoder> encoder = make_unique<encoders::Base64>();
-		auto decoded = encoder->Decode(resp.text);
-		auto plain = this->context.Decrypt(decoded);
+		auto decoded = encoder->Decode(std::move(resp.text));
+		auto plain = this->context.Decrypt(std::move(decoded));
 		auto env = make_unique<sliverpb::Envelope>();
 		env->ParseFromString(plain);
 		return env;

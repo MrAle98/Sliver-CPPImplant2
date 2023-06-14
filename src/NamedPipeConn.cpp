@@ -100,7 +100,7 @@ namespace pivots {
 	}
 	sliverpb::Envelope NamedPipeConn::ReadEnvelope() {
 		auto data = read();
-		auto plain = ctx.Decrypt(data);
+		auto plain = ctx.Decrypt(std::move(data));
 		sliverpb::Envelope env;
 		env.ParseFromString(plain);
 		return env;
@@ -118,7 +118,7 @@ namespace pivots {
 	bool NamedPipeConn::WriteEnvelope(const sliverpb::Envelope& env) {
 		string serialized;
 		env.SerializeToString(&serialized);
-		auto enc = this->ctx.Encrypt(serialized);
+		auto enc = this->ctx.Encrypt(std::move(serialized));
 		return this->write(enc);
 	}
 	string NamedPipeConn::read() {

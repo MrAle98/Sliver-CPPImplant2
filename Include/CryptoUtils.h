@@ -17,6 +17,6 @@ namespace crypto {
 	string RandomKey();
 	string GetServerECCPublicKey();
 	shared_ptr<ECCKeyPair> getKeyPair();
-	string ECCEncryptToServer(const string&);
+	string ECCEncryptToServer(string&&);
 	uint32_t GetTOTP(const chrono::system_clock::time_point&);
 }
