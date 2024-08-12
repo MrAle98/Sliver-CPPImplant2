@@ -34,7 +34,8 @@
           "type": "FILEPATH",
           "value": "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "VCPKG_INSTALLED_DIR": "C:/vcpkg/vcpkg_installed"
       }
     },
     {
@@ -53,7 +54,8 @@
           "type": "FILEPATH",
           "value": "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "VCPKG_INSTALLED_DIR": "C:/vcpkg/vcpkg_installed"
       },
       "environment": {
         "BUILD_DLL": "1"
@@ -75,7 +77,8 @@
           "type": "FILEPATH",
           "value": "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "VCPKG_INSTALLED_DIR": "C:/vcpkg/vcpkg_installed"
       }
     },
     {
@@ -94,7 +97,8 @@
           "type": "FILEPATH",
           "value": "C:/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake"
         },
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "VCPKG_INSTALLED_DIR": "C:/vcpkg/vcpkg_installed"
       },
       "environment": {
         "BUILD_DLL": "1"
