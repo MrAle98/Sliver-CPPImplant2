@@ -40,6 +40,7 @@ namespace pivots {
 						conn->peerKeyExchange();
 						conn->beacon = this->beacon;
 						//this->connections.insert(std::pair(conn->downstreamPeerID, conn));
+						std::unique_lock lk{ this->connections_mutex };
 						this->connections[conn->downstreamPeerID] = conn;
 						conn->Start();
 					}
@@ -63,6 +64,7 @@ namespace pivots {
 		this->ln->Stop();
 		listener_thread.join();
 		this->ln->Clean();
+		std::unique_lock lk{ this->connections_mutex };
 		for (auto it = this->connections.begin();it != this->connections.end();++it) {
 			it->second->Stop();
 		}

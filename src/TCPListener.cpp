@@ -70,6 +70,10 @@ namespace pivots {
 	}
 	shared_ptr<PivotConn> TCPListener::Accept() {
         auto client_socket = accept(this->listen_socket, NULL, NULL);
+        int recvbufsize = 0x10000;
+        int sendbufsize = 0x10000;
+        setsockopt(client_socket, SOL_SOCKET, SO_RCVBUF, (char*)&recvbufsize, sizeof(int));
+        setsockopt(client_socket, SOL_SOCKET, SO_SNDBUF, (char*)&sendbufsize, sizeof(int));
         if (client_socket == INVALID_SOCKET) {
             printf("accept failed with error: %d\n", WSAGetLastError());
             return nullptr;

@@ -24,8 +24,8 @@ namespace handlers {
 		{sliverpb::MsgPivotPeerEnvelope,static_cast<beaconPivotHandler>(beaconPivotPeerEnvelopeHandler)}
 	};
 
-	mutex erase_mut;
-	tsmap<int, shared_ptr<pivots::PivotListener>> pivotListeners;
+	mutex pivotListenersMut;
+	map<int,shared_ptr<pivots::PivotListener>> pivotListeners;
 	atomic<int> maxid_listener = 1;
 	/*map<int, pivotHandler>& getPivotHandlers() {
 		return pivotHandlers;
@@ -71,6 +71,17 @@ namespace handlers {
 			l->set_bindaddress(it->second->bindAddress);
 			l->set_id(it->second->id);
 			l->set_type(it->second->type);
+			std::unique_lock lk{ it->second->connections_mutex };
+			std::vector<uint64_t> to_remove;
+			
+			for (auto pivots_it = it->second->connections.begin();pivots_it != it->second->connections.end();) {
+				if (pivots_it->second->stop == true) {
+					it->second->connections.erase(pivots_it++);
+				}
+				else {
+					++pivots_it;
+				}
+			}
 			for (auto pivots_it = it->second->connections.begin();pivots_it != it->second->connections.end();++pivots_it) {
 				auto p = l->add_pivots();
 				p->set_peerid(pivots_it->second->downstreamPeerID);
@@ -84,6 +95,7 @@ namespace handlers {
 		sliverpb::PivotStopListenerReq req;
 		sliverpb::PivotListener pivln;
 		req.ParseFromString(env.data());
+		unique_lock lk{ pivotListenersMut };
 		auto listener = pivotListeners.find(req.id());
 		if (listener != pivotListeners.end()) {
 			pivln.set_bindaddress(listener->second->bindAddress);
@@ -109,6 +121,7 @@ namespace handlers {
 		}
 		piv_listener->StartListening(b);
 		//StartListener(piv_listener);
+		unique_lock lk{ pivotListenersMut };
 		pivotListeners.insert(std::pair<int, shared_ptr<pivots::PivotListener>>(piv_listener->id, piv_listener));
 		maxid_listener++;
 		resp.set_bindaddress(req.bindaddress());

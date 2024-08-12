@@ -10,12 +10,14 @@
 #include "pivots.h"
 #include "CryptoUtils.h"
 #include "constants.h"
+#include <regex>
 
 using namespace std;
 
 namespace transports {
 
 	TCPClient::TCPClient(const string& _bind_address) : bind_address(_bind_address){
+		bind_address = regex_replace(bind_address, std::regex("tcppivot://"), "");
         WSADATA wsaData;
         this->connect_socket = INVALID_SOCKET;
 		this->addr_info = NULL;
@@ -45,7 +47,11 @@ namespace transports {
         }
         this->connect_socket = socket(this->addr_info->ai_family, this->addr_info->ai_socktype,
 			this->addr_info->ai_protocol);
-        if (this->connect_socket == INVALID_SOCKET) {
+		int recvbufsize = 0x10000;
+		int sendbufsize = 0x10000;
+		setsockopt(this->connect_socket, SOL_SOCKET, SO_RCVBUF, (char*)&recvbufsize, sizeof(int));
+		setsockopt(this->connect_socket, SOL_SOCKET, SO_SNDBUF, (char*)&sendbufsize, sizeof(int));
+		if (this->connect_socket == INVALID_SOCKET) {
             printf("socket failed with error: %ld\n", WSAGetLastError());
             WSACleanup();
             return;
@@ -83,7 +89,7 @@ namespace transports {
 		//server key exchange
 		auto key = crypto::RandomKey();
 		this->server_ctx.SetKey(key);
-		auto enc = crypto::ECCEncryptToServer(key);
+		auto enc = crypto::ECCEncryptToServer(std::move(key));
 		sliverpb::PivotServerKeyExchange server_req;
 		server_req.set_sessionkey(enc);
 		server_req.set_originid(pivots::generatePeerID());
