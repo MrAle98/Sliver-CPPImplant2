@@ -21,3 +21,4 @@ It may teach you how to **NOT** write code in C++. For sure It has issues.
 * ps
 * execute extensions DLL
 * execute BOFs
+* pivot commands
