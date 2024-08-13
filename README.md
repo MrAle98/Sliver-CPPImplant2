@@ -9,7 +9,7 @@ It may teach you how to **NOT** write code in C++. For sure It has issues.
 * execute-assembly with flag -i. It support only in process execute assembly. etw bypass and amsi bypass are applied by default with old technique of patching. 
 * cd
 * ls
-* ppload
+* upload
 * download
 * mkdir
 * rm
