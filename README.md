@@ -138,4 +138,4 @@ namespace crypto {
 
 Change the appropriate connection string inside Sliver-CPPImplant.cpp (always in a #ifdef DEBUG block).
 
-Compile in visual studio selecting one of the *-debug presets.
+Compile and run in visual studio selecting one of the *-debug presets.
