@@ -83,7 +83,7 @@ namespace pivots {
 	}
 	sliverpb::Envelope TCPConn::ReadEnvelope() {
 		auto data = read();
-		auto plain = ctx.Decrypt(std::move(data));
+		auto plain = ctx.Decrypt(data);
 		sliverpb::Envelope env;
 		env.ParseFromString(plain);
 		return env;
@@ -92,7 +92,7 @@ namespace pivots {
 	bool TCPConn::WriteEnvelope(const sliverpb::Envelope& env) {
 		string serialized;
 		env.SerializeToString(&serialized);
-		auto enc = this->ctx.Encrypt(std::move(serialized));
+		auto enc = this->ctx.Encrypt(serialized);
 		return this->write(enc);
 	}
 

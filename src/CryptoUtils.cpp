@@ -56,8 +56,7 @@ namespace crypto {
         return keyPair;
     }
 
-    string ECCEncryptToServer(string&& in) {
-        auto plaintext = std::move(in);
+    string ECCEncryptToServer(const string& plaintext) {
         auto keyPair = getKeyPair();
         auto server_pbk = crypto::GetServerECCPublicKey();
         unsigned char nonce[crypto_box_NONCEBYTES];
@@ -72,11 +71,9 @@ namespace crypto {
             (unsigned char*)(plaintext.c_str()), plaintext.size(),
             nonce, (const unsigned char*)(server_pbk.c_str()), keyPair->pv_key)) {
             printf("success\n");
-            plaintext.clear();
             return bytes;
         }
         else {
-            plaintext.clear();
             return string("");
         }
     }

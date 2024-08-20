@@ -89,7 +89,7 @@ namespace transports {
 		//server key exchange
 		auto key = crypto::RandomKey();
 		this->server_ctx.SetKey(key);
-		auto enc = crypto::ECCEncryptToServer(std::move(key));
+		auto enc = crypto::ECCEncryptToServer(key);
 		sliverpb::PivotServerKeyExchange server_req;
 		server_req.set_sessionkey(enc);
 		server_req.set_originid(pivots::generatePeerID());

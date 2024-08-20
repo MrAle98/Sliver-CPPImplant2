@@ -19,8 +19,7 @@ namespace crypto {
 		memcpy(this->key, key.c_str(), crypto_aead_chacha20poly1305_IETF_KEYBYTES);
 		return true;
 	}
-	string CipherContext::Decrypt(string&& in) {
-		auto enc_string = std::move(in);
+	string CipherContext::Decrypt(const string& enc_string) {
 		unsigned char* enc = (unsigned char*)enc_string.c_str();
 		auto enc_size = enc_string.size();
 
@@ -33,16 +32,13 @@ namespace crypto {
 		unsigned long long decrypted_len = 0;
 		if (!crypto_aead_chacha20poly1305_ietf_decrypt((unsigned char*)decrypted.c_str(), &decrypted_len, NULL, enc, enc_size - crypto_aead_chacha20poly1305_IETF_NPUBBYTES, NULL, 0, nonce_3, key)) {
 			printf("success\n");
-			enc_string.clear();
 			std::string decompressed_data = gzip::decompress((char *)decrypted.c_str(), enc_size - crypto_aead_chacha20poly1305_IETF_NPUBBYTES - crypto_aead_chacha20poly1305_IETF_ABYTES);
 			return decompressed_data;
 		}
-		enc_string.clear();
 		return string("");
 	}
 
-	string CipherContext::Encrypt(string&& in) {
-		auto plain_string = std::move(in);
+	string CipherContext::Encrypt(const string& plain_string) {
 		unsigned char* plain = (unsigned char*)plain_string.c_str();
 		auto plain_size = plain_string.size();
 		unsigned char nonce[crypto_aead_chacha20poly1305_IETF_NPUBBYTES];
@@ -57,7 +53,6 @@ namespace crypto {
 		randombytes_buf(nonce, sizeof nonce);
 		if(!crypto_aead_chacha20poly1305_ietf_encrypt((unsigned char*)ciphertext.c_str(), &ciphertext_len, 
 			plain, plain_size, NULL, 0, NULL, nonce, key)){
-			plain_string.clear();
 			printf("successs\n");
 			string out;
 			out.resize(ciphertext_len + crypto_aead_chacha20poly1305_IETF_NPUBBYTES);
