@@ -22,6 +22,8 @@ It may teach you how to **NOT** write code in C++. For sure It has issues.
 * execute extensions DLL
 * execute BOFs
 * pivot commands
+* powershell-import
+* powershell
 
 ## Debugging
 
