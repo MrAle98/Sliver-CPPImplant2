@@ -120,18 +120,19 @@ func GetECCKeyPair() *ECCKeyPair {
 [...]
 ```
 
-Take just `eccServerPublicKey`, `eccPublicKey`, `eccPrivateKey`, `totpsecret` and set them inside src/CryptoUtils.cpp.
+Take just `eccServerPublicKey`, `eccPublicKey`, `eccPrivateKey`, `totpsecret` and set them inside src/CryptoUtils.cpp (in the #ifdef DEBUG).
 ```
 #include "CryptoUtils.h"
 
 namespace crypto {
 #ifdef DEBUG
-    string eccServerPublicKey = "zKn2nDnphmQImAjQ+UmueLUdACvWBb02Voet943Huhc";
+    string eccServerPublicKey = "<toreplace>";
     // ECCPublicKey - The implant's ECC public key
-    string eccPublicKey = "+UpkonzIDtgnuWkC8HXZkfb6xiXvgKWvbCA4Ii9kRjw";
+    string eccPublicKey = "<toreplace>";
     // eccPrivateKey - The implant's ECC private key
-    string eccPrivateKey = "s+JQAl9lb2+Puj9B3k6PSaDMtbacUb0P5QZTGXhaTog";
-    string totpsecret = "TZLMFPN6HDMZGIVSDSP7UNQNG3BNCO3Y";
+    string eccPrivateKey = "<toreplace>";
+    string totpsecret = "<toreplace>";
 #else
 [...]
 ```
+
