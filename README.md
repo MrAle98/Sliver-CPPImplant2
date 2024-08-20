@@ -120,7 +120,7 @@ func GetECCKeyPair() *ECCKeyPair {
 [...]
 ```
 
-Take just `eccServerPublicKey`, `eccPublicKey`, `eccPrivateKey`, `totpsecret` and set them inside src/CryptoUtils.cpp (in the #ifdef DEBUG).
+Take just `eccServerPublicKey`, `eccPublicKey`, `eccPrivateKey`, `totpsecret` and set them inside src/CryptoUtils.cpp (in the #ifdef DEBUG block).
 ```
 #include "CryptoUtils.h"
 
@@ -136,3 +136,6 @@ namespace crypto {
 [...]
 ```
 
+Change the appropriate connection string inside Sliver-CPPImplant.cpp (always in a #ifdef DEBUG block).
+
+Compile in visual studio selecting one of the *-debug presets.
