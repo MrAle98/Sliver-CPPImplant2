@@ -5,6 +5,7 @@ It may teach you how to **NOT** write code in C++. For sure It has issues.
 
 *Always generate the http and https servers with -D flag like this in the teamserver: `> http -D` and `> https -D` as the support for TOTP during authentication is not properly supported*.
 
+This [repository](https://github.com/MrAle98/sliver-deployment) allows to deploy it automatically on AWS or locally.
 ## Supported commands
 
 * pwd
